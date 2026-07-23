@@ -8,11 +8,11 @@
       </KanbanSlideoverLabel>
 
       <KanbanSlideoverLabel label-text="Сума">
-        <h2 class="detail-value">{{ converCurrency(store.card.price || 0) }}</h2>
+        <h2 class="detail-value">{{ convertCurrency(store.card.price || 0) }}</h2>
       </KanbanSlideoverLabel>
 
       <KanbanSlideoverLabel label-text="Статус">
-        <h2 class="detail-value">{{ store.card.status }}</h2>
+        <h2 class="detail-value">{{ statusLabels[store.card.status] || store.card.status }}</h2>
       </KanbanSlideoverLabel>
 
       <KanbanSlideoverLabel label-text="Клієнт">
@@ -36,7 +36,15 @@ import { useDealsSlideStore } from "~/store/deal-slide.store";
 
 const store = useDealsSlideStore();
 
-const converCurrency = (value: number) => {
+const statusLabels: Record<string, string> = {
+  todo: "Вхідні",
+  "to-be-agreed": "На погодженні",
+  "in-progress": "У виробництві",
+  produced: "Виготовлено",
+  done: "До відвантаження",
+};
+
+const convertCurrency = (value: number) => {
   return new Intl.NumberFormat("uk-UA", {
     style: "currency",
     currency: "UAH",

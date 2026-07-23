@@ -130,18 +130,17 @@
 
 <script setup lang="ts">
 import { watch } from "vue";
-import { useMutation, useQuery } from "@tanstack/vue-query";
-import { useForm } from "vee-validate"; // Виправлено: UseForm достатньо, useSetFieldValue видалено
-import { v4 as uuid } from "uuid"; // Імпортуємо UUID для унікальних імен файлів
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
+import { useForm } from "vee-validate";
+import { v4 as uuid } from "uuid";
 import type { ICustomer } from "~/types/deals.types";
 
 const { $appwrite } = useNuxtApp();
 const config = useRuntimeConfig();
+const queryClient = useQueryClient();
 
 const databaseId = config.public.dbId;
 const collectionCustomers = config.public.collectionCustomers;
-// Отримуємо ID бакету сховища з конфігу (переконайся, що він доданий у nuxt.config або runtimeConfig)
-const storageBucketId = config.public.storageId || "customers-avatars";
 
 interface ICustomerFromState extends Pick<
   ICustomer,
@@ -198,8 +197,6 @@ const [email, emailAttrs] = defineField("email");
 const [fromSource, fromSourceAttrs] = defineField("from_source");
 
 // 3. Мутація для завантаження файлу в Appwrite Storage
-import { ID } from "appwrite"; // Якщо використовуєш офіційне SDK
-
 const { mutate: uploadImg, isPending: isUploadImagePending } = useMutation({
   mutationKey: ["upload image"],
   mutationFn: async (file: File) => {
@@ -209,8 +206,7 @@ const { mutate: uploadImg, isPending: isUploadImagePending } = useMutation({
       throw new Error("Storage Bucket ID is missing in runtimeConfig!");
     }
 
-    // Виправлено: замість рядка 'unique' передаємо результат виклику ID.unique()
-    return await $appwrite.storage.createFile(bucketId, ID.unique(), file);
+    return await $appwrite.storage.createFile(bucketId, $appwrite.ID.unique(), file);
   },
   onSuccess: (uploadedFile) => {
     const bucketId = config.public.storageId;
@@ -259,6 +255,7 @@ const { mutate, isPending } = useMutation({
     );
   },
   onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ["customers"] });
     navigateTo("/customer");
   },
   onError: (error) => {

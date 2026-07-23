@@ -14,7 +14,9 @@
           @keyup.enter="writeComment"
           class="comment-input"
         />
-        <button class="btn" @click="writeComment">Додати коментар</button>
+        <button class="btn" @click="writeComment" :disabled="isPending">
+          {{ isPending ? "Відправка..." : "Додати коментар" }}
+        </button>
       </div>
       <div v-if="commentsList?.length" class="comments-list">
         <div v-for="item in commentsList" :key="item.$id" class="comment-item">
@@ -38,11 +40,9 @@ import dayjs from "dayjs";
 import { useComments } from "./useComments";
 import { useCreateComment } from "./useCreateComment";
 
-// Перейменовуємо data в commentsList, бо тепер це прямий масив коментарів
 const { data: commentsList, refetch, isLoading } = useComments();
 
-// Наш хук створення коментаря, який після успіху викличе refetch() цього списку
-const { comment: newCommentText, writeComment } = useCreateComment({ refetch });
+const { comment: newCommentText, writeComment, isPending } = useCreateComment({ refetch });
 </script>
 
 <style scoped>
