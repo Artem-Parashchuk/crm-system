@@ -75,7 +75,6 @@ onMounted(async () => {
   background-color: #140e24;
   border-radius: 16px;
   padding: 1.5rem;
-  min-height: 100%;
   border: 1px solid #2b1f47;
   box-shadow:
     0 10px 25px -5px rgba(5, 3, 10, 0.7),
