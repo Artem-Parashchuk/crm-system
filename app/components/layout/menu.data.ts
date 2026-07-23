@@ -6,42 +6,42 @@ export interface MenuItem {
 
 export const MENU_DATA: MenuItem[] = [
   {
-    name: "Home",
+    name: "Головна",
     url: "/",
     icon: "material-symbols:home-outline",
   },
   {
-    name: "Products",
+    name: "Товари",
     url: "/products",
     icon: "gridicons:product",
   },
   {
-    name: "Payments",
+    name: "Оплати",
     url: "/payments",
     icon: "material-symbols:payments-outline",
   },
   {
-    name: "Orders",
+    name: "Замовлення",
     url: "/orders",
     icon: "material-symbols-light:draft-orders-outline",
   },
   {
-    name: "Customer",
+    name: "Клієнти",
     url: "/customer",
     icon: "carbon:customer-service",
   },
   {
-    name: "Feedback",
+    name: "Відгуки",
     url: "/feedback",
     icon: "material-symbols:feedback-outline",
   },
   {
-    name: "Settings",
+    name: "Налаштування",
     url: "/settings",
     icon: "material-symbols:settings-outline",
   },
   {
-    name: "Help center",
+    name: "Допомога",
     url: "/help",
     icon: "material-symbols:help-outline",
   },
