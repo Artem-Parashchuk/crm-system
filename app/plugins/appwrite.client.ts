@@ -1,5 +1,5 @@
 // plugins/appwrite.client.ts
-import { Client, Account, Databases, Storage } from 'appwrite'
+import { Client, Account, Databases, Storage, ID } from 'appwrite'
 import { useRuntimeConfig } from '#app'
 
 export default defineNuxtPlugin(() => {
@@ -16,7 +16,7 @@ export default defineNuxtPlugin(() => {
   // Прокидаємо екземпляри Appwrite в усьому Nuxt проєкту
   return {
     provide: {
-      appwrite: { client, account, databases, storage }
+      appwrite: { client, account, databases, storage, ID }
     }
   }
 })
