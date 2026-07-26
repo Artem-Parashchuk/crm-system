@@ -108,7 +108,7 @@
 
 <script setup lang="ts">
 import { ref, watch, computed, onBeforeUnmount } from "vue";
-import { useMutation, useQuery } from "@tanstack/vue-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
 import { v4 as uuid } from "uuid";
 import type { ICustomer } from "~/types/deals.types";
 
@@ -138,6 +138,7 @@ const newCustomer = ref({
 const { $appwrite } = useNuxtApp();
 const config = useRuntimeConfig();
 const toast = useToast();
+const queryClient = useQueryClient();
 
 const databaseId = config.public.dbId;
 const collectionId = config.public.collectionDeals;
@@ -252,7 +253,6 @@ const createDealMutation = useMutation({
         {
           name: newCustomer.value.name.trim(),
           email: newCustomer.value.email.trim().toLowerCase(),
-          avatar_url: "",
         },
       );
 
@@ -293,6 +293,7 @@ const createDealMutation = useMutation({
       color: "success",
     });
 
+    queryClient.invalidateQueries({ queryKey: ["customers"] });
     await props.refetch?.();
   },
   onError: (error: any) => {
