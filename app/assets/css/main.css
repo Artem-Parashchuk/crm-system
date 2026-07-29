@@ -24,6 +24,17 @@ body {
     overflow: hidden;
 }
 
-[data-state="open"] {
-    display: none;
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0714;
+}
+::-webkit-scrollbar-thumb {
+  background: #2b1f47;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3e2d63;
 }

@@ -89,18 +89,24 @@
                   <div class="service-info">
                     <h3 class="service-name">{{ service.name }}</h3>
 
+                    <div v-if="service.companies.length" class="service-companies">
+                      <span
+                        v-for="company in service.companies"
+                        :key="company"
+                        class="service-company-tag"
+                      >
+                        {{ company }}
+                      </span>
+                    </div>
+
                     <div class="service-stats">
                       <div class="stat-item">
                         <span class="stat-label">Угод:</span>
                         <span class="stat-value">{{ service.count }}</span>
                       </div>
                       <div class="stat-item">
-                        <span class="stat-label">Від:</span>
-                        <span class="stat-value">{{ formatPrice(service.minPrice) }}</span>
-                      </div>
-                      <div class="stat-item">
-                        <span class="stat-label">До:</span>
-                        <span class="stat-value">{{ formatPrice(service.maxPrice) }}</span>
+                        <span class="stat-label">Ціна:</span>
+                        <span class="stat-value">{{ formatPrice(service.lastPrice) }}</span>
                       </div>
                     </div>
 
@@ -261,9 +267,9 @@ const customerCollectionId =
 interface AggregatedService {
   name: string;
   count: number;
-  minPrice: number;
-  maxPrice: number;
+  lastPrice: number;
   latestDate: string;
+  companies: string[];
 }
 
 interface AggregatedCompany {
@@ -304,38 +310,41 @@ const servicesData = computed<AggregatedService[]>(() => {
 
   const grouped: Record<string, {
     count: number;
-    minPrice: number;
-    maxPrice: number;
+    lastPrice: number;
     latestDate: string;
+    companies: string[];
   }> = {};
 
-  for (const { deal } of rawDeals.value) {
+  for (const { deal, companyName } of rawDeals.value) {
     const name = deal.name;
 
     if (!grouped[name]) {
       grouped[name] = {
         count: 0,
-        minPrice: Infinity,
-        maxPrice: -Infinity,
+        lastPrice: 0,
         latestDate: "",
+        companies: [],
       };
     }
 
     grouped[name].count += 1;
-    grouped[name].minPrice = Math.min(grouped[name].minPrice, deal.price);
-    grouped[name].maxPrice = Math.max(grouped[name].maxPrice, deal.price);
 
     if (!grouped[name].latestDate || deal.$createdAt > grouped[name].latestDate) {
       grouped[name].latestDate = deal.$createdAt;
+      grouped[name].lastPrice = deal.price;
+    }
+
+    if (companyName && !grouped[name].companies.includes(companyName)) {
+      grouped[name].companies.push(companyName);
     }
   }
 
   return Object.entries(grouped).map(([name, data]) => ({
     name,
     count: data.count,
-    minPrice: data.minPrice,
-    maxPrice: data.maxPrice,
+    lastPrice: data.lastPrice,
     latestDate: data.latestDate,
+    companies: data.companies,
   }));
 });
 
@@ -392,7 +401,7 @@ const sortedServices = computed(() => {
       case "date":
         return (new Date(a.latestDate).getTime() - new Date(b.latestDate).getTime()) * dir;
       case "price":
-        return (a.maxPrice - b.maxPrice) * dir;
+        return (a.lastPrice - b.lastPrice) * dir;
       default:
         return 0;
     }

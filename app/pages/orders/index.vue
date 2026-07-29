@@ -41,17 +41,37 @@
             <p class="empty-hint">Спробуйте інший фільтр</p>
           </div>
 
-          <div v-for="group in filteredTimeline" :key="group.dateISO" class="timeline-group">
+          <div
+            v-for="group in filteredTimeline"
+            :key="group.dateISO"
+            class="timeline-group"
+          >
             <div class="timeline-date">
               <div class="timeline-dot"></div>
-              <span class="date-label">{{ group.date }} — {{ group.deals.length }} {{ group.deals.length === 1 ? 'угода' : group.deals.length < 5 ? 'угоди' : 'угод' }}</span>
+              <span class="date-label"
+                >{{ group.date }} — {{ group.deals.length }}
+                {{
+                  group.deals.length === 1
+                    ? "угода"
+                    : group.deals.length < 5
+                      ? "угоди"
+                      : "угод"
+                }}</span
+              >
             </div>
 
             <div class="timeline-deals">
-              <div v-for="deal in group.deals" :key="deal.$id" class="deal-card">
+              <div
+                v-for="deal in group.deals"
+                :key="deal.$id"
+                class="deal-card"
+              >
                 <div class="deal-header">
                   <h3 class="deal-name">{{ deal.name }}</h3>
-                  <span class="deal-status" :style="{ background: deal.statusColor }">
+                  <span
+                    class="deal-status"
+                    :style="{ background: deal.statusColor }"
+                  >
                     {{ deal.statusLabel }}
                   </span>
                 </div>
@@ -85,9 +105,15 @@ import { ref, computed } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import type { IDeal } from "~/types/deals.types";
 import { EnumStatus } from "~/types/deals.types";
+import { getCompanyName } from "~/utils/get-company-name";
 
 const { $appwrite } = useNuxtApp();
 const config = useRuntimeConfig();
+
+const dbId = config.public.dbId;
+const collectionId = config.public.collectionDeals;
+const customerCollectionId =
+  (config.public as Record<string, string>).collectionCustomers || "customers";
 
 interface TimelineDeal {
   $id: string;
@@ -111,13 +137,15 @@ const statusLabels: Record<string, string> = {
   [EnumStatus["to-be-agreed"]]: "На погодженні",
   [EnumStatus["in-progress"]]: "У виробництві",
   [EnumStatus.produced]: "Виготовлено",
-  [EnumStatus.done]: "До відвантаження",
+  [EnumStatus.done]: "Передано клієнту",
 };
 
 const statusColors: Record<string, string> = {
   [EnumStatus.todo]: "linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%)",
-  [EnumStatus["to-be-agreed"]]: "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-  [EnumStatus["in-progress"]]: "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)",
+  [EnumStatus["to-be-agreed"]]:
+    "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
+  [EnumStatus["in-progress"]]:
+    "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)",
   [EnumStatus.produced]: "linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)",
   [EnumStatus.done]: "linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)",
 };
@@ -137,23 +165,38 @@ const setFilter = (status: string) => {
   activeFilter.value = status;
 };
 
-const { data: timeline, isLoading, error } = useQuery({
+const {
+  data: timeline,
+  isLoading,
+  error,
+} = useQuery({
   queryKey: ["deals", "timeline"],
   queryFn: async () => {
-    const dbId = config.public.dbId;
-    const collectionId = config.public.collectionDeals;
-
     if (!dbId || !collectionId) {
       throw new Error("Appwrite configuration missing");
     }
 
     const result = await $appwrite.databases.listDocuments(dbId, collectionId);
-    return result.documents as unknown as IDeal[];
+    const deals = result.documents as unknown as IDeal[];
+
+    const enriched = await Promise.all(
+      deals.map(async (deal) => ({
+        deal,
+        companyName: await getCompanyName(
+          deal,
+          $appwrite,
+          dbId,
+          customerCollectionId,
+        ),
+      })),
+    );
+
+    return enriched;
   },
-  select: (deals: IDeal[]): TimelineGroup[] => {
+  select: (enriched) => {
     const grouped: Record<string, TimelineGroup> = {};
 
-    for (const deal of deals) {
+    for (const { deal, companyName } of enriched) {
       const dateObj = new Date(deal.$createdAt);
       const dateLabel = dateObj.toLocaleDateString("uk-UA", {
         day: "2-digit",
@@ -176,8 +219,10 @@ const { data: timeline, isLoading, error } = useQuery({
         price: deal.price,
         status: deal.status,
         statusLabel: statusLabels[deal.status] || deal.status,
-        statusColor: statusColors[deal.status] || "linear-gradient(135deg, #64748b 0%, #94a3b8 100%)",
-        customerName: deal.companyName || deal.customer?.name || "—",
+        statusColor:
+          statusColors[deal.status] ||
+          "linear-gradient(135deg, #64748b 0%, #94a3b8 100%)",
+        customerName: companyName || "—",
         $createdAt: deal.$createdAt,
       });
     }
@@ -191,11 +236,11 @@ const { data: timeline, isLoading, error } = useQuery({
 
 const filteredTimeline = computed(() => {
   if (!timeline.value) return [];
-  
+
   if (activeFilter.value === "all") {
     return timeline.value;
   }
-  
+
   return timeline.value
     .map((group) => ({
       ...group,
@@ -377,7 +422,9 @@ const formatPrice = (price: number): string => {
   border: 1px solid #2b1f47;
   border-radius: 12px;
   padding: 16px;
-  transition: border-color 0.2s, transform 0.2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
 }
 
 .deal-card:hover {

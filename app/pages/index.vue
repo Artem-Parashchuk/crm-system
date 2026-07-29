@@ -19,8 +19,11 @@
         @dragover="handleDragOver"
         @drop="() => handleDrop(column)"
       >
-        <div class="crm-column__header" :style="generateColumnStyle(index, data?.length)">
-          <span  class="crm-column__name">{{ column.name }}</span>
+        <div
+          class="crm-column__header"
+          :style="generateColumnStyle(index, data?.length)"
+        >
+          <span class="crm-column__name">{{ column.name }}</span>
           <span class="crm-column__count">{{ column.items?.length || 0 }}</span>
         </div>
         <KanbanCreateDeal :status="column.id" :refetch="refetch" />
@@ -29,9 +32,11 @@
             v-for="card in column.items"
             :key="card.id"
             :card="card"
-            @dragstart="(event: DragEvent) => handleDragStart(event, card, column)"
+            @dragstart="
+              (event: DragEvent) => handleDragStart(event, card, column)
+            "
             @click="store.set(card)"
-            />
+          />
 
           <div v-if="!column.items?.length" class="crm-column__empty">
             Немає угод
@@ -58,7 +63,7 @@ type TypeMutationVariables = {
   status?: EnumStatus;
 };
 
-const store = useDealsSlideStore()
+const store = useDealsSlideStore();
 const dragCard = ref<ICard | null>(null);
 const sourceColumn = ref<IColumn | null>(null);
 const { $appwrite } = useNuxtApp();
@@ -115,7 +120,7 @@ function handleDrop(targetColumn: IColumn) {
 .crm-board__title {
   font-size: 24px;
   font-weight: 700;
-  color: #0f172a;
+  color: #fff;
   margin-bottom: 24px;
 }
 

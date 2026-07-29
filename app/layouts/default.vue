@@ -85,18 +85,4 @@ onMounted(async () => {
   border-right: 1px solid #1c1430;
   background-color: #0b0714;
 }
-
-.main-content::-webkit-scrollbar {
-  width: 8px;
-}
-.main-content::-webkit-scrollbar-track {
-  background: #0b0714;
-}
-.main-content::-webkit-scrollbar-thumb {
-  background: #2b1f47;
-  border-radius: 4px;
-}
-.main-content::-webkit-scrollbar-thumb:hover {
-  background: #3e2d63;
-}
 </style>
