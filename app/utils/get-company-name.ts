@@ -67,57 +67,43 @@ export function getCustomerId(deal: IDeal): string | null {
   return null;
 }
 
-export async function getCompanyName(
-  deal: IDeal,
-  appwrite: { databases: { getDocument: Function } },
+export async function buildCustomerNameMap(
+  appwrite: { databases: { listDocuments: Function } },
   dbId: string,
   customerCollectionId: string,
-): Promise<string> {
-  const possibleValues = [
-    deal.companyName,
-    deal.company?.name,
-    deal.company?.title,
-    deal.customer?.companyName,
-    deal.customer?.name,
-    deal.customer?.title,
-    deal.customer?.company?.name,
-    deal.customer?.company?.title,
-  ];
-
-  for (const value of possibleValues) {
-    const normalized = extractStringValue(value);
-    if (normalized) {
-      return normalized;
+): Promise<Record<string, string>> {
+  try {
+    const result = await appwrite.databases.listDocuments(dbId, customerCollectionId);
+    const map: Record<string, string> = {};
+    for (const doc of result.documents) {
+      const record = doc as Record<string, unknown>;
+      const id = record.$id as string;
+      if (id) {
+        const name = extractStringValue(record.name) || extractStringValue(record.companyName) || "—";
+        map[id] = name;
+      }
     }
+    return map;
+  } catch {
+    return {};
+  }
+}
+
+export function getCompanyName(
+  deal: IDeal,
+  customerNameMap?: Record<string, string>,
+): string {
+  if (typeof deal.customer === "object" && deal.customer !== null) {
+    const name = extractStringValue(
+      (deal.customer as Record<string, unknown>).name,
+    );
+    if (name) return name;
   }
 
   const customerId = getCustomerId(deal);
-
-  if (customerId) {
-    try {
-      const customerDoc = await appwrite.databases.getDocument(
-        dbId,
-        customerCollectionId,
-        customerId,
-      );
-
-      const customerName = extractStringValue(
-        (customerDoc as Record<string, unknown>).name,
-      );
-      if (customerName) {
-        return customerName;
-      }
-
-      const customerCompanyName = extractStringValue(
-        (customerDoc as Record<string, unknown>).companyName,
-      );
-      if (customerCompanyName) {
-        return customerCompanyName;
-      }
-    } catch {
-      // silently fail
-    }
+  if (customerId && customerNameMap?.[customerId]) {
+    return customerNameMap[customerId];
   }
 
-  return "N/A";
+  return "—";
 }

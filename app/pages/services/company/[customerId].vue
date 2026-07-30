@@ -108,7 +108,7 @@
 import { computed } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import type { IDeal } from "~/types/deals.types";
-import { getCompanyName } from "~/utils/get-company-name";
+import { getCompanyName, buildCustomerNameMap } from "~/utils/get-company-name";
 import { useDealsSlideStore } from "~/store/deal-slide.store";
 
 const route = useRoute();
@@ -136,13 +136,12 @@ const { data, isLoading, error } = useQuery({
   queryFn: async () => {
     const result = await $appwrite.databases.listDocuments(dbId, collectionId);
     const deals = result.documents as unknown as IDeal[];
+    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId);
 
-    const enriched = await Promise.all(
-      deals.map(async (deal) => ({
-        deal,
-        companyName: await getCompanyName(deal, $appwrite, dbId, customerCollectionId),
-      })),
-    );
+    const enriched = deals.map((deal) => ({
+      deal,
+      companyName: getCompanyName(deal, customerNameMap),
+    }));
 
     return enriched.filter((item) => {
       const deal = item.deal as IDeal & { customer?: unknown };

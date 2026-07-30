@@ -243,7 +243,7 @@
 import { ref, computed } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import type { IDeal } from "~/types/deals.types";
-import { getCompanyName, getCustomerId } from "~/utils/get-company-name";
+import { getCompanyName, buildCustomerNameMap, getCustomerId } from "~/utils/get-company-name";
 
 const { $appwrite } = useNuxtApp();
 const config = useRuntimeConfig();
@@ -291,14 +291,13 @@ const { data: rawDeals, isLoading: dealsLoading, error: dealsError } = useQuery(
 
     const result = await $appwrite.databases.listDocuments(dbId, collectionId);
     const deals = result.documents as unknown as IDeal[];
+    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId);
 
-    const dealsWithCompany = await Promise.all(
-      deals.map(async (deal) => ({
-        deal,
-        companyName: await getCompanyName(deal, $appwrite, dbId, customerCollectionId),
-        customerId: getCustomerId(deal) || "unknown",
-      })),
-    );
+    const dealsWithCompany = deals.map((deal) => ({
+      deal,
+      companyName: getCompanyName(deal, customerNameMap),
+      customerId: getCustomerId(deal) || "unknown",
+    }));
 
     return dealsWithCompany;
   },

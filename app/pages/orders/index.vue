@@ -105,7 +105,7 @@ import { ref, computed } from "vue";
 import { useQuery } from "@tanstack/vue-query";
 import type { IDeal } from "~/types/deals.types";
 import { EnumStatus } from "~/types/deals.types";
-import { getCompanyName } from "~/utils/get-company-name";
+import { getCompanyName, buildCustomerNameMap } from "~/utils/get-company-name";
 
 const { $appwrite } = useNuxtApp();
 const config = useRuntimeConfig();
@@ -178,18 +178,12 @@ const {
 
     const result = await $appwrite.databases.listDocuments(dbId, collectionId);
     const deals = result.documents as unknown as IDeal[];
+    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId);
 
-    const enriched = await Promise.all(
-      deals.map(async (deal) => ({
-        deal,
-        companyName: await getCompanyName(
-          deal,
-          $appwrite,
-          dbId,
-          customerCollectionId,
-        ),
-      })),
-    );
+    const enriched = deals.map((deal) => ({
+      deal,
+      companyName: getCompanyName(deal, customerNameMap),
+    }));
 
     return enriched;
   },

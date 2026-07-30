@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/vue-query";
 import type { IDeal } from "~/types/deals.types";
-import { getCompanyName, getCustomerId, extractStringValue } from "~/utils/get-company-name";
+import { getCompanyName, buildCustomerNameMap } from "~/utils/get-company-name";
 import { KANBAN_DATA } from "./kanban.data";
 import type { IColumn } from "./kanban.types";
 
@@ -28,18 +28,16 @@ export function useKanbanQuery() {
       );
 
       const deals = res.documents as unknown as IDeal[];
-
-      const dealsWithCompanyName = await Promise.all(
-        deals.map(async (deal) => ({
-          ...deal,
-          companyName: await getCompanyName(
-            deal,
-            $appwrite,
-            config.public.dbId,
-            customerCollectionId,
-          ),
-        })),
+      const customerNameMap = await buildCustomerNameMap(
+        $appwrite,
+        config.public.dbId,
+        customerCollectionId,
       );
+
+      const dealsWithCompanyName = deals.map((deal) => ({
+        ...deal,
+        companyName: getCompanyName(deal, customerNameMap),
+      }));
       return dealsWithCompanyName;
     },
     select(data) {
@@ -58,7 +56,7 @@ export function useKanbanQuery() {
             id: deal.$id,
             name: deal.name,
             price: getPrice(deal),
-            companyName: deal.companyName || "N/A",
+            companyName: deal.companyName || "—",
             status: column.name,
           });
         }
