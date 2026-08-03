@@ -32,6 +32,8 @@
             v-for="card in column.items"
             :key="card.id"
             :card="card"
+            :onDelete="deleteDeal"
+            :isDeletePending="isDeletePending"
             @dragstart="
               (event: DragEvent) => handleDragStart(event, card, column)
             "
@@ -51,6 +53,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import { useKanbanQuery } from "~/components/kanban/useKanbanQuery";
+import { useDeleteDeal } from "~/components/kanban/useDeleteDeal";
 import type { ICard, IColumn } from "~/components/kanban/kanban.types";
 import Card from "../components/card/Card.vue";
 import type { EnumStatus } from "~/types/deals.types.js";
@@ -70,6 +73,8 @@ const { $appwrite } = useNuxtApp();
 const config = useRuntimeConfig();
 
 const { data, isLoading, error, refetch } = useKanbanQuery();
+
+const { deleteDeal, isDeletePending } = useDeleteDeal({ refetch });
 
 const { mutate } = useMutation({
   mutationKey: ["move card"],
@@ -180,9 +185,9 @@ function handleDrop(targetColumn: IColumn) {
 /* Текст, якщо колонка пуста */
 .crm-column__empty {
   text-align: center;
-  color: #94a3b8;
+  color: #64748b;
   font-size: 13px;
-  border: 2px dashed #cbd5e1;
+  border: 2px dashed #2b1f47;
   border-radius: 8px;
   padding: 20px;
 }
@@ -192,8 +197,8 @@ function handleDrop(targetColumn: IColumn) {
   color: #ef4444;
   font-weight: bold;
   padding: 16px;
-  background-color: #fef2f2;
-  border: 1px solid #fee2e2;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
   border-radius: 8px;
   max-width: 500px;
 }
@@ -211,8 +216,8 @@ function handleDrop(targetColumn: IColumn) {
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid #cbd5e1;
-  border-top-color: #2563eb;
+  border: 3px solid rgba(139, 92, 246, 0.2);
+  border-top-color: #8b5cf6;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }

@@ -1,4 +1,4 @@
-<template>
+якщо <template>
   <div class="edit-customer-container">
     <div class="edit-card">
       <!-- Заголовок сторінки -->
@@ -274,42 +274,44 @@ const onSubmit = handleSubmit((formValues) => {
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  min-height: 100vh;
-  background-color: #f3f4f6;
-  padding: 3rem 1rem;
+  min-height: 100%;
+  background-color: #0b0714;
+  padding: 2rem;
 }
 
 .edit-card {
   width: 100%;
   max-width: 600px;
-  background: #ffffff;
-  border-radius: 1rem;
+  background: #140e24;
+  border: 1px solid #2b1f47;
+  border-radius: 16px;
   box-shadow:
-    0 10px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    0 20px 40px rgba(5, 3, 10, 0.8),
+    0 1px 3px rgba(139, 92, 246, 0.1);
   padding: 2.5rem;
 }
 
 .card-header {
   margin-bottom: 2rem;
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #2b1f47;
   padding-bottom: 1.5rem;
 }
 
 h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #111827;
+  color: #ffffff;
   margin: 0 0 0.5rem 0;
+  letter-spacing: -0.5px;
 }
 
 .highlight {
-  color: #10b981;
+  color: #8b5cf6;
 }
 
 .subtitle {
-  font-size: 0.9rem;
-  color: #6b7280;
+  font-size: 0.875rem;
+  color: #94a3b8;
   margin: 0;
 }
 
@@ -328,31 +330,36 @@ h1 {
 label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
+  color: #e2daf5;
 }
 
 .form-input {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  background-color: #ffffff;
-  color: #111827;
+  border: 1px solid #2b1f47;
+  border-radius: 8px;
+  background-color: #0b0714;
+  color: #e2daf5;
   outline: none;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
+  font-family: "Lato", sans-serif;
+}
+
+.form-input::placeholder {
+  color: #64748b;
 }
 
 .form-input:focus {
-  border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+  border-color: #8b5cf6;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
 }
 
 /* Секція завантаження аватара */
 .avatar-upload-section {
-  border-bottom: 1px solid #f3f4f6;
+  border-bottom: 1px solid #2b1f47;
   padding-bottom: 1.5rem;
 }
 
@@ -369,11 +376,11 @@ label {
   height: 70px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px dashed #d1d5db;
+  border: 2px solid #2b1f47;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f9fafb;
+  background-color: #0b0714;
 }
 
 .avatar-preview {
@@ -384,7 +391,7 @@ label {
 
 .avatar-placeholder {
   font-size: 0.8rem;
-  color: #9ca3af;
+  color: #64748b;
   font-weight: 500;
 }
 
@@ -405,10 +412,10 @@ label {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #374151;
-  background-color: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 0.375rem;
+  color: #94a3b8;
+  background-color: #0b0714;
+  border: 1px solid #2b1f47;
+  border-radius: 8px;
   cursor: pointer;
   transition:
     background-color 0.2s,
@@ -417,15 +424,16 @@ label {
 }
 
 .btn-upload:hover {
-  background-color: #f9fafb;
-  border-color: #9ca3af;
+  background-color: rgba(139, 92, 246, 0.1);
+  border-color: #8b5cf6;
+  color: #e2daf5;
 }
 
 .btn-upload.disabled {
-  background-color: #e5e7eb;
-  color: #9ca3af;
+  background-color: #0b0714;
+  color: #4a3870;
   cursor: not-allowed;
-  border-color: #e5e7eb;
+  border-color: #2b1f47;
 }
 
 .hidden-file-input {
@@ -434,7 +442,7 @@ label {
 
 .file-hint {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: #64748b;
   margin: 0;
 }
 
@@ -445,23 +453,28 @@ label {
   gap: 1rem;
   margin-top: 1rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #f3f4f6;
+  border-top: 1px solid #2b1f47;
 }
 
 .btn-secondary {
   padding: 0.75rem 1.5rem;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #4b5563;
-  background-color: #f3f4f6;
-  border-radius: 0.5rem;
+  color: #94a3b8;
+  background-color: #0b0714;
+  border: 1px solid #2b1f47;
+  border-radius: 8px;
   text-decoration: none;
-  transition: background-color 0.2s;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
   text-align: center;
 }
 
 .btn-secondary:hover {
-  background-color: #e5e7eb;
+  background-color: rgba(139, 92, 246, 0.1);
+  border-color: #8b5cf6;
+  color: #e2daf5;
 }
 
 .btn-primary {
@@ -473,9 +486,9 @@ label {
   font-size: 0.95rem;
   font-weight: 600;
   color: #ffffff;
-  background: linear-gradient(135deg, #10b981, #059669);
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 8px;
   cursor: pointer;
   transition:
     transform 0.1s,
@@ -483,7 +496,7 @@ label {
 }
 
 .btn-primary:hover {
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
 }
 
 .btn-primary:active {
@@ -491,7 +504,7 @@ label {
 }
 
 .btn-primary:disabled {
-  background: #9ca3af;
+  background: #2b1f47;
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -503,17 +516,17 @@ label {
   align-items: center;
   justify-content: center;
   padding: 3rem 0;
-  color: #6b7280;
+  color: #94a3b8;
   gap: 1rem;
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid #f3f4f6;
-  border-top: 4px solid #10b981;
+  border: 4px solid rgba(139, 92, 246, 0.2);
+  border-top: 4px solid #8b5cf6;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 .btn-spinner {
@@ -522,11 +535,11 @@ label {
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-top: 2px solid #ffffff;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 0.8s linear infinite;
 }
 
 .btn-spinner.accent {
-  border-top-color: #10b981;
+  border-top-color: #8b5cf6;
 }
 
 @keyframes spin {
