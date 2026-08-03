@@ -1,13 +1,23 @@
 <template>
   <div class="crm-card" :draggable="true">
-    <h3 class="crm-card__title">{{ card.name }}</h3>
-    
+    <div class="crm-card__header">
+      <h3 class="crm-card__title">{{ card.name }}</h3>
+      <button
+        class="crm-card__delete"
+        :disabled="isDeletePending"
+        @click.stop="onDelete(card.id)"
+        title="Видалити угоду"
+      >
+        <Icon name="material-symbols:delete-outline" />
+      </button>
+    </div>
+
     <div class="crm-card__details">
       <div class="crm-card__field">
         <span class="crm-card__label">Компанія:</span>
-        <span class="crm-card__value crm-card__value--company">{{card.companyName }}</span>
+        <span class="crm-card__value crm-card__value--company">{{ card.companyName }}</span>
       </div>
-      
+
       <div class="crm-card__field">
         <span class="crm-card__label">Вартість:</span>
         <span class="crm-card__value crm-card__value--price">{{ formatPrice(card.price) }}</span>
@@ -25,6 +35,8 @@ import type { ICard } from '../kanban/kanban.types'
 
 const props = defineProps<{
   card: ICard
+  onDelete: (cardId: string) => void
+  isDeletePending: boolean
 }>()
 
 const formatPrice = (price?: number) => {
@@ -49,31 +61,71 @@ const formatDate = (date?: string) => {
 
 <style lang="css" scoped>
 .crm-card {
-  background-color: #ffffff;
-  border: 1px solid #e2e8f0; /* легкий сірий бордер */
+  background-color: #140e24;
+  border: 1px solid #2b1f47;
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 4px 6px -1px rgba(5, 3, 10, 0.5);
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  max-width: 300px; /* Оптимальна ширина для Kanban-колонки */
+  max-width: 300px;
 }
 
 .crm-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-color: #cbd5e1;
+  box-shadow: 0 10px 15px -3px rgba(5, 3, 10, 0.7);
+  border-color: #8b5cf6;
+}
+
+.crm-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .crm-card__title {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: #1e293b; /* темний графітовий */
+  color: #e2daf5;
   line-height: 1.4;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.crm-card__delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #4a3870;
+  transition: color 0.2s, background-color 0.2s;
+  flex-shrink: 0;
+}
+
+.crm-card__delete:hover {
+  color: #ef4444;
+  background-color: rgba(239, 68, 68, 0.1);
+}
+
+.crm-card__delete:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.crm-card__delete svg {
+  font-size: 18px;
 }
 
 .crm-card__details {
@@ -90,24 +142,24 @@ const formatDate = (date?: string) => {
 }
 
 .crm-card__label {
-  color: #64748b; /* приглушений сірий */
+  color: #64748b;
   font-weight: 500;
 }
 
 .crm-card__value {
-  color: #334155;
+  color: #e2daf5;
   font-weight: 500;
 }
 
 .crm-card__value--company {
-  color: #0f172a;
+  color: #ffffff;
   font-weight: 600;
 }
 
 .crm-card__value--price {
-  color: #10b981; /* смарагдово-зелений для грошей */
+  color: #10b981;
   font-weight: 700;
-  background-color: #ecfdf5; /* дуже легкий зелений бекграунд */
+  background-color: rgba(16, 185, 129, 0.1);
   padding: 2px 8px;
   border-radius: 6px;
 }
@@ -115,13 +167,13 @@ const formatDate = (date?: string) => {
 .crm-card__footer {
   margin-top: 4px;
   padding-top: 8px;
-  border-top: 1px dashed #f1f5f9; /* акуратна пунктирна лінія */
+  border-top: 1px dashed #2b1f47;
   display: flex;
   justify-content: flex-end;
 }
 
 .crm-card__date {
   font-size: 12px;
-  color: #94a3b8; /* світло-сірий для другорядних даних */
+  color: #64748b;
 }
 </style>
