@@ -3,6 +3,7 @@
     class="crm-card"
     :draggable="true"
     @dragstart="$emit('dragstart', $event)"
+    @click="$emit('click', $event)"
   >
     <div class="crm-card__header">
       <h3 class="crm-card__title">{{ card.name }}</h3>
@@ -80,6 +81,7 @@ const props = defineProps<{
 
 defineEmits<{
   dragstart: [event: DragEvent];
+  click: [event: MouseEvent];
 }>();
 
 const isDeleteModalOpen = ref(false);
