@@ -32,7 +32,7 @@
             v-for="card in column.items"
             :key="card.id"
             :card="card"
-            :onDelete="deleteDeal"
+            :onDelete="(id) => deleteDeal(id)"
             :isDeletePending="isDeletePending"
             @dragstart="
               (event: DragEvent) => handleDragStart(event, card, column)
