@@ -31,11 +31,6 @@ export const MENU_DATA: MenuItem[] = [
     icon: "carbon:customer-service",
   },
   {
-    name: "Відгуки",
-    url: "/feedback",
-    icon: "material-symbols:feedback-outline",
-  },
-  {
     name: "Налаштування",
     url: "/settings",
     icon: "material-symbols:settings-outline",
