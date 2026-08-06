@@ -11,9 +11,9 @@ export const MENU_DATA: MenuItem[] = [
     icon: "material-symbols:home-outline",
   },
   {
-    name: "Товари",
-    url: "/products",
-    icon: "gridicons:product",
+    name: "Послуги",
+    url: "/services",
+    icon: "material-symbols:handshake-outline",
   },
   {
     name: "Оплати",

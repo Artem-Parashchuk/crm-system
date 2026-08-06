@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   devtools: { enabled: false },
 
   modules: [
+    "@nuxt/ui",
     "@nuxt/image",
     "@nuxt/icon",
     "@nuxtjs/google-fonts",
