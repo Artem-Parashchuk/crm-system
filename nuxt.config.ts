@@ -8,8 +8,8 @@ export default defineNuxtConfig({
       collectionDeals: process.env.NUXT_PUBLIC_COLLECTION_DEALS,
       collectionCustomers: process.env.NUXT_PUBLIC_COLLECTION_CUSTOMERS,
       collectionComments: process.env.NUXT_PUBLIC_COLLECTION_COMMENTS,
-      // Вказуємо твій реальний ID бакету за дефолтом:
       storageId: process.env.NUXT_PUBLIC_STORAGE_ID,
+      resetPasswordUrl: process.env.NUXT_PUBLIC_RESET_PASSWORD_URL || 'http://localhost:3000/reset-password',
     },
   },
   css: ["~/assets/css/main.css"],

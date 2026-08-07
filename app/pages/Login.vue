@@ -63,6 +63,12 @@
           </span>
         </div>
 
+        <div v-if="isLoginMode" class="forgot-password-link">
+          <NuxtLink to="/forgot-password" class="forgot-link">
+            Забули пароль?
+          </NuxtLink>
+        </div>
+
         <div v-if="!isLoginMode" class="input-group">
           <Icon name="material-symbols:lock-outline" class="input-icon" />
           <div class="input-wrapper">
@@ -454,5 +460,22 @@ watch(isLoginMode, () => {
 .server-error .error-icon {
   font-size: 18px;
   flex-shrink: 0;
+}
+
+.forgot-password-link {
+  text-align: right;
+  margin-top: -12px;
+}
+
+.forgot-link {
+  color: #a78bfa;
+  font-size: 14px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.forgot-link:hover {
+  color: #c084fc;
+  text-decoration: underline;
 }
 </style>
