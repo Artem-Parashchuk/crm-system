@@ -81,7 +81,7 @@
                 <div class="deal-rank">#{{ index + 1 }}</div>
                 <div class="deal-info">
                   <span class="deal-name">{{ deal.name }}</span>
-                  <span class="deal-client">{{ deal.customer?.name || 'Без клієнта' }}</span>
+                  <span class="deal-client">{{ deal.companyName || 'Без клієнта' }}</span>
                 </div>
                 <div class="deal-price">{{ formatPrice(deal.price) }}</div>
               </div>
@@ -108,9 +108,15 @@
 import { useQuery } from "@tanstack/vue-query";
 import type { IDeal } from "~/types/deals.types";
 import { EnumStatus } from "~/types/deals.types";
+import { getCompanyName, buildCustomerNameMap } from "~/utils/get-company-name";
 
 const { $appwrite } = useNuxtApp();
 const config = useRuntimeConfig();
+
+const dbId = config.public.dbId;
+const collectionId = config.public.collectionDeals;
+const customerCollectionId =
+  (config.public as Record<string, string>).collectionCustomers || "customers";
 
 interface FinanceData {
   total: number;
@@ -123,7 +129,7 @@ interface FinanceData {
     percentage: number;
     color: string;
   }>;
-  topDeals: IDeal[];
+  topDeals: Array<IDeal & { companyName: string }>;
 }
 
 const statusLabels: Record<string, string> = {
@@ -131,7 +137,7 @@ const statusLabels: Record<string, string> = {
   [EnumStatus["to-be-agreed"]]: "На погодженні",
   [EnumStatus["in-progress"]]: "У виробництві",
   [EnumStatus.produced]: "Виготовлено",
-  [EnumStatus.done]: "До відвантаження",
+  [EnumStatus.done]: "Передано клієнту",
 };
 
 const statusColors: Record<string, string> = {
@@ -145,17 +151,21 @@ const statusColors: Record<string, string> = {
 const { data, isLoading, error } = useQuery({
   queryKey: ["deals", "finance"],
   queryFn: async () => {
-    const dbId = config.public.dbId;
-    const collectionId = config.public.collectionDeals;
-
     if (!dbId || !collectionId) {
       throw new Error("Appwrite configuration missing");
     }
 
     const result = await $appwrite.databases.listDocuments(dbId, collectionId);
-    return result.documents as unknown as IDeal[];
+    const deals = result.documents as unknown as IDeal[];
+    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId);
+
+    return deals.map((deal) => ({
+      ...deal,
+      companyName: getCompanyName(deal, customerNameMap),
+    }));
   },
-  select: (deals: IDeal[]): FinanceData => {
+  select: (enrichedDeals): FinanceData => {
+    const deals = enrichedDeals as Array<IDeal & { companyName: string }>;
     const total = deals.reduce((sum, deal) => sum + deal.price, 0);
     const count = deals.length;
     const avg = count > 0 ? total / count : 0;

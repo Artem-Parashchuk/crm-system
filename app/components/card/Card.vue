@@ -232,7 +232,7 @@ const formatDate = (date?: string) => {
 }
 
 .crm-card__value--company {
-  color: #ffffff;
+  color: #64748C;
   font-weight: 600;
 }
 

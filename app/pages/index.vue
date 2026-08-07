@@ -26,7 +26,7 @@
           <span class="crm-column__name">{{ column.name }}</span>
           <span class="crm-column__count">{{ column.items?.length || 0 }}</span>
         </div>
-        <KanbanCreateDeal :status="column.id" :refetch="refetch" />
+        <KanbanCreateDeal v-if="column.id === EnumStatus.todo" :status="column.id" :refetch="refetch" />
         <div class="crm-column__list">
           <Card
             v-for="card in column.items"
@@ -56,7 +56,7 @@ import { useKanbanQuery } from "~/components/kanban/useKanbanQuery";
 import { useDeleteDeal } from "~/components/kanban/useDeleteDeal";
 import type { ICard, IColumn } from "~/components/kanban/kanban.types";
 import Card from "../components/card/Card.vue";
-import type { EnumStatus } from "~/types/deals.types.js";
+import { EnumStatus } from "~/types/deals.types.js";
 import { useMutation } from "@tanstack/vue-query";
 import { generateColumnStyle } from "~/components/kanban/generate-gradient.js";
 import { useDealsSlideStore } from "~/store/deal-slide.store.js";
