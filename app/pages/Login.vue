@@ -1,6 +1,6 @@
 <template>
   <div class="auth-wrapper">
-    <Loader v-if="loadingStore.isLoading" />
+    <LayoutLoader v-if="loadingStore.isLoading" />
 
     <div class="auth-card">
       <h1 class="auth-title">
@@ -10,7 +10,12 @@
         Будь ласка, введіть свої дані для доступу до CRM
       </p>
 
-      <form @submit.prevent="handleSubmit" class="auth-form">
+      <form @submit.prevent="onSubmit" class="auth-form">
+        <div v-if="serverError" class="server-error">
+          <Icon name="material-symbols:error-outline" class="error-icon" />
+          <span>{{ serverError }}</span>
+        </div>
+
         <div v-if="!isLoginMode" class="input-group">
           <Icon name="material-symbols:person-outline" class="input-icon" />
           <input
@@ -18,8 +23,11 @@
             placeholder="Ваше ім'я"
             type="text"
             class="auth-input"
-            required
+            :class="{ 'input-error': nameError && nameMeta.touched }"
           />
+          <span v-if="nameError && nameMeta.touched" class="error-message">
+            {{ nameError }}
+          </span>
         </div>
 
         <div class="input-group">
@@ -29,19 +37,49 @@
             placeholder="Email"
             type="email"
             class="auth-input"
-            required
+            :class="{ 'input-error': emailError && emailMeta.touched }"
           />
+          <span v-if="emailError && emailMeta.touched" class="error-message">
+            {{ emailError }}
+          </span>
         </div>
 
         <div class="input-group">
           <Icon name="material-symbols:lock-outline" class="input-icon" />
-          <input
-            v-model="formPassword"
-            placeholder="Пароль"
-            type="password"
-            class="auth-input"
-            required
-          />
+          <div class="input-wrapper">
+            <input
+              v-model="formPassword"
+              placeholder="Пароль"
+              :type="showPassword ? 'text' : 'password'"
+              class="auth-input"
+              :class="{ 'input-error': passwordError && passwordMeta.touched }"
+            />
+            <button type="button" class="toggle-password" @click="showPassword = !showPassword">
+              <Icon :name="showPassword ? 'material-symbols:visibility' : 'material-symbols:visibility-off'" />
+            </button>
+          </div>
+          <span v-if="passwordError && passwordMeta.touched" class="error-message">
+            {{ passwordError }}
+          </span>
+        </div>
+
+        <div v-if="!isLoginMode" class="input-group">
+          <Icon name="material-symbols:lock-outline" class="input-icon" />
+          <div class="input-wrapper">
+            <input
+              v-model="formConfirmPassword"
+              placeholder="Повторіть пароль"
+              :type="showConfirmPassword ? 'text' : 'password'"
+              class="auth-input"
+              :class="{ 'input-error': confirmPasswordError && confirmPasswordMeta.touched }"
+            />
+            <button type="button" class="toggle-password" @click="showConfirmPassword = !showConfirmPassword">
+              <Icon :name="showConfirmPassword ? 'material-symbols:visibility' : 'material-symbols:visibility-off'" />
+            </button>
+          </div>
+          <span v-if="confirmPasswordError && confirmPasswordMeta.touched" class="error-message">
+            {{ confirmPasswordError }}
+          </span>
         </div>
 
         <button
@@ -71,24 +109,71 @@
 
 <script lang="ts" setup>
 import { v4 as uuidv4 } from "uuid";
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useForm, useField } from "vee-validate";
 import { useAuthStore, useIsLoadingStore } from "~/store/auth.store";
 
+definePageMeta({
+  layout: 'auth'
+})
+
 const isLoginMode = ref(true);
-const formEmail = ref("");
-const formName = ref("");
-const formPassword = ref("");
 
 const { $appwrite } = useNuxtApp();
 const authStore = useAuthStore();
 const loadingStore = useIsLoadingStore();
 
-// 1. МЕТОД ДЛЯ ВХОДУ (LOGIN)
+const { handleSubmit: handleValidSubmit, resetForm } = useForm();
+
+const showPassword = ref(false);
+const showConfirmPassword = ref(false);
+const serverError = ref("");
+
+const { value: formEmail, errorMessage: emailError, meta: emailMeta } = useField(
+  "email",
+  (value: string) => {
+    if (!value?.trim()) return "Email є обов'язковим";
+    if (!/^\S+@\S+\.\S+$/.test(value)) return "Некоректний формат email";
+    return true;
+  }
+);
+
+const { value: formPassword, errorMessage: passwordError, meta: passwordMeta } = useField(
+  "password",
+  (value: string) => {
+    if (!value) return "Пароль є обов'язковим";
+    if (value.length < 8) return "Пароль має містити мінімум 8 символів";
+    return true;
+  }
+);
+
+const { value: formName, errorMessage: nameError, meta: nameMeta } = useField(
+  "name",
+  (value: string) => {
+    if (!isLoginMode.value) {
+      if (!value?.trim()) return "Ім'я є обов'язковим";
+      if (value.trim().length < 2) return "Ім'я має містити мінімум 2 літери";
+    }
+    return true;
+  }
+);
+
+const { value: formConfirmPassword, errorMessage: confirmPasswordError, meta: confirmPasswordMeta } = useField(
+  "confirmPassword",
+  (value: string) => {
+    if (!isLoginMode.value) {
+      if (!value) return "Підтвердіть пароль";
+      if (value !== formPassword.value) return "Паролі не співпадають";
+    }
+    return true;
+  }
+);
+
 const login = async () => {
+  serverError.value = "";
   loadingStore.set(true);
 
   try {
-    // ЗВЕРНИ УВАГУ: тут круглі дужки (), а всередині фігурні {} — це ОБ'ЄКТ
     await $appwrite.account.createEmailPasswordSession({
       email: formEmail.value,
       password: formPassword.value,
@@ -103,25 +188,23 @@ const login = async () => {
     });
 
     await navigateTo("/");
-  } catch (error) {
-    console.error(error);
-    alert("Неправильний email або пароль");
+  } catch (error: any) {
+    serverError.value = "Неправильний email або пароль";
   } finally {
     loadingStore.set(false);
   }
 };
 
-// 2. МЕТОД ДЛЯ РЕЄСТРАЦІЇ (REGISTER)
 const register = async () => {
+  serverError.value = "";
   loadingStore.set(true);
   try {
-    // Генеруємо гарантовано унікальний ID засобами браузера, щоб не залежати від імпортів
     const customUserId = uuidv4();
     const cleanEmail = formEmail.value.trim().toLowerCase();
 
     await $appwrite.account.create({
       userId: customUserId,
-      email: cleanEmail, // тепер пошта гарантовано чиста, маленькими літерами
+      email: cleanEmail,
       password: formPassword.value,
       name: formName.value,
     });
@@ -140,23 +223,25 @@ const register = async () => {
 
     await navigateTo("/");
   } catch (error: any) {
-    console.error("Повна помилка Appwrite:", error);
-
-    // Виводимо точне повідомлення від сервера Appwrite
-    alert(`Помилка від Appwrite: ${error.message} (Код: ${error.code})`);
+    serverError.value = error.message || "Помилка реєстрації";
   } finally {
     loadingStore.set(false);
   }
 };
 
-// 3. ГОЛОВНИЙ ДИСПЕТЧЕР ФОРМИ
-const handleSubmit = () => {
+const onSubmit = handleValidSubmit(() => {
+  serverError.value = "";
   if (isLoginMode.value) {
     login();
   } else {
     register();
   }
-};
+});
+
+watch(isLoginMode, () => {
+  serverError.value = "";
+  resetForm();
+});
 </script>
 
 <style lang="css" scoped>
@@ -165,7 +250,7 @@ const handleSubmit = () => {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100%;
+  height: 100vh;
   width: 100%;
   background-color: #0b0714; /* Наш фірмовий глибокий фон */
   padding: 20px;
@@ -209,16 +294,24 @@ const handleSubmit = () => {
 .input-group {
   position: relative;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: 100%;
 }
 
 .input-icon {
   position: absolute;
   left: 14px;
+  top: 14px;
   font-size: 20px;
   color: #64748b;
   pointer-events: none;
   transition: color 0.2s ease;
+  z-index: 1;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
 }
 
 /* Стиль полів вводу */
@@ -303,5 +396,63 @@ const handleSubmit = () => {
 .btn-link:hover {
   color: #c084fc;
   text-decoration: underline;
+}
+
+.error-message {
+  display: block;
+  color: #ef4444;
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: left;
+  padding-left: 44px;
+}
+
+.input-error {
+  border-color: #ef4444 !important;
+}
+
+.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+}
+
+.input-wrapper .auth-input {
+  padding-right: 44px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  transition: color 0.2s;
+}
+
+.toggle-password:hover {
+  color: #8b5cf6;
+}
+
+.server-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: #fca5a5;
+  font-size: 14px;
+}
+
+.server-error .error-icon {
+  font-size: 18px;
+  flex-shrink: 0;
 }
 </style>
