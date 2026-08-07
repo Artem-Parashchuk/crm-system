@@ -137,7 +137,7 @@ const statusLabels: Record<string, string> = {
   [EnumStatus["to-be-agreed"]]: "На погодженні",
   [EnumStatus["in-progress"]]: "У виробництві",
   [EnumStatus.produced]: "Виготовлено",
-  [EnumStatus.done]: "До відвантаження",
+  [EnumStatus.done]: "Передано клієнту",
 };
 
 const statusColors: Record<string, string> = {
