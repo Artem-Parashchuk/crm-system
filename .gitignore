@@ -25,3 +25,6 @@ logs
 .opencode
 opencode.json
 AGENTS.md
+
+# Memory MCP storage
+.memory

@@ -9,7 +9,7 @@ export default defineNuxtConfig({
       collectionCustomers: process.env.NUXT_PUBLIC_COLLECTION_CUSTOMERS,
       collectionComments: process.env.NUXT_PUBLIC_COLLECTION_COMMENTS,
       storageId: process.env.NUXT_PUBLIC_STORAGE_ID,
-      resetPasswordUrl: process.env.NUXT_PUBLIC_RESET_PASSWORD_URL || 'http://localhost:3000/reset-password',
+      resetPasswordUrl: process.env.NUXT_PUBLIC_RESET_PASSWORD_URL 
     },
   },
   css: ["~/assets/css/main.css"],
