@@ -1,4 +1,10 @@
 export default defineNuxtConfig({
+  app: {
+    head: {
+      title: "Ваша CRM Система",
+      link: [{ rel: "icon", type: "image/png", href: "/favicon.png" }],
+    },
+  },
   compatibilityDate: "2025-07-15",
   runtimeConfig: {
     public: {
@@ -9,7 +15,7 @@ export default defineNuxtConfig({
       collectionCustomers: process.env.NUXT_PUBLIC_COLLECTION_CUSTOMERS,
       collectionComments: process.env.NUXT_PUBLIC_COLLECTION_COMMENTS,
       storageId: process.env.NUXT_PUBLIC_STORAGE_ID,
-      resetPasswordUrl: process.env.NUXT_PUBLIC_RESET_PASSWORD_URL 
+      resetPasswordUrl: process.env.NUXT_PUBLIC_RESET_PASSWORD_URL,
     },
   },
   css: ["~/assets/css/main.css"],
