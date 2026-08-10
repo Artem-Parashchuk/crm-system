@@ -478,4 +478,81 @@ watch(isLoginMode, () => {
   color: #c084fc;
   text-decoration: underline;
 }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .auth-wrapper {
+    padding: 16px;
+    min-height: 100vh;
+  }
+
+  .auth-card {
+    padding: 32px 24px;
+    border-radius: 12px;
+    max-width: 100%;
+  }
+
+  .auth-title {
+    font-size: 24px;
+  }
+
+  .auth-subtitle {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .auth-form {
+    gap: 16px;
+  }
+
+  .auth-input {
+    padding: 16px 16px 16px 44px;
+    font-size: 16px;
+    min-height: 52px;
+  }
+
+  .input-icon {
+    top: 16px;
+  }
+
+  .toggle-password {
+    font-size: 22px;
+  }
+
+  .btn-primary {
+    padding: 16px;
+    min-height: 52px;
+    font-size: 16px;
+    margin-top: 8px;
+  }
+
+  .forgot-password-link {
+    text-align: center;
+    margin-top: -8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px 20px;
+  }
+
+  .auth-title {
+    font-size: 22px;
+  }
+
+  .auth-subtitle {
+    font-size: 12px;
+  }
+
+  .error-message {
+    padding-left: 40px;
+    font-size: 11px;
+  }
+
+  .server-error {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+}
 </style>

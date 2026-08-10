@@ -124,8 +124,7 @@ const customers = computed(() => {
 
 .header-row {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
   margin-bottom: 1.5rem;
 }
 
@@ -320,7 +319,7 @@ h1 {
   }
 
   .header-row {
-    flex-direction: column;
+    text-align: center;
     gap: 12px;
   }
 

@@ -140,4 +140,59 @@ definePageMeta({
   background-color: rgba(139, 92, 246, 0.1);
   border-color: #8b5cf6;
 }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .auth-wrapper {
+    padding: 16px;
+    min-height: 100vh;
+  }
+
+  .auth-card {
+    padding: 32px 24px;
+    border-radius: 12px;
+    max-width: 100%;
+  }
+
+  .auth-title {
+    font-size: 24px;
+  }
+
+  .auth-subtitle {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .success-icon {
+    font-size: 48px;
+  }
+
+  .info-box {
+    padding: 14px;
+  }
+
+  .info-box p {
+    font-size: 13px;
+  }
+
+  .btn {
+    padding: 16px;
+    min-height: 52px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px 20px;
+  }
+
+  .auth-title {
+    font-size: 22px;
+  }
+
+  .auth-subtitle {
+    font-size: 12px;
+  }
+}
 </style>
