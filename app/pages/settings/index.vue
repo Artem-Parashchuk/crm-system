@@ -788,5 +788,12 @@ const getStatsTotal = (key: string) => {
   .stat-card {
     padding: 16px;
   }
+
+  .message {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    justify-content: center;
+  }
 }
 </style>

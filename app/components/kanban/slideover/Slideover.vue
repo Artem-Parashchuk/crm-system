@@ -146,4 +146,24 @@ onBeforeUnmount(() => {
 .slideover-leave-to {
   transform: translateX(100%);
 }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .slideover {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .slideover__header,
+  .slideover__body {
+    padding: 16px;
+  }
+
+  .slideover__close {
+    top: 12px;
+    right: 12px;
+    width: 32px;
+    height: 32px;
+  }
+}
 </style>

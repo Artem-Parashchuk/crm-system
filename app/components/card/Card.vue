@@ -357,4 +357,59 @@ const formatDate = (date?: string) => {
 .delete-dialog[open] {
   display: flex;
 }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .crm-card {
+    padding: 12px;
+    gap: 10px;
+    max-width: 100%;
+  }
+
+  .crm-card__title {
+    font-size: 14px;
+  }
+
+  .crm-card__field {
+    font-size: 13px;
+  }
+
+  .crm-card__value--price {
+    padding: 2px 6px;
+  }
+
+  .crm-card__date {
+    font-size: 11px;
+  }
+
+  .delete-modal {
+    padding: 20px;
+    gap: 12px;
+  }
+
+  .delete-modal__icon {
+    width: 48px;
+    height: 48px;
+    font-size: 24px;
+  }
+
+  .delete-modal__title {
+    font-size: 16px;
+  }
+
+  .delete-modal__text {
+    font-size: 13px;
+  }
+
+  .delete-modal__btn {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .crm-card__title {
+    white-space: normal;
+  }
+}
 </style>

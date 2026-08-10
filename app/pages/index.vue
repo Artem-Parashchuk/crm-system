@@ -227,4 +227,68 @@ function handleDrop(targetColumn: IColumn) {
     transform: rotate(360deg);
   }
 }
+
+/* Адаптивність */
+@media (max-width: 1280px) {
+  .crm-board__columns {
+    grid-template-columns: repeat(4, minmax(260px, 1fr));
+  }
+}
+
+@media (max-width: 1024px) {
+  .crm-board {
+    padding: 16px;
+  }
+
+  .crm-board__title {
+    font-size: 20px;
+    margin-bottom: 16px;
+  }
+
+  .crm-board__columns {
+    grid-template-columns: repeat(3, minmax(260px, 1fr));
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .crm-board {
+    padding: 12px;
+  }
+
+  .crm-board__title {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .crm-board__columns {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 12px;
+  }
+
+  .crm-column {
+    flex: 0 0 280px;
+    width: 280px;
+    scroll-snap-align: start;
+    max-height: none;
+  }
+
+  .crm-column__header {
+    font-size: 13px;
+  }
+
+  .crm-column__list {
+    max-height: 60vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .crm-column {
+    flex: 0 0 85vw;
+    width: 85vw;
+  }
+}
 </style>

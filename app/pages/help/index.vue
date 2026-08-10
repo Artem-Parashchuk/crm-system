@@ -302,4 +302,77 @@ const toggleQuestion = (index: number) => {
 a.contact-value:hover {
   color: #a78bfa;
 }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .help-wrapper {
+    padding: 12px;
+  }
+
+  .help-card {
+    padding: 24px;
+    border-radius: 12px;
+  }
+
+  .help-title {
+    font-size: 22px;
+  }
+
+  .help-subtitle {
+    font-size: 13px;
+    margin-bottom: 24px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .faq-section {
+    margin-bottom: 24px;
+  }
+
+  .faq-question {
+    padding: 12px 14px;
+    font-size: 14px;
+  }
+
+  .faq-answer {
+    padding: 0 14px 12px 14px;
+  }
+
+  .faq-answer p {
+    font-size: 13px;
+  }
+
+  .contact-item {
+    padding: 12px;
+  }
+
+  .contact-value {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .help-card {
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  .help-title {
+    font-size: 20px;
+  }
+
+  .help-subtitle {
+    font-size: 12px;
+  }
+
+  .section-title {
+    font-size: 15px;
+  }
+
+  .faq-question {
+    font-size: 13px;
+  }
+}
 </style>
