@@ -540,4 +540,69 @@ const submitDeal = () => {
   font-size: 12px;
   margin: 0;
 }
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .btn {
+    width: 38px;
+    height: 38px;
+  }
+
+  .deal-form {
+    padding: 12px;
+  }
+
+  .deal-form__field {
+    font-size: 14px;
+  }
+
+  .deal-form__field input {
+    padding: 8px 10px;
+    font-size: 14px;
+  }
+
+  .mode-btn {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+
+  .customer-mode {
+    gap: 6px;
+  }
+
+  .dropdown-item-name {
+    font-size: 14px;
+  }
+
+  .dropdown-item-email {
+    font-size: 12px;
+  }
+
+  .selected-customer-name {
+    font-size: 14px;
+  }
+
+  .selected-customer-email {
+    font-size: 12px;
+  }
+
+  .deal-form__submit {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .deal-form {
+    padding: 10px;
+  }
+
+  .deal-form__field {
+    font-size: 13px;
+  }
+
+  .deal-form__field input {
+    font-size: 13px;
+  }
+}
 </style>

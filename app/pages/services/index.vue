@@ -765,24 +765,155 @@ const getColor = (name: string): string => {
 }
 
 @media (max-width: 768px) {
+  .services-wrapper {
+    padding: 12px;
+  }
+
   .services-card {
-    padding: 24px;
-  }
-
-  .services-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .service-card {
     padding: 16px;
+    border-radius: 12px;
+  }
+
+  .services-header {
+    margin-bottom: 16px;
+  }
+
+  .services-title {
+    font-size: 22px;
+  }
+
+  .services-subtitle {
+    font-size: 13px;
   }
 
   .tabs {
     width: 100%;
+    margin-bottom: 20px;
   }
 
   .tab-btn {
     flex: 1;
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .service-card {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .service-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  .service-name {
+    font-size: 15px;
+  }
+
+  .sort-bar {
+    gap: 6px;
+  }
+
+  .sort-btn {
+    min-height: 36px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .services-loading,
+  .services-error,
+  .services-empty {
+    padding: 40px 16px;
+  }
+
+  .empty-icon {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-wrapper {
+    padding: 8px;
+  }
+
+  .services-card {
+    padding: 12px;
+    border-radius: 10px;
+  }
+
+  .services-title {
+    font-size: 20px;
+  }
+
+  .services-subtitle {
+    font-size: 12px;
+  }
+
+  .tab-btn {
+    padding: 8px 8px;
+    font-size: 12px;
+  }
+
+  .services-grid {
+    gap: 10px;
+  }
+
+  .service-card {
+    padding: 12px;
+    gap: 10px;
+  }
+
+  .service-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+    border-radius: 10px;
+  }
+
+  .service-info {
+    gap: 8px;
+  }
+
+  .service-name {
+    font-size: 14px;
+  }
+
+  .service-stats {
+    gap: 4px;
+  }
+
+  .stat-item {
+    gap: 4px;
+  }
+
+  .stat-label,
+  .stat-value {
+    font-size: 12px;
+  }
+
+  .service-date {
+    font-size: 11px;
+    padding-top: 8px;
+  }
+
+  .company-arrow svg {
+    font-size: 18px;
+  }
+
+  .sort-bar {
+    gap: 4px;
+  }
+
+  .sort-btn {
+    padding: 6px 8px;
+    font-size: 11px;
   }
 }
 </style>

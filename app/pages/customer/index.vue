@@ -319,7 +319,7 @@ h1 {
   }
 
   .header-row {
-    text-align: center;
+    text-align: center; 
     gap: 12px;
   }
 

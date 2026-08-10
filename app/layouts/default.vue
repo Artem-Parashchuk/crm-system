@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useAuthStore, useIsLoadingStore } from "~/store/auth.store";
 
 const { $appwrite } = useNuxtApp();
@@ -44,6 +44,13 @@ const isLoadingStore = useIsLoadingStore();
 const store = useAuthStore();
 const router = useRouter();
 const isMobileMenuOpen = ref(false);
+
+watch(
+  () => router.currentRoute.value.path,
+  () => {
+    isMobileMenuOpen.value = false;
+  },
+);
 
 isLoadingStore.set(true);
 

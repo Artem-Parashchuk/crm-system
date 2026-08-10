@@ -1,4 +1,4 @@
-якщо <template>
+<template>
   <div class="edit-customer-container">
     <div class="edit-card">
       <!-- Заголовок сторінки -->
@@ -548,6 +548,63 @@ label {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .edit-customer-container {
+    padding: 1rem;
+  }
+
+  .edit-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .card-header {
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+
+  .avatar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+    gap: 0.75rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .edit-customer-container {
+    padding: 0.75rem;
+  }
+
+  .edit-card {
+    padding: 1rem;
+    border-radius: 10px;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+
+  .subtitle {
+    font-size: 0.8rem;
   }
 }
 </style>
