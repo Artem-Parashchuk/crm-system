@@ -76,7 +76,7 @@ const onSubmit = handleValidSubmit(async () => {
   loadingStore.set(true);
 
   try {
-    const resetUrl = config.public.resetPasswordUrl || 'http://localhost:3000/reset-password';
+    const resetUrl = config.public.resetPasswordUrl || 'http://crm-system-fawn-sigma.vercel.app/reset-password';
     
     await $appwrite.account.createRecovery({
       email: formEmail.value,
