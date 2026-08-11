@@ -103,15 +103,12 @@ const toggleQuestion = (index: number) => {
 }
 
 .help-card {
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
-  max-width: 720px;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 .help-header {
@@ -122,14 +119,14 @@ const toggleQuestion = (index: number) => {
 .help-title {
   font-size: 28px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.5px;
 }
 
 .help-subtitle {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -139,13 +136,13 @@ const toggleQuestion = (index: number) => {
   gap: 8px;
   font-size: 18px;
   font-weight: 700;
-  color: #e2daf5;
+  color: var(--text-secondary);
   margin: 0 0 16px 0;
 }
 
 .section-icon {
   font-size: 22px;
-  color: #8b5cf6;
+  color: var(--accent-primary);
 }
 
 .faq-section {
@@ -159,19 +156,19 @@ const toggleQuestion = (index: number) => {
 }
 
 .faq-item {
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 10px;
   overflow: hidden;
   transition: border-color 0.2s ease;
 }
 
 .faq-item:hover {
-  border-color: #3e2d63;
+  border-color: var(--border-secondary);
 }
 
 .faq-item--open {
-  border-color: #8b5cf6;
+  border-color: var(--accent-primary);
 }
 
 .faq-question {
@@ -182,7 +179,7 @@ const toggleQuestion = (index: number) => {
   padding: 14px 16px;
   background: none;
   border: none;
-  color: #e2daf5;
+  color: var(--text-secondary);
   font-size: 15px;
   font-weight: 600;
   text-align: left;
@@ -191,19 +188,19 @@ const toggleQuestion = (index: number) => {
 }
 
 .faq-question:hover {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .faq-chevron {
   font-size: 20px;
-  color: #64748b;
+  color: var(--text-subtle);
   transition: transform 0.25s ease, color 0.2s ease;
   flex-shrink: 0;
 }
 
 .faq-chevron--open {
   transform: rotate(90deg);
-  color: #8b5cf6;
+  color: var(--accent-primary);
 }
 
 .faq-answer {
@@ -214,7 +211,7 @@ const toggleQuestion = (index: number) => {
   margin: 0;
   font-size: 14px;
   line-height: 1.6;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .slide-enter-active,
@@ -239,7 +236,7 @@ const toggleQuestion = (index: number) => {
 
 .contacts-section {
   padding-top: 24px;
-  border-top: 1px solid #2b1f47;
+  border-top: 1px solid var(--border-primary);
 }
 
 .contacts-list {
@@ -253,14 +250,14 @@ const toggleQuestion = (index: number) => {
   align-items: center;
   gap: 14px;
   padding: 14px 16px;
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 10px;
   transition: border-color 0.2s ease;
 }
 
 .contact-item:hover {
-  border-color: #3e2d63;
+  border-color: var(--border-secondary);
 }
 
 .contact-icon-wrapper {
@@ -269,14 +266,14 @@ const toggleQuestion = (index: number) => {
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+  background: var(--accent-gradient);
   border-radius: 10px;
   flex-shrink: 0;
 }
 
 .contact-icon {
   font-size: 20px;
-  color: #ffffff;
+  color: #fff;
 }
 
 .contact-info {
@@ -287,20 +284,20 @@ const toggleQuestion = (index: number) => {
 
 .contact-label {
   font-size: 12px;
-  color: #64748b;
+  color: var(--text-subtle);
   font-weight: 500;
 }
 
 .contact-value {
   font-size: 15px;
-  color: #e2daf5;
+  color: var(--text-secondary);
   font-weight: 600;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 
 a.contact-value:hover {
-  color: #a78bfa;
+  color: var(--accent-secondary);
 }
 
 /* Адаптивність */

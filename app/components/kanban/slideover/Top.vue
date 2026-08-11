@@ -63,7 +63,7 @@ const convertCurrency = (value: number) => {
 .deal-summary {
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
-  color: #6b7280;
+  color: var(--text-muted);
   font-weight: 700;
 }
 
@@ -71,20 +71,20 @@ const convertCurrency = (value: number) => {
   margin: 0;
   font-size: 1.1rem;
   font-weight: 700;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .detail-value {
   margin: 0;
   font-size: 0.95rem;
-  color: #111827;
+  color: var(--text-primary);
 }
 
 .empty-state {
   padding: 1rem;
-  border: 1px dashed #d1d5db;
+  border: 1px dashed var(--border-primary);
   border-radius: 0.75rem;
-  color: #6b7280;
-  background: #f9fafb;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
 }
 </style>

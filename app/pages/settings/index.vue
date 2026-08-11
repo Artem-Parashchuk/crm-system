@@ -15,6 +15,14 @@
           </div>
         </div>
 
+        <div v-if="isDemoAccount" class="demo-banner">
+          <Icon name="material-symbols:info" class="demo-banner-icon" />
+          <div class="demo-banner-text">
+            <strong>Демо-акаунт</strong>
+            <span>Це акаунт тільки для перегляду. Зміна даних профілю, паролю та email недоступна.</span>
+          </div>
+        </div>
+
         <!-- Секція 1: Профіль -->
         <div class="settings-section">
           <h2 class="section-title">
@@ -422,19 +430,15 @@ const getStatsTotal = (key: string) => {
 }
 
 .settings-card {
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
-<<<<<<< Updated upstream
   max-width: 720px;
   box-shadow:
     0 20px 40px rgba(5, 3, 10, 0.8),
     0 1px 3px rgba(139, 92, 246, 0.1);
-=======
-  box-shadow: var(--shadow-card);
->>>>>>> Stashed changes
 }
 
 .settings-header {
@@ -445,14 +449,14 @@ const getStatsTotal = (key: string) => {
 .settings-title {
   font-size: 28px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.5px;
 }
 
 .settings-subtitle {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -489,7 +493,7 @@ const getStatsTotal = (key: string) => {
 
 .settings-section {
   padding-top: 24px;
-  border-top: 1px solid #2b1f47;
+  border-top: 1px solid var(--border-primary);
   margin-top: 24px;
 }
 
@@ -505,13 +509,13 @@ const getStatsTotal = (key: string) => {
   gap: 8px;
   font-size: 18px;
   font-weight: 700;
-  color: #e2daf5;
+  color: var(--text-secondary);
   margin: 0 0 20px 0;
 }
 
 .section-icon {
   font-size: 22px;
-  color: #8b5cf6;
+  color: var(--accent-primary);
 }
 
 /* Профіль */
@@ -529,7 +533,7 @@ const getStatsTotal = (key: string) => {
 
 .profile-label {
   font-size: 12px;
-  color: #64748b;
+  color: var(--text-subtle);
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -537,7 +541,7 @@ const getStatsTotal = (key: string) => {
 
 .profile-value {
   font-size: 15px;
-  color: #e2daf5;
+  color: var(--text-secondary);
   font-weight: 600;
 }
 
@@ -561,7 +565,7 @@ const getStatsTotal = (key: string) => {
 .btn-edit {
   background: none;
   border: none;
-  color: #8b5cf6;
+  color: var(--accent-primary);
   cursor: pointer;
   padding: 4px;
   display: flex;
@@ -570,7 +574,12 @@ const getStatsTotal = (key: string) => {
 }
 
 .btn-edit:hover {
-  color: #a78bfa;
+  color: var(--accent-secondary);
+}
+
+.btn-edit:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .btn-edit:disabled {
@@ -597,7 +606,7 @@ const getStatsTotal = (key: string) => {
 
 .form-label {
   font-size: 13px;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
@@ -605,9 +614,9 @@ const getStatsTotal = (key: string) => {
   width: 100%;
   padding: 12px 16px;
   font-size: 14px;
-  color: #e2daf5;
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  color: var(--text-secondary);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   outline: none;
   transition:
@@ -616,12 +625,12 @@ const getStatsTotal = (key: string) => {
 }
 
 .settings-input:focus {
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
 
 .settings-input::placeholder {
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .input-wrapper {
@@ -635,7 +644,7 @@ const getStatsTotal = (key: string) => {
   transform: translateY(-50%);
   background: none;
   border: none;
-  color: #64748b;
+  color: var(--text-subtle);
   cursor: pointer;
   padding: 4px;
   display: flex;
@@ -644,7 +653,7 @@ const getStatsTotal = (key: string) => {
 }
 
 .btn-toggle-password:hover {
-  color: #8b5cf6;
+  color: var(--accent-primary);
 }
 
 .btn-toggle-password svg {
@@ -660,8 +669,8 @@ const getStatsTotal = (key: string) => {
   padding: 12px 24px;
   font-size: 14px;
   font-weight: 600;
-  color: #ffffff;
-  background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+  color: #fff;
+  background: var(--accent-gradient);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -684,9 +693,9 @@ const getStatsTotal = (key: string) => {
   padding: 12px 24px;
   font-size: 14px;
   font-weight: 600;
-  color: #94a3b8;
-  background-color: #1e1b2e;
-  border: 1px solid #2b1f47;
+  color: var(--text-muted);
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   cursor: pointer;
   transition:
@@ -695,8 +704,8 @@ const getStatsTotal = (key: string) => {
 }
 
 .btn-secondary:hover {
-  background-color: #2b1f47;
-  color: #e2daf5;
+  background-color: var(--border-primary);
+  color: var(--text-secondary);
 }
 
 .btn-sm {
@@ -707,8 +716,8 @@ const getStatsTotal = (key: string) => {
 .btn-spinner {
   width: 14px;
   height: 14px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #ffffff;
+  border: 2px solid color-mix(in srgb, var(--text-primary) 30%, transparent);
+  border-top-color: var(--text-primary);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
 }
@@ -725,8 +734,8 @@ const getStatsTotal = (key: string) => {
   align-items: center;
   gap: 16px;
   padding: 20px;
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   transition:
     border-color 0.2s,
@@ -734,7 +743,7 @@ const getStatsTotal = (key: string) => {
 }
 
 .stat-card:hover {
-  border-color: #8b5cf6;
+  border-color: var(--accent-primary);
   transform: translateY(-2px);
 }
 
@@ -744,13 +753,13 @@ const getStatsTotal = (key: string) => {
   justify-content: center;
   width: 48px;
   height: 48px;
-  background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+  background: var(--accent-gradient);
   border-radius: 12px;
 }
 
 .stat-icon {
   font-size: 24px;
-  color: #ffffff;
+  color: #fff;
 }
 
 .stat-info {
@@ -761,22 +770,22 @@ const getStatsTotal = (key: string) => {
 
 .stat-label {
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .stat-value {
   font-size: 24px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   min-height: 28px;
 }
 
 .stat-spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #8b5cf6;
+  border: 2px solid color-mix(in srgb, var(--text-primary) 30%, transparent);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -793,18 +802,18 @@ const getStatsTotal = (key: string) => {
   font-size: 14px;
   font-weight: 500;
   border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 24px var(--overlay-shadow);
   z-index: 1000;
 }
 
 .message--success {
-  background-color: #10b981;
-  color: #ffffff;
+  background-color: var(--success-primary);
+  color: var(--text-primary);
 }
 
 .message--error {
-  background-color: #ef4444;
-  color: #ffffff;
+  background-color: var(--error-primary);
+  color: var(--text-primary);
 }
 
 .message svg {

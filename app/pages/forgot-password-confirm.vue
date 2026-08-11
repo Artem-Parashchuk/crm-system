@@ -42,20 +42,18 @@ definePageMeta({
   justify-content: center;
   min-height: 100%;
   width: 100%;
-  background-color: #0b0714;
+  background-color: var(--bg-primary);
   padding: 20px;
 }
 
 .auth-card {
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
   max-width: 420px;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
   text-align: center;
 }
 
@@ -67,33 +65,33 @@ definePageMeta({
 
 .success-icon {
   font-size: 64px;
-  color: #8b5cf6;
+  color: var(--accent-primary);
 }
 
 .auth-title {
   font-size: 28px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 8px;
   letter-spacing: -0.5px;
 }
 
 .auth-subtitle {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-bottom: 32px;
 }
 
 .info-box {
-  background-color: rgba(139, 92, 246, 0.1);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 20%, transparent);
   border-radius: 10px;
   padding: 16px;
   margin-bottom: 24px;
 }
 
 .info-box p {
-  color: #a78bfa;
+  color: var(--accent-secondary);
   font-size: 14px;
   margin: 0;
   line-height: 1.5;
@@ -118,27 +116,27 @@ definePageMeta({
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
-  color: #ffffff;
+  background: var(--accent-gradient);
+  color: var(--text-primary);
   border: none;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent-primary) 30%, transparent);
 }
 
 .btn-primary:hover {
   opacity: 0.95;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent-primary) 40%, transparent);
 }
 
 .btn-secondary {
   background-color: transparent;
-  color: #a78bfa;
-  border: 1px solid #2b1f47;
+  color: var(--accent-secondary);
+  border: 1px solid var(--border-primary);
 }
 
 .btn-secondary:hover {
-  background-color: rgba(139, 92, 246, 0.1);
-  border-color: #8b5cf6;
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  border-color: var(--accent-primary);
 }
 
 /* Адаптивність */

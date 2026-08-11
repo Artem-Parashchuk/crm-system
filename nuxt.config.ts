@@ -3,6 +3,21 @@ export default defineNuxtConfig({
     head: {
       title: "Ваша CRM Система",
       link: [{ rel: "icon", type: "image/png", href: "/favicon.png" }],
+      script: [
+        {
+          innerHTML: `
+            (function() {
+              try {
+                const theme = localStorage.getItem('theme') || 'dark';
+                document.documentElement.setAttribute('data-theme', theme);
+              } catch (e) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+              }
+            })();
+          `,
+          type: "text/javascript",
+        },
+      ],
     },
   },
   compatibilityDate: "2025-07-15",

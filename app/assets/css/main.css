@@ -2,13 +2,127 @@
 /* @import "tailwindcss";
 @import "./.nuxt/ui.css";  */
 
+:root {
+  /* Dark theme (default) */
+  --bg-primary: #0b0714;
+  --bg-secondary: #140e24;
+  --bg-tertiary: #1c1430;
+  --bg-input: #0b0714;
+  --bg-hover: #1c1430;
+
+  --border-primary: #2b1f47;
+  --border-secondary: #3e2d63;
+  --border-input: #2b1f47;
+
+  --text-primary: #ffffff;
+  --text-secondary: #e2daf5;
+  --text-muted: #94a3b8;
+  --text-subtle: #64748b;
+  --text-accent: #8b5cf6;
+
+  --accent-primary: #8b5cf6;
+  --accent-secondary: #a78bfa;
+  --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+
+  --shadow-card: 0 20px 40px rgba(5, 3, 10, 0.8),
+    0 1px 3px rgba(139, 92, 246, 0.1);
+  --shadow-hover: 0 10px 25px -5px rgba(5, 3, 10, 0.7),
+    0 8px 10px -6px rgba(43, 31, 71, 0.3);
+
+  --error-text: #fca5a5;
+  --error-bg: color-mix(in srgb, var(--error-primary) 10%, transparent);
+  --error-border: color-mix(in srgb, var(--error-primary) 30%, transparent);
+  --error-primary: #ef4444;
+  --error-hover: #f43f5e;
+
+  --success-text: #86efac;
+  --success-bg: color-mix(in srgb, var(--success-primary) 10%, transparent);
+  --success-border: color-mix(in srgb, var(--success-primary) 30%, transparent);
+  --success-primary: #10b981;
+
+  --warning-text: #fbbf24;
+
+  --status-blue: #3b82f6;
+  --status-blue-light: #60a5fa;
+  --status-amber: #f59e0b;
+  --status-amber-light: #fbbf24;
+  --status-pink: #ec4899;
+  --status-pink-light: #f472b6;
+  --status-green-light: #34d399;
+
+  --overlay-backdrop: rgba(0, 0, 0, 0.6);
+  --overlay-strong: rgba(0, 0, 0, 0.9);
+  --overlay-panel: rgba(15, 23, 42, 0.45);
+  --overlay-shadow: rgba(0, 0, 0, 0.15);
+
+  --scrollbar-track: #0b0714;
+  --scrollbar-thumb: #2b1f47;
+  --scrollbar-thumb-hover: #3e2d63;
+}
+
+[data-theme="light"] {
+  --bg-primary: #f8fafc;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f1f5f9;
+  --bg-input: #ffffff;
+  --bg-hover: #f1f5f9;
+
+  --border-primary: #e2e8f0;
+  --border-secondary: #cbd5e1;
+  --border-input: #cbd5e1;
+
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --text-subtle: #94a3b8;
+  --text-accent: #7c3aed;
+
+  --accent-primary: #7c3aed;
+  --accent-secondary: #8b5cf6;
+  --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  --error-text: #dc2626;
+  --error-bg: color-mix(in srgb, var(--error-primary) 8%, transparent);
+  --error-border: color-mix(in srgb, var(--error-primary) 20%, transparent);
+  --error-primary: #ef4444;
+  --error-hover: #e11d48;
+
+  --success-text: #16a34a;
+  --success-bg: color-mix(in srgb, var(--success-primary) 8%, transparent);
+  --success-border: color-mix(in srgb, var(--success-primary) 20%, transparent);
+  --success-primary: #10b981;
+
+  --warning-text: #d97706;
+
+  --status-blue: #2563eb;
+  --status-blue-light: #3b82f6;
+  --status-amber: #d97706;
+  --status-amber-light: #f59e0b;
+  --status-pink: #db2777;
+  --status-pink-light: #ec4899;
+  --status-green-light: #22c55e;
+
+  --overlay-backdrop: rgba(0, 0, 0, 0.5);
+  --overlay-strong: rgba(0, 0, 0, 0.9);
+  --overlay-panel: rgba(15, 23, 42, 0.35);
+  --overlay-shadow: rgba(0, 0, 0, 0.1);
+
+  --scrollbar-track: #f1f5f9;
+  --scrollbar-thumb: #cbd5e1;
+  --scrollbar-thumb-hover: #94a3b8;
+}
+
 html, body, #__nuxt {
   margin: 0;
   padding: 0;
   width: 100%;
   min-height: 100vh;
-  background-color: #0b0714;
-  color: #fff;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 #__nuxt {
@@ -20,12 +134,20 @@ html, body, #__nuxt {
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
 }
+
 a {
   color: inherit;
   text-decoration: none;
 }
+
 body {
   overflow: hidden;
+}
+
+/* Плавні переходи між темами */
+*, *::before, *::after {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.2s ease, box-shadow 0.3s ease, opacity 0.3s ease;
 }
 
 /* На мобільних дозволяємо body скролитися, щоб уникнути проблем із віртуальною клавіатурою */
@@ -44,13 +166,16 @@ body {
   width: 8px;
   height: 8px;
 }
+
 ::-webkit-scrollbar-track {
-  background: #0b0714;
+  background: var(--scrollbar-track);
 }
+
 ::-webkit-scrollbar-thumb {
-  background: #2b1f47;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
-  background: #3e2d63;
+  background: var(--scrollbar-thumb-hover);
 }

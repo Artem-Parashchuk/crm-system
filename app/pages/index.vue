@@ -125,7 +125,7 @@ function handleDrop(targetColumn: IColumn) {
 .crm-board__title {
   font-size: 24px;
   font-weight: 700;
-  color: #fff;
+  color: var(--text-primary);
   margin-bottom: 24px;
 }
 
@@ -157,8 +157,8 @@ function handleDrop(targetColumn: IColumn) {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #1e293b; /* гарний темно-графітовий колір */
-  color: #ffffff;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
   padding: 8px 14px;
   border-radius: 6px;
   font-weight: 600;
@@ -167,7 +167,7 @@ function handleDrop(targetColumn: IColumn) {
 
 /* Кількість карток у шапці */
 .crm-column__count {
-  background-color: #475569;
+  background-color: var(--border-secondary);
   font-size: 11px;
   padding: 2px 6px;
   border-radius: 10px;
@@ -178,27 +178,27 @@ function handleDrop(targetColumn: IColumn) {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  overflow-y: auto; /* Внутрішній скролл, якщо карток забагато */
-  min-height: 150px; /* Зона, куди зручно буде кидати картки при Drag and Drop */
+  /* overflow-y: auto; */
+  min-height: 150px;
 }
 
 /* Текст, якщо колонка пуста */
 .crm-column__empty {
   text-align: center;
-  color: #64748b;
+  color: var(--text-subtle);
   font-size: 13px;
-  border: 2px dashed #2b1f47;
+  border: 2px dashed var(--border-primary);
   border-radius: 8px;
   padding: 20px;
 }
 
 /* Стан помилки */
 .crm-board__error {
-  color: #ef4444;
+  color: var(--error-primary);
   font-weight: bold;
   padding: 16px;
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
   border-radius: 8px;
   max-width: 500px;
 }
@@ -209,15 +209,15 @@ function handleDrop(targetColumn: IColumn) {
   flex-direction: column;
   align-items: center;
   gap: 12px;
-  color: #64748b;
+  color: var(--text-subtle);
   margin-top: 40px;
 }
 
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid rgba(139, 92, 246, 0.2);
-  border-top-color: #8b5cf6;
+  border: 3px solid color-mix(in srgb, var(--accent-primary) 20%, transparent);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }

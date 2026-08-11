@@ -1,73 +1,75 @@
 <template>
-  <div class="customers-page">
-    <div class="header-row">
-      <div>
-        <h1>
-          Клієнти
-          <span class="counter">({{ customers.length }})</span>
-        </h1>
-        <p class="subtitle">Управління вашими клієнтами та їхніми даними</p>
-      </div>
-    </div>
-
-    <div class="search-bar">
-      <Icon name="material-symbols:search" class="search-icon" />
-      <input
-        v-model="searchQuery"
-        type="text"
-        placeholder="Пошук за назвою або email..."
-        class="search-input"
-      />
-    </div>
-
-    <div v-if="isLoading" class="loader-state">
-      <div class="spinner"></div>
-      <span>Завантаження даних...</span>
-    </div>
-
-    <div v-else class="customers-table">
-      <div class="table-header">
-        <p>Зображення</p>
-        <p>Назва</p>
-        <p>Email</p>
-        <p>Звідки прийшов</p>
+  <div class="customers-wrapper">
+    <div class="customers-page">
+      <div class="header-row">
+        <div>
+          <h1>
+            Клієнти
+            <span class="counter">({{ customers.length }})</span>
+          </h1>
+          <p class="subtitle">Управління вашими клієнтами та їхніми даними</p>
+        </div>
       </div>
 
-      <div v-if="customers?.length" class="table-body">
-        <NuxtLink
-          v-for="customer in customers"
-          :key="customer.$id"
-          :to="`/customer/edit/${customer.$id}`"
-          class="table-row"
-        >
-          <div class="cell-avatar">
-            <NuxtImg
-              :src="customer.avatar_url || '/no-avatar.png'"
-              :alt="customer.name"
-              width="50"
-              height="50"
-              class="avatar-img"
-            />
-          </div>
-          <p class="cell-text font-bold">{{ customer.name }}</p>
-          <p class="cell-text">{{ customer.email }}</p>
-          <p class="cell-text">
-            <span class="source-tag">{{
-              customer.from_source || "Невідомо"
-            }}</span>
+      <div class="search-bar">
+        <Icon name="material-symbols:search" class="search-icon" />
+        <input
+          v-model="searchQuery"
+          type="text"
+          placeholder="Пошук за назвою або email..."
+          class="search-input"
+        />
+      </div>
+
+      <div v-if="isLoading" class="loader-state">
+        <div class="spinner"></div>
+        <span>Завантаження даних...</span>
+      </div>
+
+      <div v-else class="customers-table">
+        <div class="table-header">
+          <p>Зображення</p>
+          <p>Назва</p>
+          <p>Email</p>
+          <p>Звідки прийшов</p>
+        </div>
+
+        <div v-if="customers?.length" class="table-body">
+          <NuxtLink
+            v-for="customer in customers"
+            :key="customer.$id"
+            :to="`/customer/edit/${customer.$id}`"
+            class="table-row"
+          >
+            <div class="cell-avatar">
+              <NuxtImg
+                :src="customer.avatar_url || '/no-avatar.png'"
+                :alt="customer.name"
+                width="50"
+                height="50"
+                class="avatar-img"
+              />
+            </div>
+            <p class="cell-text font-bold">{{ customer.name }}</p>
+            <p class="cell-text">{{ customer.email }}</p>
+            <p class="cell-text">
+              <span class="source-tag">{{
+                customer.from_source || "Невідомо"
+              }}</span>
+            </p>
+          </NuxtLink>
+        </div>
+
+        <div v-else class="empty-state">
+          <Icon name="material-symbols:inbox" class="empty-icon" />
+          <p>
+            {{
+              searchQuery.trim()
+                ? "Клієнтів не знайдено за вашим запитом"
+                : "Клієнтів не знайдено"
+            }}
           </p>
-        </NuxtLink>
-      </div>
-
-      <div v-else class="empty-state">
-        <Icon name="material-symbols:inbox" class="empty-icon" />
-        <p>
-          {{
-            searchQuery.trim()
-              ? "Клієнтів не знайдено за вашим запитом"
-              : "Клієнтів не знайдено"
-          }}
-        </p>
+        </div>
       </div>
     </div>
   </div>
@@ -115,13 +117,6 @@ const customers = computed(() => {
 });
 </script>
 
-<<<<<<< Updated upstream
-<style scoped>
-.customers-page {
-  padding: 2rem;
-  background-color: #0b0714;
-  min-height: 100%;
-=======
 <style scoped lang="css">
 .customers-wrapper {
   display: flex;
@@ -138,7 +133,16 @@ const customers = computed(() => {
   padding: 40px;
   width: 100%;
   box-shadow: var(--shadow-card);
->>>>>>> Stashed changes
+  width: 100%;
+  padding: 20px;
+}
+.customers-page {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: 16px;
+  padding: 40px;
+  width: 100%;
+  box-shadow: var(--shadow-card);
 }
 
 .header-row {
@@ -150,20 +154,20 @@ const customers = computed(() => {
 h1 {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
-  letter-spacing: -0.5px;
+  text-align: center;
 }
 
 .counter {
   font-size: 1.25rem;
-  color: #8b5cf6;
+  color: var(--accent-primary);
   font-weight: 600;
 }
 
 .subtitle {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -178,7 +182,7 @@ h1 {
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: var(--text-muted);
   font-size: 20px;
 }
 
@@ -186,22 +190,23 @@ h1 {
   width: 100%;
   padding: 10px 12px 10px 40px;
   font-size: 0.875rem;
-  color: #e2daf5;
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  color: var(--text-secondary);
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   transition: all 0.2s;
   font-family: "Lato", sans-serif;
 }
 
 .search-input::placeholder {
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .search-input:focus {
   outline: none;
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--accent-primary) 10%, transparent);
 }
 
 .loader-state {
@@ -211,15 +216,15 @@ h1 {
   justify-content: center;
   gap: 12px;
   padding: 60px 20px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-align: center;
 }
 
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid rgba(139, 92, 246, 0.2);
-  border-top-color: #8b5cf6;
+  border: 3px solid color-mix(in srgb, var(--accent-primary) 20%, transparent);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -231,24 +236,22 @@ h1 {
 }
 
 .customers-table {
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   overflow: hidden;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 .table-header {
   display: grid;
   grid-template-columns: 100px repeat(3, 1fr);
-  background-color: #0b0714;
+  background-color: var(--bg-primary);
   padding: 0.75rem 1rem;
   font-weight: 600;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-size: 0.9rem;
-  border-bottom: 1px solid #2b1f47;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .table-header p {
@@ -265,7 +268,7 @@ h1 {
   grid-template-columns: 100px repeat(3, 1fr);
   padding: 0.75rem 1rem;
   align-items: center;
-  border-bottom: 1px solid #2b1f47;
+  border-bottom: 1px solid var(--border-primary);
   transition: all 0.2s;
   text-decoration: none;
 }
@@ -275,8 +278,8 @@ h1 {
 }
 
 .table-row:hover {
-  background-color: rgba(139, 92, 246, 0.1);
-  border-color: #8b5cf6;
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  border-color: var(--accent-primary);
 }
 
 .cell-avatar {
@@ -287,25 +290,25 @@ h1 {
 .avatar-img {
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #2b1f47;
-  box-shadow: 0 0 0 2px #8b5cf6;
+  border: 2px solid var(--border-primary);
+  box-shadow: 0 0 0 2px var(--accent-primary);
 }
 
 .cell-text {
   font-size: 0.95rem;
-  color: #e2daf5;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .font-bold {
   font-weight: 600;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .source-tag {
   display: inline-block;
-  color: #e2daf5;
-  background-color: rgba(139, 92, 246, 0.1);
+  color: var(--text-secondary);
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
   padding: 4px 8px;
   border-radius: 6px;
   font-weight: 500;
@@ -319,7 +322,7 @@ h1 {
   justify-content: center;
   gap: 12px;
   padding: 60px 20px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-align: center;
 }
 
@@ -338,7 +341,7 @@ h1 {
   }
 
   .header-row {
-    text-align: center; 
+    text-align: center;
     gap: 12px;
   }
 

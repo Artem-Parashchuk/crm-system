@@ -22,19 +22,19 @@ const props = defineProps({
   flex-direction: column;
   gap: 0.35rem;
   padding: 0.75rem 0;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .label-title {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #6b7280;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .label-content {
-  color: #111827;
+  color: var(--text-primary);
   font-size: 0.95rem;
 }
 </style>

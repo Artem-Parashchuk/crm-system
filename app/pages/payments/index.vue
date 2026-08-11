@@ -141,11 +141,11 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  [EnumStatus.todo]: "linear-gradient(90deg, #8b5cf6 0%, #d946ef 100%)",
-  [EnumStatus["to-be-agreed"]]: "linear-gradient(90deg, #3b82f6 0%, #8b5cf6 100%)",
-  [EnumStatus["in-progress"]]: "linear-gradient(90deg, #10b981 0%, #3b82f6 100%)",
-  [EnumStatus.produced]: "linear-gradient(90deg, #f59e0b 0%, #ef4444 100%)",
-  [EnumStatus.done]: "linear-gradient(90deg, #ec4899 0%, #8b5cf6 100%)",
+  [EnumStatus.todo]: "var(--accent-gradient)",
+  [EnumStatus["to-be-agreed"]]: "linear-gradient(90deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
+  [EnumStatus["in-progress"]]: "linear-gradient(90deg, var(--success-primary) 0%, var(--status-blue) 100%)",
+  [EnumStatus.produced]: "linear-gradient(90deg, var(--status-amber) 0%, var(--error-primary) 100%)",
+  [EnumStatus.done]: "linear-gradient(90deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
 };
 
 const { data, isLoading, error } = useQuery({
@@ -182,7 +182,7 @@ const { data, isLoading, error } = useQuery({
       label: statusLabels[status] || status,
       total: statusTotal,
       percentage: (statusTotal / maxStatusTotal) * 100,
-      color: statusColors[status] || "linear-gradient(90deg, #64748b 0%, #94a3b8 100%)",
+      color: statusColors[status] || "linear-gradient(90deg, var(--text-subtle) 0%, var(--text-muted) 100%)",
     }));
 
     const topDeals = [...deals]
@@ -214,15 +214,13 @@ const formatPrice = (price: number): string => {
 }
 
 .finance-card {
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
   max-width: 1200px;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 .finance-header {
@@ -233,14 +231,14 @@ const formatPrice = (price: number): string => {
 .finance-title {
   font-size: 28px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.5px;
 }
 
 .finance-subtitle {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -253,12 +251,12 @@ const formatPrice = (price: number): string => {
   justify-content: center;
   gap: 12px;
   padding: 60px 20px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-align: center;
 }
 
 .finance-error {
-  color: #ef4444;
+  color: var(--error-primary);
 }
 
 .empty-icon {
@@ -268,15 +266,15 @@ const formatPrice = (price: number): string => {
 
 .empty-hint {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-subtle);
   margin: 0;
 }
 
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid rgba(139, 92, 246, 0.2);
-  border-top-color: #8b5cf6;
+  border: 3px solid color-mix(in srgb, var(--accent-primary) 20%, transparent);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -300,8 +298,8 @@ const formatPrice = (price: number): string => {
 }
 
 .stat-card {
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -310,7 +308,7 @@ const formatPrice = (price: number): string => {
 }
 
 .stat-card:hover {
-  border-color: #8b5cf6;
+  border-color: var(--accent-primary);
   transform: translateY(-2px);
 }
 
@@ -322,8 +320,8 @@ const formatPrice = (price: number): string => {
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  color: #ffffff;
-  background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+  color: #fff;
+  background: var(--accent-gradient);
   flex-shrink: 0;
 }
 
@@ -337,13 +335,13 @@ const formatPrice = (price: number): string => {
 
 .stat-label {
   font-size: 13px;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .stat-value {
   font-size: 20px;
   font-weight: 700;
-  color: #e2daf5;
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -352,7 +350,7 @@ const formatPrice = (price: number): string => {
 .section-title {
   font-size: 18px;
   font-weight: 600;
-  color: #e2daf5;
+  color: var(--text-secondary);
   margin: 0 0 16px 0;
 }
 
@@ -381,20 +379,20 @@ const formatPrice = (price: number): string => {
 
 .status-name {
   font-size: 14px;
-  color: #e2daf5;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .status-amount {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   font-weight: 600;
 }
 
 .status-bar-track {
   width: 100%;
   height: 8px;
-  background-color: #0b0714;
+  background-color: var(--bg-primary);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -417,8 +415,8 @@ const formatPrice = (price: number): string => {
 }
 
 .deal-item {
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   padding: 16px;
   display: flex;
@@ -428,13 +426,13 @@ const formatPrice = (price: number): string => {
 }
 
 .deal-item:hover {
-  border-color: #8b5cf6;
+  border-color: var(--accent-primary);
 }
 
 .deal-rank {
   font-size: 16px;
   font-weight: 700;
-  color: #8b5cf6;
+  color: var(--accent-primary);
   width: 32px;
   flex-shrink: 0;
 }
@@ -450,7 +448,7 @@ const formatPrice = (price: number): string => {
 .deal-name {
   font-size: 15px;
   font-weight: 600;
-  color: #e2daf5;
+  color: var(--text-secondary);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -458,7 +456,7 @@ const formatPrice = (price: number): string => {
 
 .deal-client {
   font-size: 13px;
-  color: #94a3b8;
+  color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -467,7 +465,7 @@ const formatPrice = (price: number): string => {
 .deal-price {
   font-size: 16px;
   font-weight: 700;
-  color: #10b981;
+  color: var(--success-primary);
   flex-shrink: 0;
 }
 

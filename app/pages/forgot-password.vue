@@ -99,34 +99,32 @@ const onSubmit = handleValidSubmit(async () => {
   justify-content: center;
   min-height: 100%;
   width: 100%;
-  background-color: #0b0714;
+  background-color: var(--bg-primary);
   padding: 20px;
 }
 
 .auth-card {
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
   max-width: 420px;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
   text-align: center;
 }
 
 .auth-title {
   font-size: 28px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin-bottom: 8px;
   letter-spacing: -0.5px;
 }
 
 .auth-subtitle {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin-bottom: 32px;
 }
 
@@ -148,7 +146,7 @@ const onSubmit = handleValidSubmit(async () => {
   left: 14px;
   top: 14px;
   font-size: 20px;
-  color: #64748b;
+  color: var(--text-subtle);
   pointer-events: none;
   transition: color 0.2s ease;
   z-index: 1;
@@ -157,37 +155,37 @@ const onSubmit = handleValidSubmit(async () => {
 .auth-input {
   width: 100%;
   padding: 14px 16px 14px 44px;
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-input);
   border-radius: 10px;
-  color: #e2daf5;
+  color: var(--text-secondary);
   font-size: 15px;
   outline: none;
   transition: all 0.2s ease;
 }
 
 .auth-input:focus {
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.15);
-  background-color: #0e091a;
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  background-color: var(--bg-primary);
 }
 
 .auth-input:focus ~ .input-icon,
 .input-group:focus-within .input-icon {
-  color: #8b5cf6;
+  color: var(--accent-primary);
 }
 
 .btn-primary {
   width: 100%;
   padding: 14px;
-  background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+  background: var(--accent-gradient);
   border: none;
   border-radius: 10px;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent-primary) 30%, transparent);
   transition: all 0.2s ease;
   margin-top: 10px;
 }
@@ -195,7 +193,7 @@ const onSubmit = handleValidSubmit(async () => {
 .btn-primary:hover {
   opacity: 0.95;
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent-primary) 40%, transparent);
 }
 
 .btn-primary:active {
@@ -214,13 +212,13 @@ const onSubmit = handleValidSubmit(async () => {
   gap: 8px;
   margin-top: 16px;
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .btn-link {
   background: none;
   border: none;
-  color: #a78bfa;
+  color: var(--accent-secondary);
   font-weight: 600;
   cursor: pointer;
   padding: 0;
@@ -230,13 +228,13 @@ const onSubmit = handleValidSubmit(async () => {
 }
 
 .btn-link:hover {
-  color: #c084fc;
+  color: var(--text-accent);
   text-decoration: underline;
 }
 
 .error-message {
   display: block;
-  color: #ef4444;
+  color: var(--error-primary);
   font-size: 12px;
   margin-top: 4px;
   text-align: left;
@@ -244,22 +242,22 @@ const onSubmit = handleValidSubmit(async () => {
 }
 
 .input-error {
-  border-color: #ef4444 !important;
+  border-color: var(--error-primary) !important;
 }
 
 .input-error:focus {
-  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--error-primary) 15%, transparent) !important;
 }
 
 .server-error {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
+  background-color: var(--error-bg);
+  border: 1px solid var(--error-border);
   border-radius: 8px;
   padding: 12px 16px;
-  color: #fca5a5;
+  color: var(--error-text);
   font-size: 14px;
 }
 

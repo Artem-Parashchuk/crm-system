@@ -21,13 +21,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(11, 7, 20, 0.7); 
-  backdrop-filter: blur(4px); 
+  background-color: color-mix(in srgb, var(--bg-primary) 70%, transparent);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999; 
-  border-radius: 16px; 
+  z-index: 999;
+  border-radius: 16px;
 }
 
 .loader-container {
@@ -47,7 +47,7 @@
 .bar {
   width: 6px;
   height: 100%;
-  background: linear-gradient(180deg, #8b5cf6 0%, #d946ef 100%);
+  background: var(--accent-gradient);
   border-radius: 3px;
   animation: wave 1.2s ease-in-out infinite;
 }
@@ -66,7 +66,7 @@
 
 .loader-text {
   font-size: 14px;
-  color: #a78bfa; 
+  color: var(--accent-secondary);
   font-weight: 500;
   letter-spacing: 0.5px;
   animation: pulse 1.8s ease-in-out infinite;

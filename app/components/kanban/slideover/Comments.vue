@@ -64,9 +64,9 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
 .comments-block {
   margin-top: 0.5rem;
   padding: 1rem;
-  border: 1px solid #2b1f47;
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
-  background: #0b0714;
+  background: var(--bg-primary);
 }
 
 .comments-content {
@@ -79,7 +79,7 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
-  color: #e2daf5;
+  color: var(--text-secondary);
 }
 
 .comments-list {
@@ -92,10 +92,10 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
 }
 
 .comment-item {
-  background: #140e24;
+  background: var(--bg-secondary);
   padding: 0.75rem;
   border-radius: 8px;
-  border: 1px solid #2b1f47;
+  border: 1px solid var(--border-primary);
 }
 
 .comment-item__header {
@@ -107,7 +107,7 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
 
 .comment-date {
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .comment-delete-btn {
@@ -119,13 +119,13 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
-  color: #4a3870;
+  color: var(--border-secondary);
   transition: color 0.2s, background-color 0.2s;
 }
 
 .comment-delete-btn:hover {
-  color: #ef4444;
-  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-primary);
+  background-color: color-mix(in srgb, var(--error-primary) 10%, transparent);
 }
 
 .comment-delete-btn:disabled {
@@ -140,14 +140,14 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
 .comment-text {
   margin: 0;
   font-size: 0.9rem;
-  color: #e2daf5;
+  color: var(--text-secondary);
   word-break: break-word;
 }
 
 .comments-empty,
 .comments-loader {
   font-size: 0.9rem;
-  color: #64748b;
+  color: var(--text-subtle);
   font-style: italic;
   text-align: center;
   padding: 10px 0;
@@ -165,24 +165,24 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
   width: 100%;
   padding: 0.625rem 0.75rem;
   font-size: 0.9rem;
-  border: 1px solid #2b1f47;
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   outline: none;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
-  background-color: #0b0714;
-  color: #e2daf5;
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
   font-family: "Lato", sans-serif;
 }
 
 .comment-input::placeholder {
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .comment-input:focus {
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 10%, transparent);
 }
 
 .btn {
@@ -191,8 +191,8 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
   border: none;
   border-radius: 8px;
   padding: 0.625rem 1rem;
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-  color: #ffffff;
+  background: var(--accent-gradient);
+  color: var(--text-primary);
   font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
@@ -205,8 +205,8 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
 
 .btn:hover {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(139, 92, 246, 0.3);
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent-primary) 30%, transparent);
+  background: var(--accent-gradient);
 }
 
 .btn:active {
@@ -214,7 +214,7 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
 }
 
 .btn:disabled {
-  background: #2b1f47;
+  background: var(--border-primary);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;

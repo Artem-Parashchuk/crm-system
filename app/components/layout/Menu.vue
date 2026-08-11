@@ -30,7 +30,7 @@ import { MENU_DATA } from "./menu.data";
   gap: 0.75rem;
   padding: 0.75rem 1rem;
   border-radius: 10px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 500;
@@ -39,7 +39,7 @@ import { MENU_DATA } from "./menu.data";
 
 .menu-icon {
   font-size: 20px;
-  color: #64748b;
+  color: var(--text-subtle);
   transition: color 0.25s ease;
 }
 
@@ -49,26 +49,26 @@ import { MENU_DATA } from "./menu.data";
 }
 
 .menu-link:hover {
-  color: #f4f4f5;
-  background-color: rgba(43, 31, 71, 0.4);
+  color: var(--text-secondary);
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
 }
 
 .menu-link:hover .menu-icon {
-  color: #a78bfa;
+  color: var(--accent-secondary);
 }
 
 .router-link-active,
 .router-link-exact-active {
-  color: #ffffff !important;
-  background-color: #2b1f47;
+  color: var(--text-primary) !important;
+  background-color: var(--bg-tertiary);
   box-shadow:
-    inset 0 0 12px rgba(139, 92, 246, 0.2),
-    0 4px 12px rgba(11, 7, 20, 0.4);
-  border: 1px solid #3e2d63;
+    inset 0 0 12px color-mix(in srgb, var(--accent-primary) 20%, transparent),
+    0 4px 12px color-mix(in srgb, var(--bg-primary) 40%, transparent);
+  border: 1px solid var(--border-secondary);
 }
 
 .router-link-active .menu-icon,
 .router-link-exact-active .menu-icon {
-  color: #8b5cf6;
+  color: var(--accent-primary);
 }
 </style>

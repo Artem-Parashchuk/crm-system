@@ -139,11 +139,11 @@ const formatDate = (date?: string) => {
 
 <style lang="css" scoped>
 .crm-card {
-  background-color: #fff;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 16px;
-  box-shadow: 0 4px 6px -1px rgba(5, 3, 10, 0.5);
+  box-shadow: 0 4px 6px -1px color-mix(in srgb, var(--bg-primary) 50%, transparent);
   transition: all 0.2s ease-in-out;
   cursor: pointer;
   display: flex;
@@ -154,8 +154,8 @@ const formatDate = (date?: string) => {
 
 .crm-card:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 15px -3px rgba(5, 3, 10, 0.7);
-  border-color: #8b5cf6;
+  box-shadow: var(--shadow-hover);
+  border-color: var(--accent-primary);
 }
 
 .crm-card__header {
@@ -169,7 +169,7 @@ const formatDate = (date?: string) => {
   margin: 0;
   font-size: 16px;
   font-weight: 600;
-  color: #64748b;
+  color: var(--text-subtle);
   line-height: 1.4;
   flex: 1;
   min-width: 0;
@@ -187,7 +187,7 @@ const formatDate = (date?: string) => {
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
-  color: #4a3870;
+  color: var(--border-secondary);
   transition:
     color 0.2s,
     background-color 0.2s;
@@ -195,8 +195,8 @@ const formatDate = (date?: string) => {
 }
 
 .crm-card__delete:hover {
-  color: #ef4444;
-  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-primary);
+  background-color: color-mix(in srgb, var(--error-primary) 10%, transparent);
 }
 
 .crm-card__delete:disabled {
@@ -222,24 +222,24 @@ const formatDate = (date?: string) => {
 }
 
 .crm-card__label {
-  color: #64748b;
+  color: var(--text-subtle);
   font-weight: 500;
 }
 
 .crm-card__value {
-  color: #e2daf5;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .crm-card__value--company {
-  color: #64748C;
+  color: var(--text-subtle);
   font-weight: 600;
 }
 
 .crm-card__value--price {
-  color: #10b981;
+  color: var(--success-primary);
   font-weight: 700;
-  background-color: rgba(16, 185, 129, 0.1);
+  background-color: color-mix(in srgb, var(--success-primary) 10%, transparent);
   padding: 2px 8px;
   border-radius: 6px;
 }
@@ -247,14 +247,14 @@ const formatDate = (date?: string) => {
 .crm-card__footer {
   margin-top: 4px;
   padding-top: 8px;
-  border-top: 1px dashed #2b1f47;
+  border-top: 1px dashed var(--border-primary);
   display: flex;
   justify-content: flex-end;
 }
 
 .crm-card__date {
   font-size: 12px;
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .delete-modal {
@@ -264,17 +264,19 @@ const formatDate = (date?: string) => {
   align-items: center;
   gap: 16px;
   text-align: center;
+  background-color: var(--bg-secondary);
+  border-radius: 16px;
 }
 
 .delete-modal__icon {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background-color: rgba(239, 68, 68, 0.1);
+  background-color: color-mix(in srgb, var(--error-primary) 10%, transparent);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ef4444;
+  color: var(--error-primary);
   font-size: 28px;
 }
 
@@ -282,18 +284,18 @@ const formatDate = (date?: string) => {
   margin: 0;
   font-size: 18px;
   font-weight: 700;
-  color: #9b0000;
+  color: var(--error-primary);
 }
 
 .delete-modal__text {
   margin: 0;
   font-size: 14px;
-  color: #6b7280;
+  color: var(--text-muted);
   line-height: 1.5;
 }
 
 .delete-modal__text strong {
-  color: #9b0000;
+  color: var(--error-primary);
   font-weight: 600;
 }
 
@@ -316,17 +318,17 @@ const formatDate = (date?: string) => {
 }
 
 .delete-modal__btn--cancel {
-  background-color: #f3f4f6;
-  color: #374151;
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
 }
 
 .delete-modal__btn--cancel:hover {
-  background-color: #e5e7eb;
+  background-color: var(--border-secondary);
 }
 
 .delete-modal__btn--delete {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  color: #ffffff;
+  background: var(--error-primary);
+  color: var(--text-primary);
 }
 
 .delete-modal__btn--delete:hover:not(:disabled) {
@@ -350,7 +352,7 @@ const formatDate = (date?: string) => {
 }
 
 .delete-dialog::backdrop {
-  background: rgba(0, 0, 0, 0.9);
+  background: var(--overlay-strong);
   backdrop-filter: blur(4px);
 }
 
