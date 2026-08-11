@@ -120,18 +120,6 @@
             Увійти як демо-користувач
           </button>
         </div>
-
-        <div v-if="isLoginMode" class="demo-login-wrapper">
-          <button
-            type="button"
-            class="btn-demo"
-            @click="demoLogin"
-            :disabled="loadingStore.isLoading"
-          >
-            <Icon name="material-symbols:person" class="demo-icon" />
-            Увійти як демо-користувач
-          </button>
-        </div>
       </form>
     </div>
   </div>
