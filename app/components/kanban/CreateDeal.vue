@@ -348,7 +348,7 @@ const submitDeal = () => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.25);
+  box-shadow: 0 4px 10px color-mix(in srgb, var(--accent-primary) 25%, transparent);
   transition:
     transform 0.3s ease,
     box-shadow 0.3s ease,
@@ -359,12 +359,12 @@ const submitDeal = () => {
 .btn:hover {
   transform: translateY(-1px);
   opacity: 1;
-  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.3);
+  box-shadow: 0 6px 14px color-mix(in srgb, var(--accent-primary) 30%, transparent);
 }
 
 .add-icon,
 .arrow-icon {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .deal-form {
@@ -372,8 +372,8 @@ const submitDeal = () => {
   flex-direction: column;
   width: 100%;
   gap: 8px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 10px;
   padding: 10px;
 }
@@ -383,11 +383,11 @@ const submitDeal = () => {
   flex-direction: column;
   gap: 4px;
   font-size: 13px;
-  color: #334155;
+  color: var(--text-secondary);
 }
 
 .deal-form__field input {
-  border: 1px solid #cbd5e1;
+  border: 1px solid var(--border-secondary);
   border-radius: 6px;
   padding: 6px 8px;
   font-size: 13px;
@@ -403,8 +403,8 @@ const submitDeal = () => {
   padding: 6px 8px;
   font-size: 12px;
   font-weight: 500;
-  color: #64748b;
-  background-color: #f1f5f9;
+  color: var(--text-subtle);
+  background-color: var(--bg-tertiary);
   border: 1px solid transparent;
   border-radius: 6px;
   cursor: pointer;
@@ -412,13 +412,13 @@ const submitDeal = () => {
 }
 
 .mode-btn:hover {
-  background-color: #e2e8f0;
+  background-color: var(--border-primary);
 }
 
 .mode-btn--active {
-  color: #0f172a;
-  background-color: #e2e8f0;
-  border-color: #94a3b8;
+  color: var(--text-primary);
+  background-color: var(--border-primary);
+  border-color: var(--text-muted);
 }
 
 .autocomplete {
@@ -432,10 +432,10 @@ const submitDeal = () => {
   right: 0;
   max-height: 200px;
   overflow-y: auto;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-hover);
   z-index: 100;
   margin-top: 4px;
 }
@@ -443,7 +443,7 @@ const submitDeal = () => {
 .dropdown--empty {
   padding: 10px;
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-align: center;
 }
 
@@ -461,18 +461,18 @@ const submitDeal = () => {
 }
 
 .dropdown-item:hover {
-  background-color: #f8fafc;
+  background-color: var(--bg-tertiary);
 }
 
 .dropdown-item-name {
   font-size: 13px;
   font-weight: 500;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .dropdown-item-email {
   font-size: 11px;
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .selected-customer {
@@ -480,8 +480,8 @@ const submitDeal = () => {
   justify-content: space-between;
   align-items: center;
   padding: 8px 10px;
-  background-color: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background-color: var(--bg-tertiary);
+  border: 1px solid var(--border-primary);
   border-radius: 6px;
 }
 
@@ -489,13 +489,13 @@ const submitDeal = () => {
   display: block;
   font-size: 13px;
   font-weight: 500;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 .selected-customer-email {
   display: block;
   font-size: 11px;
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .selected-customer-clear {
@@ -507,13 +507,13 @@ const submitDeal = () => {
   padding: 0;
   background: transparent;
   border: none;
-  color: #94a3b8;
+  color: var(--text-muted);
   cursor: pointer;
   transition: color 0.2s;
 }
 
 .selected-customer-clear:hover {
-  color: #ef4444;
+  color: var(--error-primary);
 }
 
 .selected-customer-clear svg {
@@ -524,8 +524,8 @@ const submitDeal = () => {
   border: none;
   border-radius: 6px;
   padding: 8px;
-  background: #0f172a;
-  color: white;
+  background: var(--accent-primary);
+  color: var(--text-primary);
   cursor: pointer;
   font-weight: 500;
 }
@@ -536,7 +536,7 @@ const submitDeal = () => {
 }
 
 .deal-form__error {
-  color: #dc2626;
+  color: var(--error-primary);
   font-size: 12px;
   margin: 0;
 }

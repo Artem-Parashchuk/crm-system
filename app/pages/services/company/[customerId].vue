@@ -201,11 +201,11 @@ const dealWord = (count: number): string => {
 
 const getColor = (name: string): string => {
   const colors = [
-    "linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%)",
-    "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
-    "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)",
-    "linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)",
-    "linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)",
+    "var(--accent-gradient)",
+    "linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
+    "linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)",
+    "linear-gradient(135deg, var(--status-amber) 0%, var(--error-primary) 100%)",
+    "linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
   ];
   const index = name.length % colors.length;
   return colors[index];
@@ -223,15 +223,13 @@ const getColor = (name: string): string => {
 }
 
 .company-card {
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
   max-width: 1200px;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 .company-header {
@@ -245,9 +243,9 @@ const getColor = (name: string): string => {
   padding: 8px 16px;
   font-size: 13px;
   font-weight: 500;
-  color: #94a3b8;
+  color: var(--text-muted);
   background: transparent;
-  border: 1px solid #2b1f47;
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s;
@@ -255,8 +253,8 @@ const getColor = (name: string): string => {
 }
 
 .back-btn:hover {
-  color: #e2daf5;
-  border-color: #3e2d63;
+  color: var(--text-secondary);
+  border-color: var(--border-secondary);
 }
 
 .back-btn svg {
@@ -279,21 +277,21 @@ const getColor = (name: string): string => {
   justify-content: center;
   font-size: 24px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   flex-shrink: 0;
 }
 
 .company-name {
   font-size: 24px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 4px 0;
   letter-spacing: -0.5px;
 }
 
 .company-subtitle {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -308,8 +306,8 @@ const getColor = (name: string): string => {
   flex-direction: column;
   gap: 4px;
   padding: 16px 20px;
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 10px;
   min-width: 120px;
 }
@@ -317,12 +315,12 @@ const getColor = (name: string): string => {
 .company-stat-value {
   font-size: 18px;
   font-weight: 700;
-  color: #e2daf5;
+  color: var(--text-secondary);
 }
 
 .company-stat-label {
   font-size: 12px;
-  color: #94a3b8;
+  color: var(--text-muted);
 }
 
 .company-loading,
@@ -334,12 +332,12 @@ const getColor = (name: string): string => {
   justify-content: center;
   gap: 12px;
   padding: 60px 20px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-align: center;
 }
 
 .company-error {
-  color: #ef4444;
+  color: var(--error-primary);
 }
 
 .empty-icon {
@@ -350,8 +348,8 @@ const getColor = (name: string): string => {
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid rgba(139, 92, 246, 0.2);
-  border-top-color: #8b5cf6;
+  border: 3px solid color-mix(in srgb, var(--accent-primary) 20%, transparent);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -369,8 +367,8 @@ const getColor = (name: string): string => {
 }
 
 .deal-card {
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 20px;
   cursor: pointer;
@@ -381,7 +379,7 @@ const getColor = (name: string): string => {
 }
 
 .deal-card:hover {
-  border-color: #8b5cf6;
+  border-color: var(--accent-primary);
   transform: translateY(-2px);
 }
 
@@ -395,7 +393,7 @@ const getColor = (name: string): string => {
 .deal-name {
   font-size: 15px;
   font-weight: 600;
-  color: #e2daf5;
+  color: var(--text-secondary);
   margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -414,28 +412,28 @@ const getColor = (name: string): string => {
 }
 
 .deal-status--todo {
-  background-color: rgba(139, 92, 246, 0.2);
-  color: #a78bfa;
+  background-color: color-mix(in srgb, var(--accent-primary) 20%, transparent);
+  color: var(--accent-secondary);
 }
 
 .deal-status--to-be-agreed {
-  background-color: rgba(245, 158, 11, 0.2);
-  color: #fbbf24;
+  background-color: color-mix(in srgb, var(--status-amber) 20%, transparent);
+  color: var(--status-amber-light);
 }
 
 .deal-status--in-progress {
-  background-color: rgba(59, 130, 246, 0.2);
-  color: #60a5fa;
+  background-color: color-mix(in srgb, var(--status-blue) 20%, transparent);
+  color: var(--status-blue-light);
 }
 
 .deal-status--produced {
-  background-color: rgba(16, 185, 129, 0.2);
-  color: #34d399;
+  background-color: color-mix(in srgb, var(--success-primary) 20%, transparent);
+  color: var(--status-green-light);
 }
 
 .deal-status--done {
-  background-color: rgba(236, 72, 153, 0.2);
-  color: #f472b6;
+  background-color: color-mix(in srgb, var(--status-pink) 20%, transparent);
+  color: var(--status-pink-light);
 }
 
 .deal-card-body {
@@ -447,7 +445,7 @@ const getColor = (name: string): string => {
 .deal-price {
   font-size: 16px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .deal-date {
@@ -455,7 +453,7 @@ const getColor = (name: string): string => {
   align-items: center;
   gap: 4px;
   font-size: 12px;
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .deal-date svg {

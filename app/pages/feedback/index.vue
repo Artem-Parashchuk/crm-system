@@ -18,13 +18,13 @@
 .feedback-page__title {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #e2daf5;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .feedback-page__text {
   font-size: 1rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin: 0;
 }
 </style>

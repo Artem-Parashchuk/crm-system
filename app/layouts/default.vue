@@ -38,10 +38,12 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from "vue";
 import { useAuthStore, useIsLoadingStore } from "~/store/auth.store";
+import { useThemeStore } from "~/store/theme.store";
 
 const { $appwrite } = useNuxtApp();
 const isLoadingStore = useIsLoadingStore();
 const store = useAuthStore();
+const themeStore = useThemeStore();
 const router = useRouter();
 const isMobileMenuOpen = ref(false);
 
@@ -55,6 +57,8 @@ watch(
 isLoadingStore.set(true);
 
 onMounted(async () => {
+  themeStore.initTheme();
+
   try {
     const user = await $appwrite.account.get();
 
@@ -81,8 +85,8 @@ onMounted(async () => {
   display: flex;
   width: 100%;
   height: 100vh;
-  background-color: #0b0714;
-  color: #e2daf5;
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
   font-family:
     system-ui,
     -apple-system,
@@ -101,10 +105,10 @@ onMounted(async () => {
   z-index: 60;
   width: 44px;
   height: 44px;
-  border: 1px solid #2b1f47;
+  border: 1px solid var(--border-primary);
   border-radius: 10px;
-  background-color: #140e24;
-  color: #e2daf5;
+  background-color: var(--bg-secondary);
+  color: var(--text-secondary);
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -112,16 +116,16 @@ onMounted(async () => {
 }
 
 .mobile-menu-btn:hover {
-  background-color: #1c1430;
-  border-color: #8b5cf6;
-  color: #8b5cf6;
+  background-color: var(--bg-hover);
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 .sidebar-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: var(--overlay-backdrop);
   z-index: 40;
 }
 
@@ -129,8 +133,8 @@ onMounted(async () => {
   width: 20%;
   min-width: 240px;
   max-width: 300px;
-  border-right: 1px solid #1c1430;
-  background-color: #0b0714;
+  border-right: 1px solid var(--border-primary);
+  background-color: var(--bg-primary);
   transition: transform 0.3s ease;
 }
 
@@ -143,16 +147,6 @@ onMounted(async () => {
   padding: 1.5rem;
 }
 
-.page-container {
-  background-color: #140e24;
-  border-radius: 16px;
-  padding: 1.5rem;
-  height: 100%;
-  border: 1px solid #2b1f47;
-  box-shadow:
-    0 10px 25px -5px rgba(5, 3, 10, 0.7),
-    0 8px 10px -6px rgba(43, 31, 71, 0.3);
-}
 
 /* Tablet */
 @media (max-width: 1024px) {
@@ -195,22 +189,12 @@ onMounted(async () => {
     padding: 0rem 1rem 1rem;
     width: 100%;
   }
-
-  .page-container {
-    padding: 1rem;
-    border-radius: 12px;
-  }
 }
 
 /* Small mobile */
 @media (max-width: 480px) {
   .main-content {
     padding: 3.5rem 0.75rem 0.75rem;
-  }
-
-  .page-container {
-    padding: 0.75rem;
-    border-radius: 10px;
   }
 }
 </style>

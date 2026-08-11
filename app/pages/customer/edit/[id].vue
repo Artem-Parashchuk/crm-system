@@ -275,43 +275,41 @@ const onSubmit = handleSubmit((formValues) => {
   justify-content: center;
   align-items: flex-start;
   min-height: 100%;
-  background-color: #0b0714;
+  background-color: var(--bg-primary);
   padding: 2rem;
 }
 
 .edit-card {
   width: 100%;
   max-width: 600px;
-  background: #140e24;
-  border: 1px solid #2b1f47;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
   padding: 2.5rem;
 }
 
 .card-header {
   margin-bottom: 2rem;
-  border-bottom: 1px solid #2b1f47;
+  border-bottom: 1px solid var(--border-primary);
   padding-bottom: 1.5rem;
 }
 
 h1 {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 0.5rem 0;
   letter-spacing: -0.5px;
 }
 
 .highlight {
-  color: #8b5cf6;
+  color: var(--accent-primary);
 }
 
 .subtitle {
   font-size: 0.875rem;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -330,17 +328,17 @@ h1 {
 label {
   font-size: 0.875rem;
   font-weight: 600;
-  color: #e2daf5;
+  color: var(--text-secondary);
 }
 
 .form-input {
   width: 100%;
   padding: 0.75rem 1rem;
   font-size: 0.95rem;
-  border: 1px solid #2b1f47;
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
-  background-color: #0b0714;
-  color: #e2daf5;
+  background-color: var(--bg-primary);
+  color: var(--text-secondary);
   outline: none;
   transition:
     border-color 0.2s,
@@ -349,17 +347,17 @@ label {
 }
 
 .form-input::placeholder {
-  color: #64748b;
+  color: var(--text-subtle);
 }
 
 .form-input:focus {
-  border-color: #8b5cf6;
-  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 10%, transparent);
 }
 
 /* Секція завантаження аватара */
 .avatar-upload-section {
-  border-bottom: 1px solid #2b1f47;
+  border-bottom: 1px solid var(--border-primary);
   padding-bottom: 1.5rem;
 }
 
@@ -376,11 +374,11 @@ label {
   height: 70px;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid #2b1f47;
+  border: 2px solid var(--border-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #0b0714;
+  background-color: var(--bg-primary);
 }
 
 .avatar-preview {
@@ -391,7 +389,7 @@ label {
 
 .avatar-placeholder {
   font-size: 0.8rem;
-  color: #64748b;
+  color: var(--text-subtle);
   font-weight: 500;
 }
 
@@ -412,9 +410,9 @@ label {
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #94a3b8;
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  color: var(--text-muted);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   cursor: pointer;
   transition:
@@ -424,16 +422,16 @@ label {
 }
 
 .btn-upload:hover {
-  background-color: rgba(139, 92, 246, 0.1);
-  border-color: #8b5cf6;
-  color: #e2daf5;
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  border-color: var(--accent-primary);
+  color: var(--text-secondary);
 }
 
 .btn-upload.disabled {
-  background-color: #0b0714;
-  color: #4a3870;
+  background-color: var(--bg-primary);
+  color: var(--text-accent);
   cursor: not-allowed;
-  border-color: #2b1f47;
+  border-color: var(--border-primary);
 }
 
 .hidden-file-input {
@@ -442,7 +440,7 @@ label {
 
 .file-hint {
   font-size: 0.75rem;
-  color: #64748b;
+  color: var(--text-subtle);
   margin: 0;
 }
 
@@ -453,16 +451,16 @@ label {
   gap: 1rem;
   margin-top: 1rem;
   padding-top: 1.5rem;
-  border-top: 1px solid #2b1f47;
+  border-top: 1px solid var(--border-primary);
 }
 
 .btn-secondary {
   padding: 0.75rem 1.5rem;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #94a3b8;
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  color: var(--text-muted);
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
   text-decoration: none;
   transition:
@@ -472,9 +470,9 @@ label {
 }
 
 .btn-secondary:hover {
-  background-color: rgba(139, 92, 246, 0.1);
-  border-color: #8b5cf6;
-  color: #e2daf5;
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  border-color: var(--accent-primary);
+  color: var(--text-secondary);
 }
 
 .btn-primary {
@@ -485,8 +483,8 @@ label {
   padding: 0.75rem 1.75rem;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #ffffff;
-  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  color: var(--text-primary);
+  background: var(--accent-gradient);
   border: none;
   border-radius: 8px;
   cursor: pointer;
@@ -496,7 +494,7 @@ label {
 }
 
 .btn-primary:hover {
-  box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--accent-primary) 30%, transparent);
 }
 
 .btn-primary:active {
@@ -504,7 +502,7 @@ label {
 }
 
 .btn-primary:disabled {
-  background: #2b1f47;
+  background: var(--border-primary);
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -516,15 +514,15 @@ label {
   align-items: center;
   justify-content: center;
   padding: 3rem 0;
-  color: #94a3b8;
+  color: var(--text-muted);
   gap: 1rem;
 }
 
 .spinner {
   width: 40px;
   height: 40px;
-  border: 4px solid rgba(139, 92, 246, 0.2);
-  border-top: 4px solid #8b5cf6;
+  border: 4px solid color-mix(in srgb, var(--accent-primary) 20%, transparent);
+  border-top: 4px solid var(--accent-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -532,14 +530,14 @@ label {
 .btn-spinner {
   width: 18px;
   height: 18px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-top: 2px solid #ffffff;
+  border: 2px solid color-mix(in srgb, var(--text-primary) 30%, transparent);
+  border-top: 2px solid var(--text-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
 
 .btn-spinner.accent {
-  border-top-color: #8b5cf6;
+  border-top-color: var(--accent-primary);
 }
 
 @keyframes spin {

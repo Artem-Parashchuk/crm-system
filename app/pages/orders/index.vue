@@ -141,13 +141,13 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  [EnumStatus.todo]: "linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%)",
+  [EnumStatus.todo]: "var(--accent-gradient)",
   [EnumStatus["to-be-agreed"]]:
-    "linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)",
+    "linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
   [EnumStatus["in-progress"]]:
-    "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)",
-  [EnumStatus.produced]: "linear-gradient(135deg, #f59e0b 0%, #ef4444 100%)",
-  [EnumStatus.done]: "linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%)",
+    "linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)",
+  [EnumStatus.produced]: "linear-gradient(135deg, var(--status-amber) 0%, var(--error-primary) 100%)",
+  [EnumStatus.done]: "linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
 };
 
 const activeFilter = ref<string>("all");
@@ -215,7 +215,7 @@ const {
         statusLabel: statusLabels[deal.status] || deal.status,
         statusColor:
           statusColors[deal.status] ||
-          "linear-gradient(135deg, #64748b 0%, #94a3b8 100%)",
+          "linear-gradient(135deg, var(--text-subtle) 0%, var(--text-muted) 100%)",
         customerName: companyName || "—",
         $createdAt: deal.$createdAt,
       });
@@ -263,15 +263,13 @@ const formatPrice = (price: number): string => {
 }
 
 .orders-card {
-  background-color: #140e24;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
   max-width: 900px;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 .orders-header {
@@ -282,14 +280,14 @@ const formatPrice = (price: number): string => {
 .orders-title {
   font-size: 28px;
   font-weight: 700;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0 0 8px 0;
   letter-spacing: -0.5px;
 }
 
 .orders-subtitle {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -302,12 +300,12 @@ const formatPrice = (price: number): string => {
   justify-content: center;
   gap: 12px;
   padding: 60px 20px;
-  color: #94a3b8;
+  color: var(--text-muted);
   text-align: center;
 }
 
 .orders-error {
-  color: #ef4444;
+  color: var(--error-primary);
 }
 
 .empty-icon {
@@ -317,15 +315,15 @@ const formatPrice = (price: number): string => {
 
 .empty-hint {
   font-size: 13px;
-  color: #64748b;
+  color: var(--text-subtle);
   margin: 0;
 }
 
 .spinner {
   width: 32px;
   height: 32px;
-  border: 3px solid rgba(139, 92, 246, 0.2);
-  border-top-color: #8b5cf6;
+  border: 3px solid color-mix(in srgb, var(--accent-primary) 20%, transparent);
+  border-top-color: var(--accent-primary);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -342,15 +340,15 @@ const formatPrice = (price: number): string => {
   gap: 8px;
   margin-bottom: 32px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #2b1f47;
+  border-bottom: 1px solid var(--border-primary);
 }
 
 .filter-btn {
   padding: 8px 16px;
-  border: 1px solid #2b1f47;
+  border: 1px solid var(--border-primary);
   border-radius: 8px;
-  background-color: #1a1033;
-  color: #94a3b8;
+  background-color: var(--bg-tertiary);
+  color: var(--text-muted);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -358,14 +356,14 @@ const formatPrice = (price: number): string => {
 }
 
 .filter-btn:hover {
-  border-color: #8b5cf6;
-  color: #e2daf5;
+  border-color: var(--accent-primary);
+  color: var(--text-secondary);
 }
 
 .filter-btn.active {
-  background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+  background: var(--accent-gradient);
   border-color: transparent;
-  color: #ffffff;
+  color: #fff;
   font-weight: 600;
 }
 
@@ -391,29 +389,29 @@ const formatPrice = (price: number): string => {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
+  background: var(--accent-gradient);
   flex-shrink: 0;
-  box-shadow: 0 0 12px rgba(139, 92, 246, 0.4);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent-primary) 40%, transparent);
 }
 
 .date-label {
   font-size: 16px;
   font-weight: 600;
-  color: #e2daf5;
+  color: var(--text-secondary);
 }
 
 .timeline-deals {
   margin-left: 5px;
   padding-left: 18px;
-  border-left: 2px solid #2b1f47;
+  border-left: 2px solid var(--border-primary);
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
 .deal-card {
-  background-color: #0b0714;
-  border: 1px solid #2b1f47;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   padding: 16px;
   transition:
@@ -422,7 +420,7 @@ const formatPrice = (price: number): string => {
 }
 
 .deal-card:hover {
-  border-color: #8b5cf6;
+  border-color: var(--accent-primary);
   transform: translateX(4px);
 }
 
@@ -437,7 +435,7 @@ const formatPrice = (price: number): string => {
 .deal-name {
   font-size: 16px;
   font-weight: 600;
-  color: #e2daf5;
+  color: var(--text-secondary);
   margin: 0;
   flex: 1;
   overflow: hidden;
@@ -448,7 +446,7 @@ const formatPrice = (price: number): string => {
 .deal-status {
   font-size: 12px;
   font-weight: 600;
-  color: #ffffff;
+  color: #fff;
   padding: 4px 12px;
   border-radius: 6px;
   white-space: nowrap;
@@ -465,12 +463,12 @@ const formatPrice = (price: number): string => {
 .deal-price {
   font-size: 18px;
   font-weight: 700;
-  color: #10b981;
+  color: var(--success-primary);
 }
 
 .deal-customer {
   font-size: 14px;
-  color: #94a3b8;
+  color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

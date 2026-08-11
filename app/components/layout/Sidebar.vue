@@ -18,12 +18,17 @@
         class="logo"
       />
     </NuxtLink>
-    <Icon
-      @click="logout"
-      name="material-symbols:logout"
-      size="26px"
-      class="log-out-icon"
-    />
+
+    <div class="aside-actions">
+      <LayoutThemeToggle />
+      <Icon
+        @click="logout"
+        name="material-symbols:logout"
+        size="26px"
+        class="log-out-icon"
+      />
+    </div>
+
     <div class="layout-menu">
       <LayoutMenu />
     </div>
@@ -73,19 +78,23 @@ const logout = async () => {
   width: 70px;
   height: auto;
 }
-.logo {
-}
-.log-out-icon {
+.aside-actions {
   position: absolute;
   top: 20px;
   right: 0px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.log-out-icon {
   cursor: pointer;
+  color: var(--text-muted);
   transition:
     color 0.2s ease,
     transform 0.2s ease;
 }
 .log-out-icon:hover {
-  color: #f43f5e;
+  color: var(--error-hover);
   transform: translateX(2px);
 }
 .layout-menu {
@@ -102,7 +111,7 @@ const logout = async () => {
   border: none;
   border-radius: 10px;
   background-color: transparent;
-  color: #94a3b8;
+  color: var(--text-muted);
   cursor: pointer;
   align-items: center;
   justify-content: center;
@@ -110,8 +119,8 @@ const logout = async () => {
 }
 
 .mobile-close-btn:hover {
-  background-color: rgba(139, 92, 246, 0.1);
-  color: #e2daf5;
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  color: var(--text-secondary);
 }
 
 @media (max-width: 768px) {
@@ -129,7 +138,7 @@ const logout = async () => {
     width: 60px;
   }
 
-  .log-out-icon {
+  .aside-actions {
     top: 16px;
     left: 16px;
     right: auto;
