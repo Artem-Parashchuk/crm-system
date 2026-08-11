@@ -119,12 +119,19 @@ const customers = computed(() => {
 
 <style scoped lang="css">
 .customers-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100%;
+  width: 100%;
+  padding: 20px;
+}
+.customers-page {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-primary);
   border-radius: 16px;
   padding: 40px;
   width: 100%;
-  max-width: 900px;
   box-shadow: var(--shadow-card);
 }
 

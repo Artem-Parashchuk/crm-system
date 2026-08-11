@@ -7,6 +7,14 @@
           <p class="settings-subtitle">Керування профілем та системою</p>
         </div>
 
+        <div v-if="isDemoAccount" class="demo-banner">
+          <Icon name="material-symbols:info" class="demo-banner-icon" />
+          <div class="demo-banner-text">
+            <strong>Демо-акаунт</strong>
+            <span>Це акаунт тільки для перегляду. Зміна даних профілю, паролю та email недоступна.</span>
+          </div>
+        </div>
+
         <!-- Секція 1: Профіль -->
         <div class="settings-section">
           <h2 class="section-title">
@@ -24,7 +32,11 @@
               <span class="profile-label">Ім'я</span>
               <div v-if="!isEditingName" class="profile-value-wrapper">
                 <span class="profile-value">{{ authStore.user.name }}</span>
-                <button class="btn-edit" @click="startEditName">
+                <button
+                  class="btn-edit"
+                  @click="startEditName"
+                  :disabled="isDemoAccount"
+                >
                   <Icon name="material-symbols:edit-outline" />
                 </button>
               </div>
@@ -54,7 +66,7 @@
         </div>
 
         <!-- Секція 2: Пароль -->
-        <div class="settings-section">
+        <div v-if="!isDemoAccount" class="settings-section">
           <h2 class="section-title">
             <Icon name="material-symbols:lock-outline" class="section-icon" />
             Зміна паролю
@@ -137,7 +149,7 @@
         </div>
 
         <!-- Секція 3: Email -->
-        <div class="settings-section">
+        <div v-if="!isDemoAccount" class="settings-section">
           <h2 class="section-title">
             <Icon name="material-symbols:mail-outline" class="section-icon" />
             Зміна email
@@ -243,6 +255,9 @@ import { STATS_CONFIG } from "~/data/settings-stats.data";
 const { $appwrite } = useNuxtApp();
 const config = useRuntimeConfig();
 const authStore = useAuthStore();
+
+const DEMO_EMAIL = "test@gmail.com";
+const isDemoAccount = computed(() => authStore.user?.email === DEMO_EMAIL);
 
 // Стан форм
 const isEditingName = ref(false);
@@ -412,7 +427,6 @@ const getStatsTotal = (key: string) => {
   border-radius: 16px;
   padding: 40px;
   width: 100%;
-  max-width: 720px;
   box-shadow: var(--shadow-card);
 }
 
@@ -433,6 +447,37 @@ const getStatsTotal = (key: string) => {
   font-size: 14px;
   color: var(--text-muted);
   margin: 0;
+}
+
+.demo-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  background-color: color-mix(in srgb, var(--accent-primary) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent-primary) 25%, transparent);
+  border-radius: 10px;
+  margin-bottom: 8px;
+}
+
+.demo-banner-icon {
+  font-size: 22px;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.demo-banner-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.demo-banner-text strong {
+  color: var(--accent-primary);
+  font-size: 14px;
 }
 
 .settings-section {
@@ -519,6 +564,11 @@ const getStatsTotal = (key: string) => {
 
 .btn-edit:hover {
   color: var(--accent-secondary);
+}
+
+.btn-edit:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
 }
 
 .btn-edit svg {

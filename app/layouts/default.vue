@@ -148,6 +148,7 @@ onMounted(async () => {
 }
 
 
+
 /* Tablet */
 @media (max-width: 1024px) {
   .sidebar {

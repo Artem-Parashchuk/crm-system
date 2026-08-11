@@ -108,10 +108,7 @@ const toggleQuestion = (index: number) => {
   border-radius: 16px;
   padding: 40px;
   width: 100%;
-  max-width: 720px;
-  box-shadow:
-    0 20px 40px color-mix(in srgb, var(--bg-primary) 80%, transparent),
-    0 1px 3px color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  box-shadow: var(--shadow-card);
 }
 
 .help-header {
