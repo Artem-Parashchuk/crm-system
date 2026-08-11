@@ -143,6 +143,7 @@ onMounted(async () => {
   padding: 1.5rem;
 }
 
+<<<<<<< Updated upstream
 .page-container {
   background-color: #140e24;
   border-radius: 16px;
@@ -154,6 +155,8 @@ onMounted(async () => {
     0 8px 10px -6px rgba(43, 31, 71, 0.3);
 }
 
+=======
+>>>>>>> Stashed changes
 /* Tablet */
 @media (max-width: 1024px) {
   .sidebar {

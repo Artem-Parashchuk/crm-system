@@ -105,7 +105,19 @@
             class="btn-link"
             @click="isLoginMode = !isLoginMode"
           >
-            {{ isLoginMode ? "Зареєстроватися" : "Увійти" }}
+            {{ isLoginMode ? "Зареєструватися" : "Увійти" }}
+          </button>
+        </div>
+
+        <div v-if="isLoginMode" class="demo-login-wrapper">
+          <button
+            type="button"
+            class="btn-demo"
+            @click="demoLogin"
+            :disabled="loadingStore.isLoading"
+          >
+            <Icon name="material-symbols:person" class="demo-icon" />
+            Увійти як демо-користувач
           </button>
         </div>
       </form>
@@ -235,6 +247,13 @@ const register = async () => {
   }
 };
 
+const demoLogin = async () => {
+  serverError.value = "";
+  formEmail.value = "test@gmail.com";
+  formPassword.value = "12345678";
+  await login();
+};
+
 const onSubmit = handleValidSubmit(() => {
   serverError.value = "";
   if (isLoginMode.value) {
@@ -357,7 +376,11 @@ watch(isLoginMode, () => {
   ); /* Трендовий градієнт */
   border: none;
   border-radius: 10px;
+<<<<<<< Updated upstream
   color: #ffffff;
+=======
+  color: #fff;
+>>>>>>> Stashed changes
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
@@ -385,6 +408,45 @@ watch(isLoginMode, () => {
   margin-top: 16px;
   font-size: 14px;
   color: #94a3b8;
+}
+
+/* Демо-вхід */
+.demo-login-wrapper {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-primary);
+}
+
+.btn-demo {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px dashed var(--border-secondary);
+  border-radius: 10px;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-demo:hover:not(:disabled) {
+  border-color: var(--accent-primary);
+  color: var(--accent-primary);
+  background: color-mix(in srgb, var(--accent-primary) 5%, transparent);
+}
+
+.btn-demo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.demo-icon {
+  font-size: 18px;
 }
 
 /* Кнопка-посилання */
@@ -529,6 +591,12 @@ watch(isLoginMode, () => {
   .forgot-password-link {
     text-align: center;
     margin-top: -8px;
+  }
+
+  .btn-demo {
+    padding: 14px;
+    min-height: 48px;
+    font-size: 14px;
   }
 }
 
