@@ -303,7 +303,7 @@ a.contact-value:hover {
 /* Адаптивність */
 @media (max-width: 768px) {
   .help-wrapper {
-    padding: 12px;
+    padding: 24px;
   }
 
   .help-card {
@@ -351,8 +351,11 @@ a.contact-value:hover {
 }
 
 @media (max-width: 480px) {
+  .help-wrapper{
+    padding: 8px;
+  }
   .help-card {
-    padding: 16px;
+    padding: 8px;
     border-radius: 10px;
   }
 

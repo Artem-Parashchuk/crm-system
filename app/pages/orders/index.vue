@@ -146,8 +146,10 @@ const statusColors: Record<string, string> = {
     "linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
   [EnumStatus["in-progress"]]:
     "linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)",
-  [EnumStatus.produced]: "linear-gradient(135deg, var(--status-green-light) 0%, var(--status-green-light) 100%)",
-  [EnumStatus.done]: "linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
+  [EnumStatus.produced]:
+    "linear-gradient(135deg, var(--status-green-light) 0%, var(--status-green-light) 100%)",
+  [EnumStatus.done]:
+    "linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
 };
 
 const activeFilter = ref<string>("all");
@@ -178,7 +180,11 @@ const {
 
     const result = await $appwrite.databases.listDocuments(dbId, collectionId);
     const deals = result.documents as unknown as IDeal[];
-    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId);
+    const customerNameMap = await buildCustomerNameMap(
+      $appwrite,
+      dbId,
+      customerCollectionId,
+    );
 
     const enriched = deals.map((deal) => ({
       deal,
@@ -391,7 +397,8 @@ const formatPrice = (price: number): string => {
   border-radius: 50%;
   background: var(--accent-gradient);
   flex-shrink: 0;
-  box-shadow: 0 0 12px color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  box-shadow: 0 0 12px
+    color-mix(in srgb, var(--accent-primary) 40%, transparent);
 }
 
 .date-label {
@@ -487,6 +494,14 @@ const formatPrice = (price: number): string => {
   .deal-details {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+@media (max-width: 480px) {
+  .orders-wrapper {
+    padding: 8px;
+  }
+  .orders-card {
+    padding: 8px;
   }
 }
 </style>

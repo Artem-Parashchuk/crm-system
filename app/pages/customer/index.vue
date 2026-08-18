@@ -365,4 +365,15 @@ h1 {
     font-size: 1.5rem;
   }
 }
+@media (max-width: 480px) {
+  .customers-wrapper {
+    padding: 8px;
+  }
+  .customers-page {
+    padding: 8px;
+  }
+  .table-header {
+    grid-template-columns: 105px 1fr;
+  }
+}
 </style>
