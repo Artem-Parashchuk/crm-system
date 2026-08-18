@@ -1,8 +1,8 @@
 export default defineNuxtConfig({
   app: {
     head: {
-      title: "Ваша CRM Система",
-      link: [{ rel: "icon", type: "image/png", href: "/favicon.png" }],
+      title: 'Ваша CRM Система',
+      link: [{ rel: 'icon', type: 'image/png', href: '/favicon.png' }],
       script: [
         {
           innerHTML: `
@@ -15,12 +15,12 @@ export default defineNuxtConfig({
               }
             })();
           `,
-          type: "text/javascript",
+          type: 'text/javascript',
         },
       ],
     },
   },
-  compatibilityDate: "2025-07-15",
+  compatibilityDate: '2025-07-15',
   runtimeConfig: {
     public: {
       appwriteEndpoint: process.env.NUXT_PUBLIC_APPWRITE_ENDPOINT,
@@ -33,18 +33,19 @@ export default defineNuxtConfig({
       resetPasswordUrl: process.env.NUXT_PUBLIC_RESET_PASSWORD_URL,
     },
   },
-  css: ["~/assets/css/main.css"],
+  css: ['~/assets/css/main.css'],
 
   devtools: { enabled: false },
 
   modules: [
-    "@nuxt/ui",
-    "@nuxt/image",
-    "@nuxt/icon",
-    "@nuxtjs/google-fonts",
-    "@pinia/nuxt",
+    '@nuxt/ui',
+    '@nuxt/image',
+    '@nuxt/icon',
+    '@nuxtjs/google-fonts',
+    '@pinia/nuxt',
+    '@nuxt/eslint',
     [
-      "@vee-validate/nuxt",
+      '@vee-validate/nuxt',
       {
         autoImports: true,
       },
@@ -62,6 +63,6 @@ export default defineNuxtConfig({
     inject: true,
   },
   pinia: {
-    storesDirs: ["~/store"],
+    storesDirs: ['~/store'],
   },
-});
+})

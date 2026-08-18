@@ -1,24 +1,20 @@
-import { useMutation } from "@tanstack/vue-query";
+import { useMutation } from '@tanstack/vue-query'
 
 export function useDeleteDeal({ refetch }: { refetch: () => void }) {
-  const { $appwrite } = useNuxtApp();
-  const config = useRuntimeConfig();
-  const databaseId = config.public.dbId;
-  const collectionId = config.public.collectionDeals;
+  const { $appwrite } = useNuxtApp()
+  const config = useRuntimeConfig()
+  const databaseId = config.public.dbId
+  const collectionId = config.public.collectionDeals
 
   const { mutate, isPending } = useMutation({
-    mutationKey: ["delete deal"],
+    mutationKey: ['delete deal'],
     mutationFn: async (dealId: string) => {
-      return await $appwrite.databases.deleteDocument(
-        databaseId,
-        collectionId,
-        dealId,
-      );
+      return await $appwrite.databases.deleteDocument(databaseId, collectionId, dealId)
     },
     onSuccess: async () => {
-      await refetch();
+      await refetch()
     },
-  });
+  })
 
-  return { deleteDeal: mutate, isDeletePending: isPending };
+  return { deleteDeal: mutate, isDeletePending: isPending }
 }

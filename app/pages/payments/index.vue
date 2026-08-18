@@ -8,7 +8,7 @@
         </div>
 
         <div v-if="isLoading" class="finance-loading">
-          <div class="spinner"></div>
+          <div class="spinner" />
           <span>Завантаження даних...</span>
         </div>
 
@@ -59,16 +59,10 @@
           <div class="status-breakdown">
             <h2 class="section-title">Сума за статусами</h2>
             <div class="status-bars">
-              <div
-                v-for="item in data.byStatus"
-                :key="item.status"
-                class="status-bar-item"
-              >
+              <div v-for="item in data.byStatus" :key="item.status" class="status-bar-item">
                 <div class="status-bar-header">
                   <span class="status-name">{{ item.label }}</span>
-                  <span class="status-amount">{{
-                    formatPrice(item.total)
-                  }}</span>
+                  <span class="status-amount">{{ formatPrice(item.total) }}</span>
                 </div>
                 <div class="status-bar-track">
                   <div
@@ -77,7 +71,7 @@
                       width: item.percentage + '%',
                       background: item.color,
                     }"
-                  ></div>
+                  />
                 </div>
               </div>
             </div>
@@ -86,17 +80,11 @@
           <div class="top-deals">
             <h2 class="section-title">Топ-5 угод за ціною</h2>
             <div class="deals-list">
-              <div
-                v-for="(deal, index) in data.topDeals"
-                :key="deal.$id"
-                class="deal-item"
-              >
+              <div v-for="(deal, index) in data.topDeals" :key="deal.$id" class="deal-item">
                 <div class="deal-rank">#{{ index + 1 }}</div>
                 <div class="deal-info">
                   <span class="deal-name">{{ deal.name }}</span>
-                  <span class="deal-client">{{
-                    deal.companyName || "Без клієнта"
-                  }}</span>
+                  <span class="deal-client">{{ deal.companyName || 'Без клієнта' }}</span>
                 </div>
                 <div class="deal-price">{{ formatPrice(deal.price) }}</div>
               </div>
@@ -120,112 +108,105 @@
 </template>
 
 <script setup lang="ts">
-import { useQuery } from "@tanstack/vue-query";
-import type { IDeal } from "~/types/deals.types";
-import { EnumStatus } from "~/types/deals.types";
-import { getCompanyName, buildCustomerNameMap } from "~/utils/get-company-name";
+import { useQuery } from '@tanstack/vue-query'
+import type { IDeal } from '~/types/deals.types'
+import { EnumStatus } from '~/types/deals.types'
+import { getCompanyName, buildCustomerNameMap } from '~/utils/get-company-name'
 
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
 
-const dbId = config.public.dbId;
-const collectionId = config.public.collectionDeals;
+const dbId = config.public.dbId
+const collectionId = config.public.collectionDeals
 const customerCollectionId =
-  (config.public as Record<string, string>).collectionCustomers || "customers";
+  (config.public as Record<string, string>).collectionCustomers || 'customers'
 
 interface FinanceData {
-  total: number;
-  avg: number;
-  count: number;
+  total: number
+  avg: number
+  count: number
   byStatus: Array<{
-    status: string;
-    label: string;
-    total: number;
-    percentage: number;
-    color: string;
-  }>;
-  topDeals: Array<IDeal & { companyName: string }>;
+    status: string
+    label: string
+    total: number
+    percentage: number
+    color: string
+  }>
+  topDeals: Array<IDeal & { companyName: string }>
 }
 
 const statusLabels: Record<string, string> = {
-  [EnumStatus.todo]: "Вхідні",
-  [EnumStatus["to-be-agreed"]]: "На погодженні",
-  [EnumStatus["in-progress"]]: "У виробництві",
-  [EnumStatus.produced]: "Виготовлено",
-  [EnumStatus.done]: "Передано клієнту",
-};
+  [EnumStatus.todo]: 'Вхідні',
+  [EnumStatus['to-be-agreed']]: 'На погодженні',
+  [EnumStatus['in-progress']]: 'У виробництві',
+  [EnumStatus.produced]: 'Виготовлено',
+  [EnumStatus.done]: 'Передано клієнту',
+}
 
 const statusColors: Record<string, string> = {
-  [EnumStatus.todo]: "var(--accent-gradient)",
-  [EnumStatus["to-be-agreed"]]:
-    "linear-gradient(90deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
-  [EnumStatus["in-progress"]]:
-    "linear-gradient(90deg, var(--success-primary) 0%, var(--status-blue) 100%)",
+  [EnumStatus.todo]: 'var(--accent-gradient)',
+  [EnumStatus['to-be-agreed']]:
+    'linear-gradient(90deg, var(--status-blue) 0%, var(--accent-primary) 100%)',
+  [EnumStatus['in-progress']]:
+    'linear-gradient(90deg, var(--success-primary) 0%, var(--status-blue) 100%)',
   [EnumStatus.produced]:
-    "linear-gradient(90deg, var(--status-amber) 0%, var(--error-primary) 100%)",
-  [EnumStatus.done]:
-    "linear-gradient(90deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
-};
+    'linear-gradient(90deg, var(--status-amber) 0%, var(--error-primary) 100%)',
+  [EnumStatus.done]: 'linear-gradient(90deg, var(--status-pink) 0%, var(--accent-primary) 100%)',
+}
 
 const { data, isLoading, error } = useQuery({
-  queryKey: ["deals", "finance"],
+  queryKey: ['deals', 'finance'],
   queryFn: async () => {
     if (!dbId || !collectionId) {
-      throw new Error("Appwrite configuration missing");
+      throw new Error('Appwrite configuration missing')
     }
 
-    const result = await $appwrite.databases.listDocuments(dbId, collectionId);
-    const deals = result.documents as unknown as IDeal[];
-    const customerNameMap = await buildCustomerNameMap(
-      $appwrite,
-      dbId,
-      customerCollectionId,
-    );
+    const result = await $appwrite.databases.listDocuments(dbId, collectionId)
+    const deals = result.documents as unknown as IDeal[]
+    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId)
 
     return deals.map((deal) => ({
       ...deal,
       companyName: getCompanyName(deal, customerNameMap),
-    }));
+    }))
   },
   select: (enrichedDeals): FinanceData => {
-    const deals = enrichedDeals as Array<IDeal & { companyName: string }>;
-    const total = deals.reduce((sum, deal) => sum + deal.price, 0);
-    const count = deals.length;
-    const avg = count > 0 ? total / count : 0;
+    const deals = enrichedDeals as Array<IDeal & { companyName: string }>
+    const total = deals.reduce((sum, deal) => sum + deal.price, 0)
+    const count = deals.length
+    const avg = count > 0 ? total / count : 0
 
-    const statusGroups: Record<string, number> = {};
+    const statusGroups: Record<string, number> = {}
     for (const deal of deals) {
-      const status = deal.status;
-      statusGroups[status] = (statusGroups[status] || 0) + deal.price;
+      const status = deal.status
+      statusGroups[status] = (statusGroups[status] || 0) + deal.price
     }
 
-    const maxStatusTotal = Math.max(...Object.values(statusGroups), 1);
-    const byStatus = Object.entries(statusGroups).map(
-      ([status, statusTotal]) => ({
-        status,
-        label: statusLabels[status] || status,
-        total: statusTotal,
-        percentage: (statusTotal / maxStatusTotal) * 100,
-        color:
-          statusColors[status] ||
-          "linear-gradient(90deg, var(--text-subtle) 0%, var(--text-muted) 100%)",
-      }),
-    );
+    const maxStatusTotal = Math.max(...Object.values(statusGroups), 1)
+    const byStatus = Object.entries(statusGroups).map(([status, statusTotal]) => ({
+      status,
+      label: statusLabels[status] || status,
+      total: statusTotal,
+      percentage: (statusTotal / maxStatusTotal) * 100,
+      color:
+        statusColors[status] ||
+        'linear-gradient(90deg, var(--text-subtle) 0%, var(--text-muted) 100%)',
+    }))
 
-    const topDeals = [...deals].sort((a, b) => b.price - a.price).slice(0, 5);
+    const topDeals = [...deals].sort((a, b) => b.price - a.price).slice(0, 5)
 
-    return { total, avg, count, byStatus, topDeals };
+    return { total, avg, count, byStatus, topDeals }
   },
   staleTime: 60000,
-});
+})
 
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("uk-UA", {
-    style: "currency",
-    currency: "UAH",
+  return new Intl.NumberFormat('uk-UA', {
+    style: 'currency',
+    currency: 'UAH',
     minimumFractionDigits: 0,
-  }).format(price);
-};
+  }).format(price)
+}
 </script>
 
 <style scoped>

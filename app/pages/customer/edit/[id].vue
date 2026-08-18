@@ -5,23 +5,21 @@
       <div class="card-header">
         <h1>
           Редагування компанії:
-          <span class="highlight">{{ values.name || "Завантаження..." }}</span>
+          <span class="highlight">{{ values.name || 'Завантаження...' }}</span>
         </h1>
-        <p class="subtitle">
-          Змініть необхідні дані клієнта та збережіть зміни
-        </p>
+        <p class="subtitle">Змініть необхідні дані клієнта та збережіть зміни</p>
       </div>
 
       <!-- Використовуємо ClientOnly, щоб уникнути Hydration Mismatch -->
       <ClientOnly>
         <!-- Стан завантаження первинних даних -->
         <div v-if="isLoading" class="loader-state">
-          <div class="spinner"></div>
+          <div class="spinner" />
           <p>Отримання інформації з бази даних...</p>
         </div>
 
         <!-- Форма редагування -->
-        <form v-else @submit.prevent="onSubmit" class="edit-form">
+        <form v-else class="edit-form" @submit.prevent="onSubmit">
           <!-- Блок завантаження логотипу компанії -->
           <div class="form-group avatar-upload-section">
             <label>Логотип компанії</label>
@@ -33,11 +31,8 @@
                   alt="Лого Компанії"
                   class="avatar-preview"
                 />
-                <div
-                  v-else-if="isUploadImagePending"
-                  class="avatar-spinner-wrapper"
-                >
-                  <div class="btn-spinner accent"></div>
+                <div v-else-if="isUploadImagePending" class="avatar-spinner-wrapper">
+                  <div class="btn-spinner accent" />
                 </div>
                 <div v-else class="avatar-placeholder">
                   <span>Лого</span>
@@ -50,19 +45,17 @@
                   class="btn-upload"
                   :class="{ disabled: isUploadImagePending }"
                 >
-                  {{ isUploadImagePending ? "Завантаження..." : "Обрати файл" }}
+                  {{ isUploadImagePending ? 'Завантаження...' : 'Обрати файл' }}
                 </label>
                 <input
                   id="logo-file"
                   type="file"
                   accept="image/*"
-                  @change="handleFileChange"
                   :disabled="isUploadImagePending"
                   class="hidden-file-input"
+                  @change="handleFileChange"
                 />
-                <p class="file-hint">
-                  Підтримуються формати PNG, JPG або SVG (до 2MB)
-                </p>
+                <p class="file-hint">Підтримуються формати PNG, JPG або SVG (до 2MB)</p>
               </div>
             </div>
           </div>
@@ -72,8 +65,8 @@
             <label for="name">Назва компанії</label>
             <input
               id="name"
-              type="text"
               v-model="name"
+              type="text"
               v-bind="nameAttrs"
               placeholder="Наприклад: ТОВ 'Вектор'"
               class="form-input"
@@ -84,8 +77,8 @@
             <label for="email">Email адреса</label>
             <input
               id="email"
-              type="email"
               v-model="email"
+              type="email"
               v-bind="emailAttrs"
               placeholder="example@company.com"
               class="form-input"
@@ -96,8 +89,8 @@
             <label for="fromSource">Звідки прийшов клієнт</label>
             <input
               id="fromSource"
-              type="text"
               v-model="fromSource"
+              type="text"
               v-bind="fromSourceAttrs"
               placeholder="Наприклад: Instagram, Рекомендація"
               class="form-input"
@@ -106,12 +99,10 @@
 
           <!-- Кнопки дій -->
           <div class="form-actions">
-            <NuxtLink to="/customer" class="btn-secondary">
-              Скасувати
-            </NuxtLink>
+            <NuxtLink to="/customer" class="btn-secondary"> Скасувати </NuxtLink>
             <button type="submit" :disabled="isPending" class="btn-primary">
-              <span v-if="isPending" class="btn-spinner"></span>
-              {{ isPending ? "Збереження..." : "Зберегти зміни" }}
+              <span v-if="isPending" class="btn-spinner" />
+              {{ isPending ? 'Збереження...' : 'Зберегти зміни' }}
             </button>
           </div>
         </form>
@@ -119,7 +110,7 @@
         <!-- Запасний інтерфейс на час ініціалізації клієнтської частини (fallback) -->
         <template #fallback>
           <div class="loader-state">
-            <div class="spinner"></div>
+            <div class="spinner" />
             <p>Завантаження форми...</p>
           </div>
         </template>
@@ -129,144 +120,129 @@
 </template>
 
 <script setup lang="ts">
-import { watch } from "vue";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { useForm } from "vee-validate";
-import { v4 as uuid } from "uuid";
-import type { ICustomer } from "~/types/deals.types";
+import { watch } from 'vue'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
+import { useForm } from 'vee-validate'
+import type { ICustomer } from '~/types/deals.types'
 
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
-const queryClient = useQueryClient();
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
+const queryClient = useQueryClient()
 
-const databaseId = config.public.dbId;
-const collectionCustomers = config.public.collectionCustomers;
-
-interface ICustomerFromState extends Pick<
-  ICustomer,
-  "avatar_url" | "email" | "name" | "from_source"
-> {}
+const databaseId = config.public.dbId
+const collectionCustomers = config.public.collectionCustomers
 
 useSeoMeta({
-  title: "Редагувати компанію",
-});
+  title: 'Редагувати компанію',
+})
 
 // Отримуємо правильний ID з роуту
-const route = useRoute();
-const routerId = route.params.id as string;
+const route = useRoute()
+const routerId = route.params.id as string
 
 // Ініціалізуємо форму (отримуємо setFieldValue для збереження лінка на картинку у формі)
 const { handleSubmit, defineField, setValues, setFieldValue, values } =
-  useForm<ICustomerFromState>();
+  useForm<ICustomerFromState>()
 
 // 1. Отримуємо дані про клієнта з бази
 const { data, isSuccess, isLoading } = useQuery({
-  queryKey: ["get customer", routerId],
+  queryKey: ['get customer', routerId],
   queryFn: async () => {
     if (!databaseId || !collectionCustomers) {
-      throw new Error("Appwrite configuration missing");
+      throw new Error('Appwrite configuration missing')
     }
-    return await $appwrite.databases.getDocument(
-      databaseId,
-      collectionCustomers,
-      routerId,
-    );
+    return await $appwrite.databases.getDocument(databaseId, collectionCustomers, routerId)
   },
-});
+})
 
 // 2. Слідкуємо за успішним запитом та заповнюємо форму первинними даними
 watch(
   isSuccess,
   (success) => {
     if (success && data.value) {
-      const initialData = data.value as unknown as ICustomer;
+      const initialData = data.value as unknown as ICustomer
       setValues({
         email: initialData.email,
-        avatar_url: initialData.avatar_url || "",
-        from_source: initialData.from_source || "",
+        avatar_url: initialData.avatar_url || '',
+        from_source: initialData.from_source || '',
         name: initialData.name,
-      });
+      })
     }
   },
   { immediate: true },
-);
+)
 
 // Визначаємо реактивні поля форми
-const [name, nameAttrs] = defineField("name");
-const [email, emailAttrs] = defineField("email");
-const [fromSource, fromSourceAttrs] = defineField("from_source");
+const [name, nameAttrs] = defineField('name')
+const [email, emailAttrs] = defineField('email')
+const [fromSource, fromSourceAttrs] = defineField('from_source')
 
 // 3. Мутація для завантаження файлу в Appwrite Storage
 const { mutate: uploadImg, isPending: isUploadImagePending } = useMutation({
-  mutationKey: ["upload image"],
+  mutationKey: ['upload image'],
   mutationFn: async (file: File) => {
-    const bucketId = config.public.storageId;
+    const bucketId = config.public.storageId
 
     if (!bucketId) {
-      throw new Error("Storage Bucket ID is missing in runtimeConfig!");
+      throw new Error('Storage Bucket ID is missing in runtimeConfig!')
     }
 
-    return await $appwrite.storage.createFile(bucketId, $appwrite.ID.unique(), file);
+    return await $appwrite.storage.createFile(bucketId, $appwrite.ID.unique(), file)
   },
   onSuccess: (uploadedFile) => {
-    const bucketId = config.public.storageId;
+    const bucketId = config.public.storageId
 
     // Використовуємо getFileView замість getFileDownload для відображення в тегу <img>
-    const fileUrl = $appwrite.storage.getFileView(bucketId, uploadedFile.$id);
+    const fileUrl = $appwrite.storage.getFileView(bucketId, uploadedFile.$id)
 
     // Явно перетворюємо URL-об'єкт на рядок через .toString() або .href
-    const finalUrl = fileUrl.toString();
+    const finalUrl = fileUrl.toString()
 
-    console.log("Згенероване посилання на логотип:", finalUrl);
+    console.log('Згенероване посилання на логотип:', finalUrl)
 
     // Записуємо рядок у форму
-    setFieldValue("avatar_url", finalUrl);
+    setFieldValue('avatar_url', finalUrl)
   },
   onError: (error) => {
-    console.error("Помилка при завантаженні зображення в Appwrite:", error);
+    console.error('Помилка при завантаженні зображення в Appwrite:', error)
   },
-});
+})
 
 // Обробка вибору файлу з інпуту
 const handleFileChange = (e: Event) => {
-  const target = e.target as HTMLInputElement;
+  const target = e.target as HTMLInputElement
   if (target.files && target.files.length > 0) {
-    uploadImg(target.files[0]);
+    uploadImg(target.files[0])
   }
-};
+}
 
 // 4. Мутація для оновлення даних в Appwrite Databases
 const { mutate, isPending } = useMutation({
-  mutationKey: ["update customer", routerId],
+  mutationKey: ['update customer', routerId],
   mutationFn: async (updatedData: ICustomerFromState) => {
     if (!databaseId || !collectionCustomers) {
-      throw new Error("Appwrite configuration missing");
+      throw new Error('Appwrite configuration missing')
     }
-    return await $appwrite.databases.updateDocument(
-      databaseId,
-      collectionCustomers,
-      routerId,
-      {
-        name: updatedData.name,
-        email: updatedData.email,
-        from_source: updatedData.from_source,
-        avatar_url: updatedData.avatar_url,
-      },
-    );
+    return await $appwrite.databases.updateDocument(databaseId, collectionCustomers, routerId, {
+      name: updatedData.name,
+      email: updatedData.email,
+      from_source: updatedData.from_source,
+      avatar_url: updatedData.avatar_url,
+    })
   },
   onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ["customers"] });
-    navigateTo("/customer");
+    queryClient.invalidateQueries({ queryKey: ['customers'] })
+    navigateTo('/customer')
   },
   onError: (error) => {
-    console.error("Помилка під час оновлення клієнта:", error);
+    console.error('Помилка під час оновлення клієнта:', error)
   },
-});
+})
 
 // Сабміт форми
 const onSubmit = handleSubmit((formValues) => {
-  mutate(formValues);
-});
+  mutate(formValues)
+})
 </script>
 
 <style scoped>
@@ -343,7 +319,7 @@ label {
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .form-input::placeholder {

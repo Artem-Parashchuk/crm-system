@@ -1,13 +1,5 @@
-import type {
-  DehydratedState,
-  VueQueryPluginOptions,
-} from '@tanstack/vue-query'
-import {
-  VueQueryPlugin,
-  QueryClient,
-  hydrate,
-  dehydrate,
-} from '@tanstack/vue-query'
+import type { DehydratedState, VueQueryPluginOptions } from '@tanstack/vue-query'
+import { VueQueryPlugin, QueryClient, hydrate, dehydrate } from '@tanstack/vue-query'
 // Nuxt 3 app aliases
 import { defineNuxtPlugin, useState } from '#imports'
 

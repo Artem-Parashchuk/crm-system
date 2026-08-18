@@ -1,32 +1,16 @@
 <template>
   <aside class="aside">
-    <button
-      type="button"
-      class="mobile-close-btn"
-      @click="closeSidebar"
-      aria-label="Закрити меню"
-    >
+    <button type="button" class="mobile-close-btn" aria-label="Закрити меню" @click="closeSidebar">
       <Icon name="material-symbols:close" size="24px" />
     </button>
 
     <NuxtLink to="/" class="logo-link">
-      <NuxtImg
-        src="/logo.png"
-        alt="Logo"
-        width="70"
-        height="auto"
-        class="logo"
-      />
+      <NuxtImg src="/logo.png" alt="Logo" width="70" height="auto" class="logo" />
     </NuxtLink>
 
     <div class="aside-actions">
       <LayoutThemeToggle />
-      <Icon
-        @click="logout"
-        name="material-symbols:logout"
-        size="26px"
-        class="log-out-icon"
-      />
+      <Icon name="material-symbols:logout" size="26px" class="log-out-icon" @click="logout" />
     </div>
 
     <div class="layout-menu">
@@ -35,37 +19,37 @@
   </aside>
 </template>
 <script setup lang="ts">
-const { $appwrite } = useNuxtApp();
+import { useAuthStore, useIsLoadingStore } from '~/store/auth.store'
 
-import { useAuthStore, useIsLoadingStore } from "~/store/auth.store";
-const isLoadingStore = useIsLoadingStore();
-const store = useAuthStore();
-const router = useRouter();
+const { $appwrite } = useNuxtApp()
+const isLoadingStore = useIsLoadingStore()
+const store = useAuthStore()
+const router = useRouter()
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(['close'])
 
 const closeSidebar = () => {
-  emit("close");
-};
+  emit('close')
+}
 
 const logout = async () => {
-  isLoadingStore.set(true);
+  isLoadingStore.set(true)
 
   try {
     await $appwrite.account.deleteSession({
-      sessionId: "current",
-    });
+      sessionId: 'current',
+    })
 
-    store.clear();
+    store.clear()
 
-    await router.push("/login");
+    await router.push('/login')
   } catch (error) {
-    console.error("Помилка при виході з системи:", error);
-    alert("Не вдалося вийти з акаунта");
+    console.error('Помилка при виході з системи:', error)
+    alert('Не вдалося вийти з акаунта')
   } finally {
-    isLoadingStore.set(false);
+    isLoadingStore.set(false)
   }
-};
+}
 </script>
 <style lang="css" scoped>
 .aside {

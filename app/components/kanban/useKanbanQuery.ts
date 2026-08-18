@@ -1,54 +1,52 @@
-import { useQuery } from "@tanstack/vue-query";
-import type { IDeal } from "~/types/deals.types";
-import { getCompanyName, buildCustomerNameMap } from "~/utils/get-company-name";
-import { KANBAN_DATA } from "./kanban.data";
-import type { IColumn } from "./kanban.types";
+import { useQuery } from '@tanstack/vue-query'
+import type { IDeal } from '~/types/deals.types'
+import { getCompanyName, buildCustomerNameMap } from '~/utils/get-company-name'
+import { KANBAN_DATA } from './kanban.data'
+import type { IColumn } from './kanban.types'
 
 export function useKanbanQuery() {
-  const { $appwrite } = useNuxtApp();
-  const config = useRuntimeConfig();
+  const { $appwrite } = useNuxtApp()
+  const config = useRuntimeConfig()
   const customerCollectionId =
-    (config.public as Record<string, string>).collectionCustomers ||
-    "customers";
+    (config.public as Record<string, string>).collectionCustomers || 'customers'
 
   const getPrice = (deal: IDeal) => {
-    const rawPrice = (deal as IDeal & { price?: number | string }).price;
-    const numericPrice =
-      typeof rawPrice === "number" ? rawPrice : Number(rawPrice ?? 0);
+    const rawPrice = (deal as IDeal & { price?: number | string }).price
+    const numericPrice = typeof rawPrice === 'number' ? rawPrice : Number(rawPrice ?? 0)
 
-    return Number.isFinite(numericPrice) ? numericPrice : 0;
-  };
+    return Number.isFinite(numericPrice) ? numericPrice : 0
+  }
 
   return useQuery({
-    queryKey: ["deals"],
+    queryKey: ['deals'],
     queryFn: async () => {
       const res = await $appwrite.databases.listDocuments(
         config.public.dbId,
         config.public.collectionDeals,
-      );
+      )
 
-      const deals = res.documents as unknown as IDeal[];
+      const deals = res.documents as unknown as IDeal[]
       const customerNameMap = await buildCustomerNameMap(
         $appwrite,
         config.public.dbId,
         customerCollectionId,
-      );
+      )
 
       const dealsWithCompanyName = deals.map((deal) => ({
         ...deal,
         companyName: getCompanyName(deal, customerNameMap),
-      }));
-      return dealsWithCompanyName;
+      }))
+      return dealsWithCompanyName
     },
     select(data) {
       const newBoard: IColumn[] = KANBAN_DATA.map((column) => ({
         ...column,
         items: [],
-      }));
-      const deals = data as Array<IDeal & { companyName?: string }>;
+      }))
+      const deals = data as Array<IDeal & { companyName?: string }>
 
       for (const deal of deals) {
-        const column = newBoard.find((col) => col.id === deal.status);
+        const column = newBoard.find((col) => col.id === deal.status)
 
         if (column) {
           column.items.push({
@@ -56,13 +54,13 @@ export function useKanbanQuery() {
             id: deal.$id,
             name: deal.name,
             price: getPrice(deal),
-            companyName: deal.companyName || "—",
+            companyName: deal.companyName || '—',
             status: column.name,
-          });
+          })
         }
       }
 
-      return newBoard;
+      return newBoard
     },
-  });
+  })
 }

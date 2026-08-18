@@ -4,13 +4,11 @@
 
     <div class="auth-card">
       <h1 class="auth-title">
-        {{ isLoginMode ? "Вхід у систему" : "Реєстрація" }}
+        {{ isLoginMode ? 'Вхід у систему' : 'Реєстрація' }}
       </h1>
-      <p class="auth-subtitle">
-        Будь ласка, введіть свої дані для доступу до CRM
-      </p>
+      <p class="auth-subtitle">Будь ласка, введіть свої дані для доступу до CRM</p>
 
-      <form @submit.prevent="onSubmit" class="auth-form">
+      <form class="auth-form" @submit.prevent="onSubmit">
         <div v-if="serverError" class="server-error">
           <Icon name="material-symbols:error-outline" class="error-icon" />
           <span>{{ serverError }}</span>
@@ -55,7 +53,11 @@
               :class="{ 'input-error': passwordError && passwordMeta.touched }"
             />
             <button type="button" class="toggle-password" @click="showPassword = !showPassword">
-              <Icon :name="showPassword ? 'material-symbols:visibility' : 'material-symbols:visibility-off'" />
+              <Icon
+                :name="
+                  showPassword ? 'material-symbols:visibility' : 'material-symbols:visibility-off'
+                "
+              />
             </button>
           </div>
           <span v-if="passwordError && passwordMeta.touched" class="error-message">
@@ -64,9 +66,7 @@
         </div>
 
         <div v-if="isLoginMode" class="forgot-password-link">
-          <NuxtLink to="/forgot-password" class="forgot-link">
-            Забули пароль?
-          </NuxtLink>
+          <NuxtLink to="/forgot-password" class="forgot-link"> Забули пароль? </NuxtLink>
         </div>
 
         <div v-if="!isLoginMode" class="input-group">
@@ -79,8 +79,18 @@
               class="auth-input"
               :class="{ 'input-error': confirmPasswordError && confirmPasswordMeta.touched }"
             />
-            <button type="button" class="toggle-password" @click="showConfirmPassword = !showConfirmPassword">
-              <Icon :name="showConfirmPassword ? 'material-symbols:visibility' : 'material-symbols:visibility-off'" />
+            <button
+              type="button"
+              class="toggle-password"
+              @click="showConfirmPassword = !showConfirmPassword"
+            >
+              <Icon
+                :name="
+                  showConfirmPassword
+                    ? 'material-symbols:visibility'
+                    : 'material-symbols:visibility-off'
+                "
+              />
             </button>
           </div>
           <span v-if="confirmPasswordError && confirmPasswordMeta.touched" class="error-message">
@@ -88,24 +98,14 @@
           </span>
         </div>
 
-        <button
-          type="submit"
-          class="btn btn-primary"
-          :disabled="loadingStore.isLoading"
-        >
-          {{ isLoginMode ? "Увійти" : "Створити акаунт" }}
+        <button type="submit" class="btn btn-primary" :disabled="loadingStore.isLoading">
+          {{ isLoginMode ? 'Увійти' : 'Створити акаунт' }}
         </button>
 
         <div class="auth-toggle">
-          <span>{{
-            isLoginMode ? "Ще немає акаунту?" : "Вже маєте акаунт?"
-          }}</span>
-          <button
-            type="button"
-            class="btn-link"
-            @click="isLoginMode = !isLoginMode"
-          >
-            {{ isLoginMode ? "Зареєструватися" : "Увійти" }}
+          <span>{{ isLoginMode ? 'Ще немає акаунту?' : 'Вже маєте акаунт?' }}</span>
+          <button type="button" class="btn-link" @click="isLoginMode = !isLoginMode">
+            {{ isLoginMode ? 'Зареєструватися' : 'Увійти' }}
           </button>
         </div>
 
@@ -113,8 +113,8 @@
           <button
             type="button"
             class="btn-demo"
-            @click="demoLogin"
             :disabled="loadingStore.isLoading"
+            @click="demoLogin"
           >
             <Icon name="material-symbols:person" class="demo-icon" />
             Увійти як демо-користувач
@@ -126,147 +126,151 @@
 </template>
 
 <script lang="ts" setup>
-import { v4 as uuidv4 } from "uuid";
-import { ref, watch } from "vue";
-import { useForm, useField } from "vee-validate";
-import { useAuthStore, useIsLoadingStore } from "~/store/auth.store";
+import { v4 as uuidv4 } from 'uuid'
+import { ref, watch } from 'vue'
+import { useForm, useField } from 'vee-validate'
+import { useAuthStore, useIsLoadingStore } from '~/store/auth.store'
 
 definePageMeta({
-  layout: 'auth'
+  layout: 'auth',
 })
 
-const isLoginMode = ref(true);
+const isLoginMode = ref(true)
 
-const { $appwrite } = useNuxtApp();
-const authStore = useAuthStore();
-const loadingStore = useIsLoadingStore();
+const { $appwrite } = useNuxtApp()
+const authStore = useAuthStore()
+const loadingStore = useIsLoadingStore()
 
-const { handleSubmit: handleValidSubmit, resetForm } = useForm();
+const { handleSubmit: handleValidSubmit, resetForm } = useForm()
 
-const showPassword = ref(false);
-const showConfirmPassword = ref(false);
-const serverError = ref("");
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
+const serverError = ref('')
 
-const { value: formEmail, errorMessage: emailError, meta: emailMeta } = useField(
-  "email",
-  (value: string) => {
-    if (!value?.trim()) return "Email є обов'язковим";
-    if (!/^\S+@\S+\.\S+$/.test(value)) return "Некоректний формат email";
-    return true;
+const {
+  value: formEmail,
+  errorMessage: emailError,
+  meta: emailMeta,
+} = useField('email', (value: string) => {
+  if (!value?.trim()) return "Email є обов'язковим"
+  if (!/^\S+@\S+\.\S+$/.test(value)) return 'Некоректний формат email'
+  return true
+})
+
+const {
+  value: formPassword,
+  errorMessage: passwordError,
+  meta: passwordMeta,
+} = useField('password', (value: string) => {
+  if (!value) return "Пароль є обов'язковим"
+  if (value.length < 8) return 'Пароль має містити мінімум 8 символів'
+  return true
+})
+
+const {
+  value: formName,
+  errorMessage: nameError,
+  meta: nameMeta,
+} = useField('name', (value: string) => {
+  if (!isLoginMode.value) {
+    if (!value?.trim()) return "Ім'я є обов'язковим"
+    if (value.trim().length < 2) return "Ім'я має містити мінімум 2 літери"
   }
-);
+  return true
+})
 
-const { value: formPassword, errorMessage: passwordError, meta: passwordMeta } = useField(
-  "password",
-  (value: string) => {
-    if (!value) return "Пароль є обов'язковим";
-    if (value.length < 8) return "Пароль має містити мінімум 8 символів";
-    return true;
+const {
+  value: formConfirmPassword,
+  errorMessage: confirmPasswordError,
+  meta: confirmPasswordMeta,
+} = useField('confirmPassword', (value: string) => {
+  if (!isLoginMode.value) {
+    if (!value) return 'Підтвердіть пароль'
+    if (value !== formPassword.value) return 'Паролі не співпадають'
   }
-);
-
-const { value: formName, errorMessage: nameError, meta: nameMeta } = useField(
-  "name",
-  (value: string) => {
-    if (!isLoginMode.value) {
-      if (!value?.trim()) return "Ім'я є обов'язковим";
-      if (value.trim().length < 2) return "Ім'я має містити мінімум 2 літери";
-    }
-    return true;
-  }
-);
-
-const { value: formConfirmPassword, errorMessage: confirmPasswordError, meta: confirmPasswordMeta } = useField(
-  "confirmPassword",
-  (value: string) => {
-    if (!isLoginMode.value) {
-      if (!value) return "Підтвердіть пароль";
-      if (value !== formPassword.value) return "Паролі не співпадають";
-    }
-    return true;
-  }
-);
+  return true
+})
 
 const login = async () => {
-  serverError.value = "";
-  loadingStore.set(true);
+  serverError.value = ''
+  loadingStore.set(true)
 
   try {
     await $appwrite.account.createEmailPasswordSession({
       email: formEmail.value,
       password: formPassword.value,
-    });
+    })
 
-    const userDetails = await $appwrite.account.get();
+    const userDetails = await $appwrite.account.get()
 
     authStore.setUser({
       email: userDetails.email,
       name: userDetails.name,
       status: true,
-    });
+    })
 
-    await navigateTo("/");
-  } catch (error: any) {
-    serverError.value = "Неправильний email або пароль";
+    await navigateTo('/')
+  } catch {
+    serverError.value = 'Неправильний email або пароль'
   } finally {
-    loadingStore.set(false);
+    loadingStore.set(false)
   }
-};
+}
 
 const register = async () => {
-  serverError.value = "";
-  loadingStore.set(true);
+  serverError.value = ''
+  loadingStore.set(true)
   try {
-    const customUserId = uuidv4();
-    const cleanEmail = formEmail.value.trim().toLowerCase();
+    const customUserId = uuidv4()
+    const cleanEmail = formEmail.value.trim().toLowerCase()
 
     await $appwrite.account.create({
       userId: customUserId,
       email: cleanEmail,
       password: formPassword.value,
       name: formName.value,
-    });
+    })
 
     await $appwrite.account.createEmailPasswordSession({
       email: cleanEmail,
       password: formPassword.value,
-    });
+    })
 
-    const userDetails = await $appwrite.account.get();
+    const userDetails = await $appwrite.account.get()
     authStore.setUser({
       email: userDetails.email,
       name: userDetails.name,
       status: true,
-    });
+    })
 
-    await navigateTo("/");
-  } catch (error: any) {
-    serverError.value = error.message || "Помилка реєстрації";
+    await navigateTo('/')
+  } catch (error: unknown) {
+    serverError.value = (error as Error).message || 'Помилка реєстрації'
   } finally {
-    loadingStore.set(false);
+    loadingStore.set(false)
   }
-};
+}
 
 const demoLogin = async () => {
-  serverError.value = "";
-  formEmail.value = "test@gmail.com";
-  formPassword.value = "12345678";
-  await login();
-};
+  serverError.value = ''
+  formEmail.value = 'test@gmail.com'
+  formPassword.value = '12345678'
+  await login()
+}
 
 const onSubmit = handleValidSubmit(() => {
-  serverError.value = "";
+  serverError.value = ''
   if (isLoginMode.value) {
-    login();
+    login()
   } else {
-    register();
+    register()
   }
-});
+})
 
 watch(isLoginMode, () => {
-  serverError.value = "";
-  resetForm();
-});
+  serverError.value = ''
+  resetForm()
+})
 </script>
 
 <style lang="css" scoped>

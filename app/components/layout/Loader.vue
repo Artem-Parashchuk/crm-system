@@ -2,17 +2,16 @@
   <div class="loader-backdrop">
     <div class="loader-container">
       <div class="loader-bars">
-        <div class="bar"></div>
-        <div class="bar"></div>
-        <div class="bar"></div>
+        <div class="bar" />
+        <div class="bar" />
+        <div class="bar" />
       </div>
       <p class="loader-text">Завантаження даних...</p>
     </div>
   </div>
 </template>
 
-<script lang="ts" setup>
-</script>
+<script lang="ts" setup></script>
 
 <style lang="css" scoped>
 .loader-backdrop {
@@ -73,7 +72,8 @@
 }
 
 @keyframes wave {
-  0%, 100% {
+  0%,
+  100% {
     transform: scaleY(0.3);
   }
   50% {
@@ -82,7 +82,8 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.6;
   }
   50% {

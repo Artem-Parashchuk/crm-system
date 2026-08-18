@@ -2,11 +2,9 @@
   <div class="auth-wrapper">
     <div class="auth-card">
       <h1 class="auth-title">Відновлення паролю</h1>
-      <p class="auth-subtitle">
-        Введіть email, і ми надішлемо посилання для скидання паролю
-      </p>
+      <p class="auth-subtitle">Введіть email, і ми надішлемо посилання для скидання паролю</p>
 
-      <form @submit.prevent="onSubmit" class="auth-form">
+      <form class="auth-form" @submit.prevent="onSubmit">
         <div v-if="serverError" class="server-error">
           <Icon name="material-symbols:error-outline" class="error-icon" />
           <span>{{ serverError }}</span>
@@ -26,19 +24,13 @@
           </span>
         </div>
 
-        <button
-          type="submit"
-          class="btn btn-primary"
-          :disabled="loadingStore.isLoading"
-        >
+        <button type="submit" class="btn btn-primary" :disabled="loadingStore.isLoading">
           Надіслати посилання
         </button>
 
         <div class="auth-toggle">
           <span>Згадали пароль?</span>
-          <NuxtLink to="/login" class="btn-link">
-            Увійти
-          </NuxtLink>
+          <NuxtLink to="/login" class="btn-link"> Увійти </NuxtLink>
         </div>
       </form>
     </div>
@@ -46,50 +38,52 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { useForm, useField } from "vee-validate";
-import { useIsLoadingStore } from "~/store/auth.store";
+import { ref } from 'vue'
+import { useForm, useField } from 'vee-validate'
+import { useIsLoadingStore } from '~/store/auth.store'
 
 definePageMeta({
-  layout: 'auth'
+  layout: 'auth',
 })
 
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
-const loadingStore = useIsLoadingStore();
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
+const loadingStore = useIsLoadingStore()
 
-const { handleSubmit: handleValidSubmit } = useForm();
+const { handleSubmit: handleValidSubmit } = useForm()
 
-const serverError = ref("");
+const serverError = ref('')
 
-const { value: formEmail, errorMessage: emailError, meta: emailMeta } = useField(
-  "email",
-  (value: string) => {
-    if (!value?.trim()) return "Email є обов'язковим";
-    if (!/^\S+@\S+\.\S+$/.test(value)) return "Некоректний формат email";
-    return true;
-  }
-);
+const {
+  value: formEmail,
+  errorMessage: emailError,
+  meta: emailMeta,
+} = useField('email', (value: string) => {
+  if (!value?.trim()) return "Email є обов'язковим"
+  if (!/^\S+@\S+\.\S+$/.test(value)) return 'Некоректний формат email'
+  return true
+})
 
 const onSubmit = handleValidSubmit(async () => {
-  serverError.value = "";
-  loadingStore.set(true);
+  serverError.value = ''
+  loadingStore.set(true)
 
   try {
-    const resetUrl = config.public.resetPasswordUrl || 'http://crm-system-fawn-sigma.vercel.app/reset-password';
-    
+    const resetUrl =
+      config.public.resetPasswordUrl || 'http://crm-system-fawn-sigma.vercel.app/reset-password'
+
     await $appwrite.account.createRecovery({
       email: formEmail.value,
-      url: resetUrl
-    });
+      url: resetUrl,
+    })
 
-    await navigateTo('/forgot-password-confirm');
-  } catch (error: any) {
-    serverError.value = "Не вдалося надіслати посилання. Перевірте email та спробуйте ще раз.";
+    await navigateTo('/forgot-password-confirm')
+  } catch {
+    serverError.value = 'Не вдалося надіслати посилання. Перевірте email та спробуйте ще раз.'
   } finally {
-    loadingStore.set(false);
+    loadingStore.set(false)
   }
-});
+})
 </script>
 
 <style lang="css" scoped>

@@ -4,7 +4,7 @@
       <h1 class="auth-title">Новий пароль</h1>
       <p class="auth-subtitle">Введіть новий пароль для вашого акаунту</p>
 
-      <form @submit.prevent="onSubmit" class="auth-form" novalidate>
+      <form class="auth-form" novalidate @submit.prevent="onSubmit">
         <!-- Помилка сервера -->
         <div v-if="serverError" class="server-error" role="alert">
           <Icon name="material-symbols:error-outline" class="error-icon" aria-hidden="true" />
@@ -13,7 +13,11 @@
 
         <!-- Успішне виконання -->
         <div v-if="successMessage" class="success-message" role="alert">
-          <Icon name="material-symbols:check-circle-outline" class="success-icon" aria-hidden="true" />
+          <Icon
+            name="material-symbols:check-circle-outline"
+            class="success-icon"
+            aria-hidden="true"
+          />
           <span>{{ successMessage }}</span>
         </div>
 
@@ -38,7 +42,9 @@
               @click="showPassword = !showPassword"
             >
               <Icon
-                :name="showPassword ? 'material-symbols:visibility' : 'material-symbols:visibility-off'"
+                :name="
+                  showPassword ? 'material-symbols:visibility' : 'material-symbols:visibility-off'
+                "
                 aria-hidden="true"
               />
             </button>
@@ -64,17 +70,29 @@
             <button
               type="button"
               class="toggle-password"
-              :aria-label="showConfirmPassword ? 'Приховати підтвердження пароля' : 'Показати підтвердження пароля'"
+              :aria-label="
+                showConfirmPassword
+                  ? 'Приховати підтвердження пароля'
+                  : 'Показати підтвердження пароля'
+              "
               :disabled="isLoading || !!successMessage"
               @click="showConfirmPassword = !showConfirmPassword"
             >
               <Icon
-                :name="showConfirmPassword ? 'material-symbols:visibility' : 'material-symbols:visibility-off'"
+                :name="
+                  showConfirmPassword
+                    ? 'material-symbols:visibility'
+                    : 'material-symbols:visibility-off'
+                "
                 aria-hidden="true"
               />
             </button>
           </div>
-          <span v-if="confirmPasswordError && confirmPasswordMeta.touched" class="error-message" role="alert">
+          <span
+            v-if="confirmPasswordError && confirmPasswordMeta.touched"
+            class="error-message"
+            role="alert"
+          >
             {{ confirmPasswordError }}
           </span>
         </div>
@@ -85,14 +103,14 @@
           class="btn btn-primary"
           :disabled="!meta.valid || isLoading || !!successMessage"
         >
-          <span v-if="isLoading" class="btn-spinner" aria-hidden="true"></span>
-          <span>{{ successMessage ? "Пароль змінено" : "Змінити пароль" }}</span>
+          <span v-if="isLoading" class="btn-spinner" aria-hidden="true" />
+          <span>{{ successMessage ? 'Пароль змінено' : 'Змінити пароль' }}</span>
         </button>
 
         <!-- Посилання навігації -->
         <div class="auth-toggle">
           <NuxtLink to="/login" class="btn-link">
-            {{ successMessage ? "Увійти з новим паролем" : "Повернутися до входу" }}
+            {{ successMessage ? 'Увійти з новим паролем' : 'Повернутися до входу' }}
           </NuxtLink>
         </div>
       </form>
@@ -101,36 +119,36 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, watch } from "vue";
-import { useForm, useField } from "vee-validate";
+import { ref, watch } from 'vue'
+import { useForm, useField } from 'vee-validate'
 
 definePageMeta({
-  layout: "auth",
-});
+  layout: 'auth',
+})
 
-const route = useRoute();
-const { $appwrite } = useNuxtApp();
-const isLoading = ref(false);
-const serverError = ref("");
-const successMessage = ref("");
+const route = useRoute()
+const { $appwrite } = useNuxtApp()
+const isLoading = ref(false)
+const serverError = ref('')
+const successMessage = ref('')
 
-const showPassword = ref(false);
-const showConfirmPassword = ref(false);
+const showPassword = ref(false)
+const showConfirmPassword = ref(false)
 
 // 1. Ініціалізуємо форму для збору загального мета-стану (meta.valid)
-const { handleSubmit: handleValidSubmit, meta } = useForm();
+const { handleSubmit: handleValidSubmit, meta } = useForm()
 
 // 2. Валідація основного пароля
 const {
   value: formPassword,
   errorMessage: passwordError,
   meta: passwordMeta,
-  validate: validatePassword, // дістаємо метод ручної валідації
-} = useField<string>("password", (value) => {
-  if (!value) return "Пароль є обов'язковим";
-  if (value.length < 6) return "Пароль має містити мінімум 6 символів";
-  return true;
-});
+  validate: _validatePassword, // дістаємо метод ручної валідації
+} = useField<string>('password', (value) => {
+  if (!value) return "Пароль є обов'язковим"
+  if (value.length < 6) return 'Пароль має містити мінімум 6 символів'
+  return true
+})
 
 // 3. Валідація підтвердження пароля
 const {
@@ -138,32 +156,32 @@ const {
   errorMessage: confirmPasswordError,
   meta: confirmPasswordMeta,
   validate: validateConfirmPassword, // дістаємо метод ручної валідації
-} = useField<string>("confirmPassword", (value) => {
-  if (!value) return "Підтвердіть пароль";
-  if (value !== formPassword.value) return "Паролі не співпадають";
-  return true;
-});
+} = useField<string>('confirmPassword', (value) => {
+  if (!value) return 'Підтвердіть пароль'
+  if (value !== formPassword.value) return 'Паролі не співпадають'
+  return true
+})
 
-// 🔥 Секрет синхронізації: Якщо користувач змінив ОСНОВНИЙ пароль, 
+// 🔥 Секрет синхронізації: Якщо користувач змінив ОСНОВНИЙ пароль,
 // ми примусово перевіряємо ПОЛЕ ПІДТВЕРДЖЕННЯ, щоб помилка "не співпадають" вчасно з'явилася або зникла.
 watch(formPassword, () => {
   if (confirmPasswordMeta.touched) {
-    validateConfirmPassword();
+    validateConfirmPassword()
   }
-});
+})
 
 const onSubmit = handleValidSubmit(async () => {
-  serverError.value = "";
+  serverError.value = ''
 
-  const userId = route.query.userId as string;
-  const secret = route.query.secret as string;
+  const userId = route.query.userId as string
+  const secret = route.query.secret as string
 
   if (!userId || !secret) {
-    serverError.value = "Недійсне або прострочене посилання для відновлення паролю.";
-    return;
+    serverError.value = 'Недійсне або прострочене посилання для відновлення паролю.'
+    return
   }
 
-  isLoading.value = true;
+  isLoading.value = true
 
   try {
     await $appwrite.account.updateRecovery({
@@ -171,19 +189,19 @@ const onSubmit = handleValidSubmit(async () => {
       secret,
       password: formPassword.value,
       passwordConfirm: formConfirmPassword.value,
-    });
+    })
 
-    successMessage.value = "Пароль успішно змінено!";
+    successMessage.value = 'Пароль успішно змінено!'
     setTimeout(async () => {
-      await navigateTo("/login");
-    }, 2500);
-  } catch (error: any) {
-    console.error("Appwrite recovery error:", error);
-    serverError.value = "Не вдалося змінити пароль. Можливо, посилання вже застаріло.";
+      await navigateTo('/login')
+    }, 2500)
+  } catch (error: unknown) {
+    console.error('Appwrite recovery error:', error)
+    serverError.value = 'Не вдалося змінити пароль. Можливо, посилання вже застаріло.'
   } finally {
-    isLoading.value = false;
+    isLoading.value = false
   }
-});
+})
 </script>
 
 <style lang="css" scoped>

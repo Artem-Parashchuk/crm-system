@@ -12,8 +12,8 @@
           <div class="demo-banner-text">
             <strong>Демо-акаунт</strong>
             <span
-              >Це акаунт тільки для перегляду. Зміна даних профілю, паролю та
-              email недоступна.</span
+              >Це акаунт тільки для перегляду. Зміна даних профілю, паролю та email
+              недоступна.</span
             >
           </div>
         </div>
@@ -35,11 +35,7 @@
               <span class="profile-label">Ім'я</span>
               <div v-if="!isEditingName" class="profile-value-wrapper">
                 <span class="profile-value">{{ authStore.user.name }}</span>
-                <button
-                  class="btn-edit"
-                  @click="startEditName"
-                  :disabled="isDemoAccount"
-                >
+                <button class="btn-edit" :disabled="isDemoAccount" @click="startEditName">
                   <Icon name="material-symbols:edit-outline" />
                 </button>
               </div>
@@ -53,15 +49,13 @@
                 <div class="profile-edit-actions">
                   <button
                     class="btn-primary btn-sm"
-                    @click="updateName()"
                     :disabled="isNamePending || !newName.trim()"
+                    @click="updateName()"
                   >
-                    <span v-if="isNamePending" class="btn-spinner"></span>
-                    {{ isNamePending ? "Збереження..." : "Зберегти" }}
+                    <span v-if="isNamePending" class="btn-spinner" />
+                    {{ isNamePending ? 'Збереження...' : 'Зберегти' }}
                   </button>
-                  <button class="btn-secondary btn-sm" @click="cancelEditName">
-                    Скасувати
-                  </button>
+                  <button class="btn-secondary btn-sm" @click="cancelEditName">Скасувати</button>
                 </div>
               </div>
             </div>
@@ -145,8 +139,8 @@
               class="btn-primary"
               :disabled="isPasswordPending || !isPasswordFormValid"
             >
-              <span v-if="isPasswordPending" class="btn-spinner"></span>
-              {{ isPasswordPending ? "Зміна..." : "Змінити пароль" }}
+              <span v-if="isPasswordPending" class="btn-spinner" />
+              {{ isPasswordPending ? 'Зміна...' : 'Змінити пароль' }}
             </button>
           </form>
         </div>
@@ -186,8 +180,8 @@
               class="btn-primary"
               :disabled="isEmailPending || !newEmail || !emailPassword"
             >
-              <span v-if="isEmailPending" class="btn-spinner"></span>
-              {{ isEmailPending ? "Зміна..." : "Змінити email" }}
+              <span v-if="isEmailPending" class="btn-spinner" />
+              {{ isEmailPending ? 'Зміна...' : 'Змінити email' }}
             </button>
           </form>
         </div>
@@ -207,10 +201,7 @@
               <div class="stat-info">
                 <span class="stat-label">{{ stat.label }}</span>
                 <span class="stat-value">
-                  <span
-                    v-if="statsLoading(stat.key)"
-                    class="stat-spinner"
-                  ></span>
+                  <span v-if="statsLoading(stat.key)" class="stat-spinner" />
                   <span v-else>{{ getStatsTotal(stat.key) }}</span>
                 </span>
               </div>
@@ -220,10 +211,7 @@
 
         <!-- Повідомлення -->
         <Transition name="fade">
-          <div
-            v-if="message.text"
-            :class="['message', `message--${message.type}`]"
-          >
+          <div v-if="message.text" :class="['message', `message--${message.type}`]">
             <Icon
               :name="
                 message.type === 'success'
@@ -250,41 +238,41 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useQuery } from "@tanstack/vue-query";
-import { useAuthStore } from "~/store/auth.store";
-import { STATS_CONFIG } from "~/data/settings-stats.data";
+import { ref, computed } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import { useAuthStore } from '~/store/auth.store'
+import { STATS_CONFIG } from '~/data/settings-stats.data'
 
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
-const authStore = useAuthStore();
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
+const authStore = useAuthStore()
 
-const DEMO_EMAIL = "test@gmail.com";
-const isDemoAccount = computed(() => authStore.user?.email === DEMO_EMAIL);
+const DEMO_EMAIL = 'test@gmail.com'
+const isDemoAccount = computed(() => authStore.user?.email === DEMO_EMAIL)
 
 // Стан форм
-const isEditingName = ref(false);
-const newName = ref("");
-const oldPassword = ref("");
-const newPassword = ref("");
-const confirmPassword = ref("");
-const newEmail = ref("");
-const emailPassword = ref("");
+const isEditingName = ref(false)
+const newName = ref('')
+const oldPassword = ref('')
+const newPassword = ref('')
+const confirmPassword = ref('')
+const newEmail = ref('')
+const emailPassword = ref('')
 
 // Toggle видимості паролю
-const showOldPassword = ref(false);
-const showNewPassword = ref(false);
+const showOldPassword = ref(false)
+const showNewPassword = ref(false)
 
 // Стан завантаження для кожної мутації
-const isNamePending = ref(false);
-const isPasswordPending = ref(false);
-const isEmailPending = ref(false);
+const isNamePending = ref(false)
+const isPasswordPending = ref(false)
+const isEmailPending = ref(false)
 
 // Повідомлення
-const message = ref<{ type: "success" | "error"; text: string }>({
-  type: "success",
-  text: "",
-});
+const message = ref<{ type: 'success' | 'error'; text: string }>({
+  type: 'success',
+  text: '',
+})
 
 // Валідація форми паролю
 const isPasswordFormValid = computed(() => {
@@ -292,126 +280,122 @@ const isPasswordFormValid = computed(() => {
     oldPassword.value.length >= 8 &&
     newPassword.value.length >= 8 &&
     newPassword.value === confirmPassword.value
-  );
-});
+  )
+})
 
 // Показати повідомлення з автоочищенням
-const showMessage = (type: "success" | "error", text: string) => {
-  message.value = { type, text };
+const showMessage = (type: 'success' | 'error', text: string) => {
+  message.value = { type, text }
   setTimeout(() => {
-    message.value.text = "";
-  }, 3000);
-};
+    message.value.text = ''
+  }, 3000)
+}
 
 // Редагування імені
 const startEditName = () => {
-  newName.value = authStore.user.name;
-  isEditingName.value = true;
-};
+  newName.value = authStore.user.name
+  isEditingName.value = true
+}
 
 const cancelEditName = () => {
-  isEditingName.value = false;
-  newName.value = "";
-};
+  isEditingName.value = false
+  newName.value = ''
+}
 
 // Зміна імені
 const updateName = async () => {
-  if (!newName.value.trim()) return;
+  if (!newName.value.trim()) return
 
-  isNamePending.value = true;
+  isNamePending.value = true
   try {
-    const user = await $appwrite.account.updateName({ name: newName.value });
+    const user = await $appwrite.account.updateName({ name: newName.value })
     authStore.setUser({
       email: user.email,
       name: user.name,
       status: true,
-    });
-    isEditingName.value = false;
-    showMessage("success", "Ім'я успішно оновлено");
-  } catch (error: any) {
-    showMessage("error", error.message || "Помилка при зміні імені");
+    })
+    isEditingName.value = false
+    showMessage('success', "Ім'я успішно оновлено")
+  } catch (error: unknown) {
+    showMessage('error', (error as Error).message || 'Помилка при зміні імені')
   } finally {
-    isNamePending.value = false;
+    isNamePending.value = false
   }
-};
+}
 
 // Зміна паролю
 const updatePassword = async () => {
-  if (!isPasswordFormValid.value) return;
+  if (!isPasswordFormValid.value) return
 
-  isPasswordPending.value = true;
+  isPasswordPending.value = true
   try {
     if (newPassword.value !== confirmPassword.value) {
-      throw new Error("Паролі не співпадають");
+      throw new Error('Паролі не співпадають')
     }
     await $appwrite.account.updatePassword({
       password: newPassword.value,
       oldPassword: oldPassword.value,
-    });
-    oldPassword.value = "";
-    newPassword.value = "";
-    confirmPassword.value = "";
-    showMessage("success", "Пароль успішно змінено");
-  } catch (error: any) {
-    showMessage("error", error.message || "Помилка при зміні паролю");
+    })
+    oldPassword.value = ''
+    newPassword.value = ''
+    confirmPassword.value = ''
+    showMessage('success', 'Пароль успішно змінено')
+  } catch (error: unknown) {
+    showMessage('error', (error as Error).message || 'Помилка при зміні паролю')
   } finally {
-    isPasswordPending.value = false;
+    isPasswordPending.value = false
   }
-};
+}
 
 // Зміна email
 const updateEmail = async () => {
-  if (!newEmail.value || !emailPassword.value) return;
+  if (!newEmail.value || !emailPassword.value) return
 
-  isEmailPending.value = true;
+  isEmailPending.value = true
   try {
     const user = await $appwrite.account.updateEmail({
       email: newEmail.value,
       password: emailPassword.value,
-    });
+    })
     authStore.setUser({
       email: user.email,
       name: user.name,
       status: true,
-    });
-    newEmail.value = "";
-    emailPassword.value = "";
-    showMessage("success", "Email змінено. Перевірте пошту для підтвердження");
-  } catch (error: any) {
-    showMessage("error", error.message || "Помилка при зміні email");
+    })
+    newEmail.value = ''
+    emailPassword.value = ''
+    showMessage('success', 'Email змінено. Перевірте пошту для підтвердження')
+  } catch (error: unknown) {
+    showMessage('error', (error as Error).message || 'Помилка при зміні email')
   } finally {
-    isEmailPending.value = false;
+    isEmailPending.value = false
   }
-};
+}
 
 // Статистика: запити до колекцій
-const statsQueries: Record<string, ReturnType<typeof useQuery>> = {};
+const statsQueries: Record<string, ReturnType<typeof useQuery>> = {}
 STATS_CONFIG.forEach((stat) => {
-  const collectionId = (config.public as any)[stat.collectionKey];
+  const collectionId = (config.public as Record<string, unknown>)[stat.collectionKey]
   statsQueries[stat.key] = useQuery({
-    queryKey: ["stats", stat.key],
+    queryKey: ['stats', stat.key],
     queryFn: async () => {
       if (!config.public.dbId || !collectionId) {
-        throw new Error("Appwrite config missing");
+        throw new Error('Appwrite config missing')
       }
-      const result = await $appwrite.databases.listDocuments(
-        config.public.dbId,
-        collectionId,
-        [],
-      );
-      return result.total;
+      const result = await $appwrite.databases.listDocuments(config.public.dbId, collectionId, [])
+      return result.total
     },
     staleTime: 60000,
-  });
-});
+  })
+})
 
 const statsLoading = (key: string) => {
-  return statsQueries[key]?.isLoading.value ?? true;
-};
+  return statsQueries[key]?.isLoading.value ?? true
+}
 
 const getStatsTotal = (key: string) => {
-  return statsQueries[key]?.data.value ?? 0;
-};
+  return statsQueries[key]?.data.value ?? 0
+}
 </script>
 
 <style scoped>
@@ -613,8 +597,7 @@ const getStatsTotal = (key: string) => {
 
 .settings-input:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
 
 .settings-input::placeholder {

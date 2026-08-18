@@ -25,7 +25,7 @@
         </div>
 
         <div v-if="isAnyLoading" class="services-loading">
-          <div class="spinner"></div>
+          <div class="spinner" />
           <span>Завантаження даних...</span>
         </div>
 
@@ -53,7 +53,11 @@
                   За назвою
                   <Icon
                     v-if="sortBy === 'name'"
-                    :name="sortDir === 'asc' ? 'material-symbols:arrow-upward' : 'material-symbols:arrow-downward'"
+                    :name="
+                      sortDir === 'asc'
+                        ? 'material-symbols:arrow-upward'
+                        : 'material-symbols:arrow-downward'
+                    "
                   />
                 </button>
                 <button
@@ -64,7 +68,11 @@
                   За часом
                   <Icon
                     v-if="sortBy === 'date'"
-                    :name="sortDir === 'asc' ? 'material-symbols:arrow-upward' : 'material-symbols:arrow-downward'"
+                    :name="
+                      sortDir === 'asc'
+                        ? 'material-symbols:arrow-upward'
+                        : 'material-symbols:arrow-downward'
+                    "
                   />
                 </button>
                 <button
@@ -75,7 +83,11 @@
                   За ціною
                   <Icon
                     v-if="sortBy === 'price'"
-                    :name="sortDir === 'asc' ? 'material-symbols:arrow-upward' : 'material-symbols:arrow-downward'"
+                    :name="
+                      sortDir === 'asc'
+                        ? 'material-symbols:arrow-upward'
+                        : 'material-symbols:arrow-downward'
+                    "
                   />
                 </button>
               </div>
@@ -138,7 +150,11 @@
                   За назвою
                   <Icon
                     v-if="companySortBy === 'name'"
-                    :name="companySortDir === 'asc' ? 'material-symbols:arrow-upward' : 'material-symbols:arrow-downward'"
+                    :name="
+                      companySortDir === 'asc'
+                        ? 'material-symbols:arrow-upward'
+                        : 'material-symbols:arrow-downward'
+                    "
                   />
                 </button>
                 <button
@@ -149,7 +165,11 @@
                   За кількістю
                   <Icon
                     v-if="companySortBy === 'count'"
-                    :name="companySortDir === 'asc' ? 'material-symbols:arrow-upward' : 'material-symbols:arrow-downward'"
+                    :name="
+                      companySortDir === 'asc'
+                        ? 'material-symbols:arrow-upward'
+                        : 'material-symbols:arrow-downward'
+                    "
                   />
                 </button>
                 <button
@@ -160,7 +180,11 @@
                   За сумою
                   <Icon
                     v-if="companySortBy === 'total'"
-                    :name="companySortDir === 'asc' ? 'material-symbols:arrow-upward' : 'material-symbols:arrow-downward'"
+                    :name="
+                      companySortDir === 'asc'
+                        ? 'material-symbols:arrow-upward'
+                        : 'material-symbols:arrow-downward'
+                    "
                   />
                 </button>
                 <button
@@ -171,7 +195,11 @@
                   За часом
                   <Icon
                     v-if="companySortBy === 'date'"
-                    :name="companySortDir === 'asc' ? 'material-symbols:arrow-upward' : 'material-symbols:arrow-downward'"
+                    :name="
+                      companySortDir === 'asc'
+                        ? 'material-symbols:arrow-upward'
+                        : 'material-symbols:arrow-downward'
+                    "
                   />
                 </button>
               </div>
@@ -240,101 +268,108 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useQuery } from "@tanstack/vue-query";
-import type { IDeal } from "~/types/deals.types";
-import { getCompanyName, buildCustomerNameMap, getCustomerId } from "~/utils/get-company-name";
+import { ref, computed } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import type { IDeal } from '~/types/deals.types'
+import { getCompanyName, buildCustomerNameMap, getCustomerId } from '~/utils/get-company-name'
 
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
 
-type ViewMode = "services" | "companies";
-type SortField = "name" | "date" | "price";
-type CompanySortField = "name" | "count" | "total" | "date";
-type SortDir = "asc" | "desc";
+type ViewMode = 'services' | 'companies'
+type SortField = 'name' | 'date' | 'price'
+type CompanySortField = 'name' | 'count' | 'total' | 'date'
+type SortDir = 'asc' | 'desc'
 
-const viewMode = ref<ViewMode>("services");
-const sortBy = ref<SortField>("name");
-const sortDir = ref<SortDir>("asc");
-const companySortBy = ref<CompanySortField>("name");
-const companySortDir = ref<SortDir>("asc");
+const viewMode = ref<ViewMode>('services')
+const sortBy = ref<SortField>('name')
+const sortDir = ref<SortDir>('asc')
+const companySortBy = ref<CompanySortField>('name')
+const companySortDir = ref<SortDir>('asc')
 
-const dbId = config.public.dbId;
-const collectionId = config.public.collectionDeals;
+const dbId = config.public.dbId
+const collectionId = config.public.collectionDeals
 const customerCollectionId =
-  (config.public as Record<string, string>).collectionCustomers || "customers";
+  (config.public as Record<string, string>).collectionCustomers || 'customers'
 
 interface AggregatedService {
-  name: string;
-  count: number;
-  lastPrice: number;
-  latestDate: string;
-  companies: string[];
+  name: string
+  count: number
+  lastPrice: number
+  latestDate: string
+  companies: string[]
 }
 
 interface AggregatedCompany {
-  customerId: string;
-  name: string;
-  count: number;
-  totalPrice: number;
-  minPrice: number;
-  maxPrice: number;
-  latestDate: string;
+  customerId: string
+  name: string
+  count: number
+  totalPrice: number
+  minPrice: number
+  maxPrice: number
+  latestDate: string
 }
 
-const { data: rawDeals, isLoading: dealsLoading, error: dealsError } = useQuery({
-  queryKey: ["deals", "services"],
+const {
+  data: rawDeals,
+  isLoading: dealsLoading,
+  error: dealsError,
+} = useQuery({
+  queryKey: ['deals', 'services'],
   queryFn: async () => {
     if (!dbId || !collectionId) {
-      throw new Error("Appwrite configuration missing");
+      throw new Error('Appwrite configuration missing')
     }
 
-    const result = await $appwrite.databases.listDocuments(dbId, collectionId);
-    const deals = result.documents as unknown as IDeal[];
-    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId);
+    const result = await $appwrite.databases.listDocuments(dbId, collectionId)
+    const deals = result.documents as unknown as IDeal[]
+    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId)
 
     const dealsWithCompany = deals.map((deal) => ({
       deal,
       companyName: getCompanyName(deal, customerNameMap),
-      customerId: getCustomerId(deal) || "unknown",
-    }));
+      customerId: getCustomerId(deal) || 'unknown',
+    }))
 
-    return dealsWithCompany;
+    return dealsWithCompany
   },
   staleTime: 60000,
-});
+})
 
 const servicesData = computed<AggregatedService[]>(() => {
-  if (!rawDeals.value) return [];
+  if (!rawDeals.value) return []
 
-  const grouped: Record<string, {
-    count: number;
-    lastPrice: number;
-    latestDate: string;
-    companies: string[];
-  }> = {};
+  const grouped: Record<
+    string,
+    {
+      count: number
+      lastPrice: number
+      latestDate: string
+      companies: string[]
+    }
+  > = {}
 
   for (const { deal, companyName } of rawDeals.value) {
-    const name = deal.name;
+    const name = deal.name
 
     if (!grouped[name]) {
       grouped[name] = {
         count: 0,
         lastPrice: 0,
-        latestDate: "",
+        latestDate: '',
         companies: [],
-      };
+      }
     }
 
-    grouped[name].count += 1;
+    grouped[name].count += 1
 
     if (!grouped[name].latestDate || deal.$createdAt > grouped[name].latestDate) {
-      grouped[name].latestDate = deal.$createdAt;
-      grouped[name].lastPrice = deal.price;
+      grouped[name].latestDate = deal.$createdAt
+      grouped[name].lastPrice = deal.price
     }
 
     if (companyName && !grouped[name].companies.includes(companyName)) {
-      grouped[name].companies.push(companyName);
+      grouped[name].companies.push(companyName)
     }
   }
 
@@ -344,20 +379,23 @@ const servicesData = computed<AggregatedService[]>(() => {
     lastPrice: data.lastPrice,
     latestDate: data.latestDate,
     companies: data.companies,
-  }));
-});
+  }))
+})
 
 const companiesData = computed<AggregatedCompany[]>(() => {
-  if (!rawDeals.value) return [];
+  if (!rawDeals.value) return []
 
-  const grouped: Record<string, {
-    name: string;
-    count: number;
-    totalPrice: number;
-    minPrice: number;
-    maxPrice: number;
-    latestDate: string;
-  }> = {};
+  const grouped: Record<
+    string,
+    {
+      name: string
+      count: number
+      totalPrice: number
+      minPrice: number
+      maxPrice: number
+      latestDate: string
+    }
+  > = {}
 
   for (const { deal, companyName, customerId } of rawDeals.value) {
     if (!grouped[customerId]) {
@@ -367,121 +405,121 @@ const companiesData = computed<AggregatedCompany[]>(() => {
         totalPrice: 0,
         minPrice: Infinity,
         maxPrice: -Infinity,
-        latestDate: "",
-      };
+        latestDate: '',
+      }
     }
 
-    grouped[customerId].count += 1;
-    grouped[customerId].totalPrice += deal.price;
-    grouped[customerId].minPrice = Math.min(grouped[customerId].minPrice, deal.price);
-    grouped[customerId].maxPrice = Math.max(grouped[customerId].maxPrice, deal.price);
+    grouped[customerId].count += 1
+    grouped[customerId].totalPrice += deal.price
+    grouped[customerId].minPrice = Math.min(grouped[customerId].minPrice, deal.price)
+    grouped[customerId].maxPrice = Math.max(grouped[customerId].maxPrice, deal.price)
 
     if (!grouped[customerId].latestDate || deal.$createdAt > grouped[customerId].latestDate) {
-      grouped[customerId].latestDate = deal.$createdAt;
+      grouped[customerId].latestDate = deal.$createdAt
     }
   }
 
   return Object.entries(grouped).map(([customerId, data]) => ({
     customerId,
     ...data,
-  }));
-});
+  }))
+})
 
 const sortedServices = computed(() => {
-  if (!servicesData.value) return [];
+  if (!servicesData.value) return []
 
-  const list = [...servicesData.value];
-  const dir = sortDir.value === "asc" ? 1 : -1;
+  const list = [...servicesData.value]
+  const dir = sortDir.value === 'asc' ? 1 : -1
 
   return list.sort((a, b) => {
     switch (sortBy.value) {
-      case "name":
-        return a.name.localeCompare(b.name, "uk") * dir;
-      case "date":
-        return (new Date(a.latestDate).getTime() - new Date(b.latestDate).getTime()) * dir;
-      case "price":
-        return (a.lastPrice - b.lastPrice) * dir;
+      case 'name':
+        return a.name.localeCompare(b.name, 'uk') * dir
+      case 'date':
+        return (new Date(a.latestDate).getTime() - new Date(b.latestDate).getTime()) * dir
+      case 'price':
+        return (a.lastPrice - b.lastPrice) * dir
       default:
-        return 0;
+        return 0
     }
-  });
-});
+  })
+})
 
 const sortedCompanies = computed(() => {
-  if (!companiesData.value) return [];
+  if (!companiesData.value) return []
 
-  const list = [...companiesData.value];
-  const dir = companySortDir.value === "asc" ? 1 : -1;
+  const list = [...companiesData.value]
+  const dir = companySortDir.value === 'asc' ? 1 : -1
 
   return list.sort((a, b) => {
     switch (companySortBy.value) {
-      case "name":
-        return a.name.localeCompare(b.name, "uk") * dir;
-      case "count":
-        return (a.count - b.count) * dir;
-      case "total":
-        return (a.totalPrice - b.totalPrice) * dir;
-      case "date":
-        return (new Date(a.latestDate).getTime() - new Date(b.latestDate).getTime()) * dir;
+      case 'name':
+        return a.name.localeCompare(b.name, 'uk') * dir
+      case 'count':
+        return (a.count - b.count) * dir
+      case 'total':
+        return (a.totalPrice - b.totalPrice) * dir
+      case 'date':
+        return (new Date(a.latestDate).getTime() - new Date(b.latestDate).getTime()) * dir
       default:
-        return 0;
+        return 0
     }
-  });
-});
+  })
+})
 
-const isAnyLoading = computed(() => dealsLoading.value);
-const isAnyError = computed(() => !!dealsError.value);
+const isAnyLoading = computed(() => dealsLoading.value)
+const isAnyError = computed(() => !!dealsError.value)
 
 const toggleSort = (field: SortField) => {
   if (sortBy.value === field) {
-    sortDir.value = sortDir.value === "asc" ? "desc" : "asc";
+    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
   } else {
-    sortBy.value = field;
-    sortDir.value = "asc";
+    sortBy.value = field
+    sortDir.value = 'asc'
   }
-};
+}
 
 const toggleCompanySort = (field: CompanySortField) => {
   if (companySortBy.value === field) {
-    companySortDir.value = companySortDir.value === "asc" ? "desc" : "asc";
+    companySortDir.value = companySortDir.value === 'asc' ? 'desc' : 'asc'
   } else {
-    companySortBy.value = field;
-    companySortDir.value = "asc";
+    companySortBy.value = field
+    companySortDir.value = 'asc'
   }
-};
+}
 
 const navigateToCompany = (customerId: string) => {
-  navigateTo(`/services/company/${customerId}`);
-};
+  navigateTo(`/services/company/${customerId}`)
+}
 
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("uk-UA", {
-    style: "currency",
-    currency: "UAH",
+  return new Intl.NumberFormat('uk-UA', {
+    style: 'currency',
+    currency: 'UAH',
     minimumFractionDigits: 0,
-  }).format(price);
-};
+  }).format(price)
+}
 
 const formatDate = (date: string): string => {
-  return new Date(date).toLocaleDateString("uk-UA", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-};
+  return new Date(date).toLocaleDateString('uk-UA', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+}
 
 const getColor = (name: string): string => {
   const colors = [
-    "var(--accent-gradient)",
-    "linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
-    "linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)",
-    "linear-gradient(135deg, var(--status-amber) 0%, var(--error-primary) 100%)",
-    "linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
-  ];
+    'var(--accent-gradient)',
+    'linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)',
+    'linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)',
+    'linear-gradient(135deg, var(--status-amber) 0%, var(--error-primary) 100%)',
+    'linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)',
+  ]
 
-  const index = name.length % colors.length;
-  return colors[index];
-};
+  const index = name.length % colors.length
+  return colors[index]
+}
 </script>
 
 <style scoped>
@@ -665,7 +703,9 @@ const getColor = (name: string): string => {
   padding: 20px;
   display: flex;
   gap: 16px;
-  transition: border-color 0.2s, transform 0.2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
 }
 
 .service-card:hover {

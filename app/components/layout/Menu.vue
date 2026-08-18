@@ -1,11 +1,6 @@
 <template>
   <nav class="menu-container">
-    <NuxtLink
-      v-for="item in MENU_DATA"
-      :to="item.url"
-      :key="item.name"
-      class="menu-link"
-    >
+    <NuxtLink v-for="item in MENU_DATA" :key="item.name" :to="item.url" class="menu-link">
       <Icon :name="item.icon" class="menu-icon" />
       <span class="menu-text">{{ item.name }}</span>
     </NuxtLink>
@@ -13,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import { MENU_DATA } from "./menu.data";
+import { MENU_DATA } from './menu.data'
 </script>
 
 <style lang="css" scoped>

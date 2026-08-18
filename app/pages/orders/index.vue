@@ -8,7 +8,7 @@
         </div>
 
         <div v-if="isLoading" class="orders-loading">
-          <div class="spinner"></div>
+          <div class="spinner" />
           <span>Завантаження даних...</span>
         </div>
 
@@ -41,37 +41,22 @@
             <p class="empty-hint">Спробуйте інший фільтр</p>
           </div>
 
-          <div
-            v-for="group in filteredTimeline"
-            :key="group.dateISO"
-            class="timeline-group"
-          >
+          <div v-for="group in filteredTimeline" :key="group.dateISO" class="timeline-group">
             <div class="timeline-date">
-              <div class="timeline-dot"></div>
+              <div class="timeline-dot" />
               <span class="date-label"
                 >{{ group.date }} — {{ group.deals.length }}
                 {{
-                  group.deals.length === 1
-                    ? "угода"
-                    : group.deals.length < 5
-                      ? "угоди"
-                      : "угод"
+                  group.deals.length === 1 ? 'угода' : group.deals.length < 5 ? 'угоди' : 'угод'
                 }}</span
               >
             </div>
 
             <div class="timeline-deals">
-              <div
-                v-for="deal in group.deals"
-                :key="deal.$id"
-                class="deal-card"
-              >
+              <div v-for="deal in group.deals" :key="deal.$id" class="deal-card">
                 <div class="deal-header">
                   <h3 class="deal-name">{{ deal.name }}</h3>
-                  <span
-                    class="deal-status"
-                    :style="{ background: deal.statusColor }"
-                  >
+                  <span class="deal-status" :style="{ background: deal.statusColor }">
                     {{ deal.statusLabel }}
                   </span>
                 </div>
@@ -101,116 +86,111 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useQuery } from "@tanstack/vue-query";
-import type { IDeal } from "~/types/deals.types";
-import { EnumStatus } from "~/types/deals.types";
-import { getCompanyName, buildCustomerNameMap } from "~/utils/get-company-name";
+import { ref, computed } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import type { IDeal } from '~/types/deals.types'
+import { EnumStatus } from '~/types/deals.types'
+import { getCompanyName, buildCustomerNameMap } from '~/utils/get-company-name'
 
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
 
-const dbId = config.public.dbId;
-const collectionId = config.public.collectionDeals;
+const dbId = config.public.dbId
+const collectionId = config.public.collectionDeals
 const customerCollectionId =
-  (config.public as Record<string, string>).collectionCustomers || "customers";
+  (config.public as Record<string, string>).collectionCustomers || 'customers'
 
 interface TimelineDeal {
-  $id: string;
-  name: string;
-  price: number;
-  status: string;
-  statusLabel: string;
-  statusColor: string;
-  customerName: string;
-  $createdAt: string;
+  $id: string
+  name: string
+  price: number
+  status: string
+  statusLabel: string
+  statusColor: string
+  customerName: string
+  $createdAt: string
 }
 
 interface TimelineGroup {
-  date: string;
-  dateISO: string;
-  deals: TimelineDeal[];
+  date: string
+  dateISO: string
+  deals: TimelineDeal[]
 }
 
 const statusLabels: Record<string, string> = {
-  [EnumStatus.todo]: "Вхідні",
-  [EnumStatus["to-be-agreed"]]: "На погодженні",
-  [EnumStatus["in-progress"]]: "У виробництві",
-  [EnumStatus.produced]: "Виготовлено",
-  [EnumStatus.done]: "Передано клієнту",
-};
+  [EnumStatus.todo]: 'Вхідні',
+  [EnumStatus['to-be-agreed']]: 'На погодженні',
+  [EnumStatus['in-progress']]: 'У виробництві',
+  [EnumStatus.produced]: 'Виготовлено',
+  [EnumStatus.done]: 'Передано клієнту',
+}
 
 const statusColors: Record<string, string> = {
-  [EnumStatus.todo]: "var(--accent-gradient)",
-  [EnumStatus["to-be-agreed"]]:
-    "linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
-  [EnumStatus["in-progress"]]:
-    "linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)",
+  [EnumStatus.todo]: 'var(--accent-gradient)',
+  [EnumStatus['to-be-agreed']]:
+    'linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)',
+  [EnumStatus['in-progress']]:
+    'linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)',
   [EnumStatus.produced]:
-    "linear-gradient(135deg, var(--status-green-light) 0%, var(--status-green-light) 100%)",
-  [EnumStatus.done]:
-    "linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
-};
+    'linear-gradient(135deg, var(--status-green-light) 0%, var(--status-green-light) 100%)',
+  [EnumStatus.done]: 'linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)',
+}
 
-const activeFilter = ref<string>("all");
+const activeFilter = ref<string>('all')
 
 const filters = [
-  { value: "all", label: "Всі" },
-  { value: EnumStatus.todo, label: "Вхідні" },
-  { value: EnumStatus["to-be-agreed"], label: "На погодженні" },
-  { value: EnumStatus["in-progress"], label: "У виробництві" },
-  { value: EnumStatus.produced, label: "Виготовлено" },
-  { value: EnumStatus.done, label: "Передано клієнту" },
-];
+  { value: 'all', label: 'Всі' },
+  { value: EnumStatus.todo, label: 'Вхідні' },
+  { value: EnumStatus['to-be-agreed'], label: 'На погодженні' },
+  { value: EnumStatus['in-progress'], label: 'У виробництві' },
+  { value: EnumStatus.produced, label: 'Виготовлено' },
+  { value: EnumStatus.done, label: 'Передано клієнту' },
+]
 
 const setFilter = (status: string) => {
-  activeFilter.value = status;
-};
+  activeFilter.value = status
+}
 
 const {
   data: timeline,
   isLoading,
   error,
 } = useQuery({
-  queryKey: ["deals", "timeline"],
+  queryKey: ['deals', 'timeline'],
   queryFn: async () => {
     if (!dbId || !collectionId) {
-      throw new Error("Appwrite configuration missing");
+      throw new Error('Appwrite configuration missing')
     }
 
-    const result = await $appwrite.databases.listDocuments(dbId, collectionId);
-    const deals = result.documents as unknown as IDeal[];
-    const customerNameMap = await buildCustomerNameMap(
-      $appwrite,
-      dbId,
-      customerCollectionId,
-    );
+    const result = await $appwrite.databases.listDocuments(dbId, collectionId)
+    const deals = result.documents as unknown as IDeal[]
+    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId)
 
     const enriched = deals.map((deal) => ({
       deal,
       companyName: getCompanyName(deal, customerNameMap),
-    }));
+    }))
 
-    return enriched;
+    return enriched
   },
   select: (enriched) => {
-    const grouped: Record<string, TimelineGroup> = {};
+    const grouped: Record<string, TimelineGroup> = {}
 
     for (const { deal, companyName } of enriched) {
-      const dateObj = new Date(deal.$createdAt);
-      const dateLabel = dateObj.toLocaleDateString("uk-UA", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-      const dateISO = dateObj.toISOString().split("T")[0];
+      const dateObj = new Date(deal.$createdAt)
+      const dateLabel = dateObj.toLocaleDateString('uk-UA', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      })
+      const dateISO = dateObj.toISOString().split('T')[0]
 
       if (!grouped[dateISO]) {
         grouped[dateISO] = {
           date: dateLabel,
           dateISO,
           deals: [],
-        };
+        }
       }
 
       grouped[dateISO].deals.push({
@@ -221,24 +201,24 @@ const {
         statusLabel: statusLabels[deal.status] || deal.status,
         statusColor:
           statusColors[deal.status] ||
-          "linear-gradient(135deg, var(--text-subtle) 0%, var(--text-muted) 100%)",
-        customerName: companyName || "—",
+          'linear-gradient(135deg, var(--text-subtle) 0%, var(--text-muted) 100%)',
+        customerName: companyName || '—',
         $createdAt: deal.$createdAt,
-      });
+      })
     }
 
     return Object.values(grouped).sort((a, b) => {
-      return new Date(b.dateISO).getTime() - new Date(a.dateISO).getTime();
-    });
+      return new Date(b.dateISO).getTime() - new Date(a.dateISO).getTime()
+    })
   },
   staleTime: 60000,
-});
+})
 
 const filteredTimeline = computed(() => {
-  if (!timeline.value) return [];
+  if (!timeline.value) return []
 
-  if (activeFilter.value === "all") {
-    return timeline.value;
+  if (activeFilter.value === 'all') {
+    return timeline.value
   }
 
   return timeline.value
@@ -246,16 +226,16 @@ const filteredTimeline = computed(() => {
       ...group,
       deals: group.deals.filter((deal) => deal.status === activeFilter.value),
     }))
-    .filter((group) => group.deals.length > 0);
-});
+    .filter((group) => group.deals.length > 0)
+})
 
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("uk-UA", {
-    style: "currency",
-    currency: "UAH",
+  return new Intl.NumberFormat('uk-UA', {
+    style: 'currency',
+    currency: 'UAH',
     minimumFractionDigits: 0,
-  }).format(price);
-};
+  }).format(price)
+}
 </script>
 
 <style scoped>
@@ -397,8 +377,7 @@ const formatPrice = (price: number): string => {
   border-radius: 50%;
   background: var(--accent-gradient);
   flex-shrink: 0;
-  box-shadow: 0 0 12px
-    color-mix(in srgb, var(--accent-primary) 40%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent-primary) 40%, transparent);
 }
 
 .date-label {

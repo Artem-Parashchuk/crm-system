@@ -2,18 +2,12 @@
   <button
     type="button"
     class="theme-toggle"
-    :aria-label="
-      themeStore.theme === 'dark'
-        ? 'Увімкнути світлу тему'
-        : 'Увімкнути темну тему'
-    "
+    :aria-label="themeStore.theme === 'dark' ? 'Увімкнути світлу тему' : 'Увімкнути темну тему'"
     @click="themeStore.toggleTheme()"
   >
     <Icon
       :name="
-        themeStore.theme === 'dark'
-          ? 'material-symbols:light-mode'
-          : 'material-symbols:dark-mode'
+        themeStore.theme === 'dark' ? 'material-symbols:light-mode' : 'material-symbols:dark-mode'
       "
       size="22px"
     />
@@ -21,9 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import { useThemeStore } from "~/store/theme.store";
+import { useThemeStore } from '~/store/theme.store'
 
-const themeStore = useThemeStore();
+const themeStore = useThemeStore()
 </script>
 
 <style scoped>

@@ -20,7 +20,7 @@
       </KanbanSlideoverLabel>
 
       <KanbanSlideoverLabel label-text="Дата створення">
-        <span class="detail-value">{{ dayjs(store.card.$createdAt).format("DD MMMM YYYY") }}</span>
+        <span class="detail-value">{{ dayjs(store.card.$createdAt).format('DD MMMM YYYY') }}</span>
       </KanbanSlideoverLabel>
     </template>
 
@@ -31,26 +31,26 @@
 </template>
 
 <script setup lang="ts">
-import dayjs from "dayjs";
-import { useDealsSlideStore } from "~/store/deal-slide.store";
+import dayjs from 'dayjs'
+import { useDealsSlideStore } from '~/store/deal-slide.store'
 
-const store = useDealsSlideStore();
+const store = useDealsSlideStore()
 
 const statusLabels: Record<string, string> = {
-  todo: "Вхідні",
-  "to-be-agreed": "На погодженні",
-  "in-progress": "У виробництві",
-  produced: "Виготовлено",
-  done: "До відвантаження",
-};
+  todo: 'Вхідні',
+  'to-be-agreed': 'На погодженні',
+  'in-progress': 'У виробництві',
+  produced: 'Виготовлено',
+  done: 'До відвантаження',
+}
 
 const convertCurrency = (value: number) => {
-  return new Intl.NumberFormat("uk-UA", {
-    style: "currency",
-    currency: "UAH",
+  return new Intl.NumberFormat('uk-UA', {
+    style: 'currency',
+    currency: 'UAH',
     maximumFractionDigits: 0,
-  }).format(value);
-};
+  }).format(value)
+}
 </script>
 
 <style lang="css" scoped>

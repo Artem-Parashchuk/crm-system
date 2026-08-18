@@ -80,16 +80,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { HELP_FAQ_DATA, type HelpFaqItem } from "~/data/help-faq.data";
+import { ref } from 'vue'
+import { HELP_FAQ_DATA, type HelpFaqItem } from '~/data/help-faq.data'
 
 const faqItems = ref<(HelpFaqItem & { isOpen: boolean })[]>(
-  HELP_FAQ_DATA.map((item) => ({ ...item, isOpen: false }))
-);
+  HELP_FAQ_DATA.map((item) => ({ ...item, isOpen: false })),
+)
 
 const toggleQuestion = (index: number) => {
-  faqItems.value[index].isOpen = !faqItems.value[index].isOpen;
-};
+  faqItems.value[index].isOpen = !faqItems.value[index].isOpen
+}
 </script>
 
 <style scoped>
@@ -194,7 +194,9 @@ const toggleQuestion = (index: number) => {
 .faq-chevron {
   font-size: 20px;
   color: var(--text-subtle);
-  transition: transform 0.25s ease, color 0.2s ease;
+  transition:
+    transform 0.25s ease,
+    color 0.2s ease;
   flex-shrink: 0;
 }
 
@@ -351,7 +353,7 @@ a.contact-value:hover {
 }
 
 @media (max-width: 480px) {
-  .help-wrapper{
+  .help-wrapper {
     padding: 8px;
   }
   .help-card {
