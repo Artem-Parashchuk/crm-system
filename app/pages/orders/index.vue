@@ -146,7 +146,7 @@ const statusColors: Record<string, string> = {
     "linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
   [EnumStatus["in-progress"]]:
     "linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)",
-  [EnumStatus.produced]: "linear-gradient(135deg, var(--status-amber) 0%, var(--error-primary) 100%)",
+  [EnumStatus.produced]: "linear-gradient(135deg, var(--status-green-light) 0%, var(--status-green-light) 100%)",
   [EnumStatus.done]: "linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
 };
 
@@ -158,7 +158,7 @@ const filters = [
   { value: EnumStatus["to-be-agreed"], label: "На погодженні" },
   { value: EnumStatus["in-progress"], label: "У виробництві" },
   { value: EnumStatus.produced, label: "Виготовлено" },
-  { value: EnumStatus.done, label: "Готово" },
+  { value: EnumStatus.done, label: "Передано клієнту" },
 ];
 
 const setFilter = (status: string) => {
