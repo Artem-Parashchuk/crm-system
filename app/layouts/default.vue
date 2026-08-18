@@ -185,7 +185,7 @@ onMounted(async () => {
   }
 
   .main-content {
-    padding: 0rem 1rem 1rem;
+    padding: 3rem 1rem 1rem;
     width: 100%;
   }
 }

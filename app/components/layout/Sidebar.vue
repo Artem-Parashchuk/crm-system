@@ -42,10 +42,10 @@ const isLoadingStore = useIsLoadingStore();
 const store = useAuthStore();
 const router = useRouter();
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(["close"]);
 
 const closeSidebar = () => {
-  emit('close');
+  emit("close");
 };
 
 const logout = async () => {
@@ -58,7 +58,7 @@ const logout = async () => {
 
     store.clear();
 
-    await router.push("/login"); 
+    await router.push("/login");
   } catch (error) {
     console.error("Помилка при виході з системи:", error);
     alert("Не вдалося вийти з акаунта");
@@ -80,8 +80,8 @@ const logout = async () => {
 }
 .aside-actions {
   position: absolute;
-  top: 20px;
-  right: 0px;
+  top: 500px;
+  right: 130px;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -139,7 +139,7 @@ const logout = async () => {
   }
 
   .aside-actions {
-    top: 16px;
+    top: 530px;
     left: 16px;
     right: auto;
   }
