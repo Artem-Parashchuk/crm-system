@@ -15,14 +15,6 @@
           </div>
         </div>
 
-        <div v-if="isDemoAccount" class="demo-banner">
-          <Icon name="material-symbols:info" class="demo-banner-icon" />
-          <div class="demo-banner-text">
-            <strong>Демо-акаунт</strong>
-            <span>Це акаунт тільки для перегляду. Зміна даних профілю, паролю та email недоступна.</span>
-          </div>
-        </div>
-
         <!-- Секція 1: Профіль -->
         <div class="settings-section">
           <h2 class="section-title">
@@ -435,10 +427,7 @@ const getStatsTotal = (key: string) => {
   border-radius: 16px;
   padding: 40px;
   width: 100%;
-  max-width: 720px;
-  box-shadow:
-    0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
+  box-shadow: var(--shadow-card);
 }
 
 .settings-header {
@@ -575,11 +564,6 @@ const getStatsTotal = (key: string) => {
 
 .btn-edit:hover {
   color: var(--accent-secondary);
-}
-
-.btn-edit:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
 }
 
 .btn-edit:disabled {
