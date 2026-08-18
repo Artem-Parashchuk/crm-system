@@ -147,6 +147,12 @@ A modern, full-featured CRM system built with **Nuxt 4** and **Vue 3** for manag
 - **FAQ section**: Expandable accordion with common questions
 - **Support contacts**: Email, Telegram, working hours
 
+### 🛡️ Code Quality
+- **ESLint**: Code linting with Nuxt-specific rules
+- **Prettier**: Automatic code formatting
+- **Husky**: Git hooks for pre-commit checks
+- **lint-staged**: Run linters on staged files only
+
 ---
 
 ## 🔧 Technical Highlights
@@ -319,6 +325,21 @@ npm run dev
 
 # Open http://localhost:3000
 ```
+
+### Code Quality
+
+```bash
+# Run ESLint
+npm run lint
+
+# Fix ESLint errors automatically
+npm run lint:fix
+
+# Format code with Prettier
+npm run format
+```
+
+>  **Note**: Husky automatically runs lint-staged on pre-commit hook, ensuring code quality before each commit.
 
 ### Production
 
