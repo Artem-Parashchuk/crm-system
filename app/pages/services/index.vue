@@ -764,7 +764,7 @@ const getColor = (name: string): string => {
 
 @media (max-width: 768px) {
   .services-wrapper {
-    padding: 12px;
+    padding: 24px;
   }
 
   .services-card {
@@ -796,7 +796,7 @@ const getColor = (name: string): string => {
   }
 
   .services-grid {
-    grid-template-columns: 1fr;
+    /* grid-template-columns: 1fr; */
     gap: 12px;
   }
 

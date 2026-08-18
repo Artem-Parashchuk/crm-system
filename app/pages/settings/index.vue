@@ -11,7 +11,10 @@
           <Icon name="material-symbols:info" class="demo-banner-icon" />
           <div class="demo-banner-text">
             <strong>Демо-акаунт</strong>
-            <span>Це акаунт тільки для перегляду. Зміна даних профілю, паролю та email недоступна.</span>
+            <span
+              >Це акаунт тільки для перегляду. Зміна даних профілю, паролю та
+              email недоступна.</span
+            >
           </div>
         </div>
 
@@ -610,7 +613,8 @@ const getStatsTotal = (key: string) => {
 
 .settings-input:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 15%, transparent);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--accent-primary) 15%, transparent);
 }
 
 .settings-input::placeholder {
@@ -842,6 +846,15 @@ const getStatsTotal = (key: string) => {
     right: 16px;
     bottom: 16px;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-wrapper {
+    padding: 8px;
+  }
+  .settings-card {
+    padding: 8px;
   }
 }
 </style>

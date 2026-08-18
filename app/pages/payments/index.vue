@@ -59,15 +59,24 @@
           <div class="status-breakdown">
             <h2 class="section-title">Сума за статусами</h2>
             <div class="status-bars">
-              <div v-for="item in data.byStatus" :key="item.status" class="status-bar-item">
+              <div
+                v-for="item in data.byStatus"
+                :key="item.status"
+                class="status-bar-item"
+              >
                 <div class="status-bar-header">
                   <span class="status-name">{{ item.label }}</span>
-                  <span class="status-amount">{{ formatPrice(item.total) }}</span>
+                  <span class="status-amount">{{
+                    formatPrice(item.total)
+                  }}</span>
                 </div>
                 <div class="status-bar-track">
                   <div
                     class="status-bar-fill"
-                    :style="{ width: item.percentage + '%', background: item.color }"
+                    :style="{
+                      width: item.percentage + '%',
+                      background: item.color,
+                    }"
                   ></div>
                 </div>
               </div>
@@ -77,11 +86,17 @@
           <div class="top-deals">
             <h2 class="section-title">Топ-5 угод за ціною</h2>
             <div class="deals-list">
-              <div v-for="(deal, index) in data.topDeals" :key="deal.$id" class="deal-item">
+              <div
+                v-for="(deal, index) in data.topDeals"
+                :key="deal.$id"
+                class="deal-item"
+              >
                 <div class="deal-rank">#{{ index + 1 }}</div>
                 <div class="deal-info">
                   <span class="deal-name">{{ deal.name }}</span>
-                  <span class="deal-client">{{ deal.companyName || 'Без клієнта' }}</span>
+                  <span class="deal-client">{{
+                    deal.companyName || "Без клієнта"
+                  }}</span>
                 </div>
                 <div class="deal-price">{{ formatPrice(deal.price) }}</div>
               </div>
@@ -142,10 +157,14 @@ const statusLabels: Record<string, string> = {
 
 const statusColors: Record<string, string> = {
   [EnumStatus.todo]: "var(--accent-gradient)",
-  [EnumStatus["to-be-agreed"]]: "linear-gradient(90deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
-  [EnumStatus["in-progress"]]: "linear-gradient(90deg, var(--success-primary) 0%, var(--status-blue) 100%)",
-  [EnumStatus.produced]: "linear-gradient(90deg, var(--status-amber) 0%, var(--error-primary) 100%)",
-  [EnumStatus.done]: "linear-gradient(90deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
+  [EnumStatus["to-be-agreed"]]:
+    "linear-gradient(90deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
+  [EnumStatus["in-progress"]]:
+    "linear-gradient(90deg, var(--success-primary) 0%, var(--status-blue) 100%)",
+  [EnumStatus.produced]:
+    "linear-gradient(90deg, var(--status-amber) 0%, var(--error-primary) 100%)",
+  [EnumStatus.done]:
+    "linear-gradient(90deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
 };
 
 const { data, isLoading, error } = useQuery({
@@ -157,7 +176,11 @@ const { data, isLoading, error } = useQuery({
 
     const result = await $appwrite.databases.listDocuments(dbId, collectionId);
     const deals = result.documents as unknown as IDeal[];
-    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId);
+    const customerNameMap = await buildCustomerNameMap(
+      $appwrite,
+      dbId,
+      customerCollectionId,
+    );
 
     return deals.map((deal) => ({
       ...deal,
@@ -177,17 +200,19 @@ const { data, isLoading, error } = useQuery({
     }
 
     const maxStatusTotal = Math.max(...Object.values(statusGroups), 1);
-    const byStatus = Object.entries(statusGroups).map(([status, statusTotal]) => ({
-      status,
-      label: statusLabels[status] || status,
-      total: statusTotal,
-      percentage: (statusTotal / maxStatusTotal) * 100,
-      color: statusColors[status] || "linear-gradient(90deg, var(--text-subtle) 0%, var(--text-muted) 100%)",
-    }));
+    const byStatus = Object.entries(statusGroups).map(
+      ([status, statusTotal]) => ({
+        status,
+        label: statusLabels[status] || status,
+        total: statusTotal,
+        percentage: (statusTotal / maxStatusTotal) * 100,
+        color:
+          statusColors[status] ||
+          "linear-gradient(90deg, var(--text-subtle) 0%, var(--text-muted) 100%)",
+      }),
+    );
 
-    const topDeals = [...deals]
-      .sort((a, b) => b.price - a.price)
-      .slice(0, 5);
+    const topDeals = [...deals].sort((a, b) => b.price - a.price).slice(0, 5);
 
     return { total, avg, count, byStatus, topDeals };
   },
@@ -304,7 +329,9 @@ const formatPrice = (price: number): string => {
   padding: 20px;
   display: flex;
   gap: 16px;
-  transition: border-color 0.2s, transform 0.2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
 }
 
 .stat-card:hover {
@@ -484,6 +511,15 @@ const formatPrice = (price: number): string => {
 
   .deal-item {
     padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .finance-card {
+    padding: 8px;
+  }
+  .finance-wrapper {
+    padding: 8px;
   }
 }
 </style>
