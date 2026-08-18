@@ -4,26 +4,18 @@
       <div class="success-icon-wrapper">
         <Icon name="material-symbols:mail-outline" class="success-icon" />
       </div>
-      
+
       <h1 class="auth-title">Перевірте email</h1>
-      <p class="auth-subtitle">
-        Ми надіслали посилання для відновлення паролю на вашу пошту
-      </p>
+      <p class="auth-subtitle">Ми надіслали посилання для відновлення паролю на вашу пошту</p>
 
       <div class="info-box">
-        <p>
-          Не отримали лист? Перевірте папку "Спам" або спробуйте надіслати посилання ще раз.
-        </p>
+        <p>Не отримали лист? Перевірте папку "Спам" або спробуйте надіслати посилання ще раз.</p>
       </div>
 
       <div class="action-buttons">
-        <NuxtLink to="/forgot-password" class="btn btn-secondary">
-          Надіслати ще раз
-        </NuxtLink>
-        
-        <NuxtLink to="/login" class="btn btn-primary">
-          Повернутися до входу
-        </NuxtLink>
+        <NuxtLink to="/forgot-password" class="btn btn-secondary"> Надіслати ще раз </NuxtLink>
+
+        <NuxtLink to="/login" class="btn btn-primary"> Повернутися до входу </NuxtLink>
       </div>
     </div>
   </div>
@@ -31,7 +23,7 @@
 
 <script lang="ts" setup>
 definePageMeta({
-  layout: 'auth'
+  layout: 'auth',
 })
 </script>
 

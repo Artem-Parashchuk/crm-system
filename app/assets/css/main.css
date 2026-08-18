@@ -24,10 +24,8 @@
   --accent-secondary: #a78bfa;
   --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #d946ef 100%);
 
-  --shadow-card: 0 20px 40px rgba(5, 3, 10, 0.8),
-    0 1px 3px rgba(139, 92, 246, 0.1);
-  --shadow-hover: 0 10px 25px -5px rgba(5, 3, 10, 0.7),
-    0 8px 10px -6px rgba(43, 31, 71, 0.3);
+  --shadow-card: 0 20px 40px rgba(5, 3, 10, 0.8), 0 1px 3px rgba(139, 92, 246, 0.1);
+  --shadow-hover: 0 10px 25px -5px rgba(5, 3, 10, 0.7), 0 8px 10px -6px rgba(43, 31, 71, 0.3);
 
   --error-text: #fca5a5;
   --error-bg: color-mix(in srgb, var(--error-primary) 10%, transparent);
@@ -60,7 +58,7 @@
   --scrollbar-thumb-hover: #3e2d63;
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
   --bg-tertiary: #f1f5f9;
@@ -81,8 +79,7 @@
   --accent-secondary: #8b5cf6;
   --accent-gradient: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
 
-  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   --error-text: #dc2626;
@@ -116,7 +113,9 @@
   --scrollbar-thumb-hover: #94a3b8;
 }
 
-html, body, #__nuxt {
+html,
+body,
+#__nuxt {
   margin: 0;
   padding: 0;
   width: 100%;
@@ -130,7 +129,9 @@ html, body, #__nuxt {
   overflow: hidden;
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   font-family: 'Lato', sans-serif;
 }
@@ -145,14 +146,21 @@ body {
 }
 
 /* Плавні переходи між темами */
-*, *::before, *::after {
-  transition: background-color 0.3s ease, border-color 0.3s ease,
-    color 0.2s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+*,
+*::before,
+*::after {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.2s ease,
+    box-shadow 0.3s ease,
+    opacity 0.3s ease;
 }
 
 /* На мобільних дозволяємо body скролитися, щоб уникнути проблем із віртуальною клавіатурою */
 @media (max-width: 768px) {
-  html, body {
+  html,
+  body {
     overflow: auto;
     height: auto;
   }

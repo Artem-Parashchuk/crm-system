@@ -1,38 +1,32 @@
 <template>
   <div class="comments-block">
-    <div v-if="isLoading" class="comments-loader">
-      Завантаження коментарів...
-    </div>
+    <div v-if="isLoading" class="comments-loader">Завантаження коментарів...</div>
 
     <div v-else class="comments-content">
       <h3>Коментарі ({{ commentsList?.length || 0 }})</h3>
       <div class="comment-input-wrapper">
         <input
-          type="text"
           v-model="newCommentText"
+          type="text"
           placeholder="Напишіть коментар та натисніть Enter..."
-          @keyup.enter="writeComment"
           class="comment-input"
+          @keyup.enter="writeComment"
         />
-        <button class="btn" @click="writeComment" :disabled="isPending">
-          {{ isPending ? "Відправка..." : "Додати коментар" }}
+        <button class="btn" :disabled="isPending" @click="writeComment">
+          {{ isPending ? 'Відправка...' : 'Додати коментар' }}
         </button>
       </div>
       <div v-if="commentsList?.length" class="comments-list">
-        <div
-          v-for="item in commentsList"
-          :key="item.$id"
-          class="comment-item"
-        >
+        <div v-for="item in commentsList" :key="item.$id" class="comment-item">
           <div class="comment-item__header">
             <span class="comment-date">
-              {{ dayjs(item.$createdAt).format("DD.MM HH:mm") }}
+              {{ dayjs(item.$createdAt).format('DD.MM HH:mm') }}
             </span>
             <button
               class="comment-delete-btn"
               :disabled="isDeletePending"
-              @click="deleteComment(item.$id)"
               title="Видалити коментар"
+              @click="deleteComment(item.$id)"
             >
               <Icon name="material-symbols:delete-outline" />
             </button>
@@ -47,17 +41,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import dayjs from "dayjs";
-import { useComments } from "./useComments";
-import { useCreateComment } from "./useCreateComment";
-import { useDeleteComment } from "./useDeleteComment";
+import dayjs from 'dayjs'
+import { useComments } from './useComments'
+import { useCreateComment } from './useCreateComment'
+import { useDeleteComment } from './useDeleteComment'
 
-const { data: commentsList, refetch, isLoading } = useComments();
+const { data: commentsList, refetch, isLoading } = useComments()
 
-const { comment: newCommentText, writeComment, isPending } = useCreateComment({ refetch });
+const { comment: newCommentText, writeComment, isPending } = useCreateComment({ refetch })
 
-const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
+const { deleteComment, isDeletePending } = useDeleteComment({ refetch })
 </script>
 
 <style scoped>
@@ -120,7 +113,9 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
   padding: 4px;
   border-radius: 4px;
   color: var(--border-secondary);
-  transition: color 0.2s, background-color 0.2s;
+  transition:
+    color 0.2s,
+    background-color 0.2s;
 }
 
 .comment-delete-btn:hover {
@@ -173,7 +168,7 @@ const { deleteComment, isDeletePending } = useDeleteComment({ refetch });
     box-shadow 0.2s;
   background-color: var(--bg-primary);
   color: var(--text-secondary);
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .comment-input::placeholder {

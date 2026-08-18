@@ -7,8 +7,8 @@
       v-if="store.isAuth"
       type="button"
       class="mobile-menu-btn"
-      @click="isMobileMenuOpen = !isMobileMenuOpen"
       aria-label="Відкрити меню"
+      @click="isMobileMenuOpen = !isMobileMenuOpen"
     >
       <Icon name="material-symbols:menu" size="24px" />
     </button>
@@ -36,48 +36,48 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref, watch } from "vue";
-import { useAuthStore, useIsLoadingStore } from "~/store/auth.store";
-import { useThemeStore } from "~/store/theme.store";
+import { onMounted, ref, watch } from 'vue'
+import { useAuthStore, useIsLoadingStore } from '~/store/auth.store'
+import { useThemeStore } from '~/store/theme.store'
 
-const { $appwrite } = useNuxtApp();
-const isLoadingStore = useIsLoadingStore();
-const store = useAuthStore();
-const themeStore = useThemeStore();
-const router = useRouter();
-const isMobileMenuOpen = ref(false);
+const { $appwrite } = useNuxtApp()
+const isLoadingStore = useIsLoadingStore()
+const store = useAuthStore()
+const themeStore = useThemeStore()
+const router = useRouter()
+const isMobileMenuOpen = ref(false)
 
 watch(
   () => router.currentRoute.value.path,
   () => {
-    isMobileMenuOpen.value = false;
+    isMobileMenuOpen.value = false
   },
-);
+)
 
-isLoadingStore.set(true);
+isLoadingStore.set(true)
 
 onMounted(async () => {
-  themeStore.initTheme();
+  themeStore.initTheme()
 
   try {
-    const user = await $appwrite.account.get();
+    const user = await $appwrite.account.get()
 
     if (user) {
       store.setUser({
         email: user.email,
         name: user.name,
         status: true,
-      });
+      })
     }
-  } catch (error) {
-    const currentRoute = router.currentRoute.value;
-    if (currentRoute.path !== "/login") {
-      await router.push("/login");
+  } catch {
+    const currentRoute = router.currentRoute.value
+    if (currentRoute.path !== '/login') {
+      await router.push('/login')
     }
   } finally {
-    isLoadingStore.set(false);
+    isLoadingStore.set(false)
   }
-});
+})
 </script>
 
 <style lang="css" scoped>
@@ -91,7 +91,7 @@ onMounted(async () => {
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
-    "Segoe UI",
+    'Segoe UI',
     Roboto,
     sans-serif;
   overflow: hidden;

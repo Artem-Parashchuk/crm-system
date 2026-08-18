@@ -22,7 +22,7 @@
       </div>
 
       <div v-if="isLoading" class="loader-state">
-        <div class="spinner"></div>
+        <div class="spinner" />
         <span>Завантаження даних...</span>
       </div>
 
@@ -53,9 +53,7 @@
             <p class="cell-text font-bold">{{ customer.name }}</p>
             <p class="cell-text">{{ customer.email }}</p>
             <p class="cell-text">
-              <span class="source-tag">{{
-                customer.from_source || "Невідомо"
-              }}</span>
+              <span class="source-tag">{{ customer.from_source || 'Невідомо' }}</span>
             </p>
           </NuxtLink>
         </div>
@@ -64,9 +62,7 @@
           <Icon name="material-symbols:inbox" class="empty-icon" />
           <p>
             {{
-              searchQuery.trim()
-                ? "Клієнтів не знайдено за вашим запитом"
-                : "Клієнтів не знайдено"
+              searchQuery.trim() ? 'Клієнтів не знайдено за вашим запитом' : 'Клієнтів не знайдено'
             }}
           </p>
         </div>
@@ -76,45 +72,41 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { useQuery } from "@tanstack/vue-query";
-import type { ICustomer } from "~/types/deals.types";
+import { computed, ref } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import type { ICustomer } from '~/types/deals.types'
 
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
 
-const databaseId = config.public.dbId;
-const collectionCustomers = config.public.collectionCustomers;
+const databaseId = config.public.dbId
+const collectionCustomers = config.public.collectionCustomers
 
-const searchQuery = ref("");
+const searchQuery = ref('')
 
 const { data, isLoading } = useQuery({
-  queryKey: ["customers"],
+  queryKey: ['customers'],
   queryFn: async () => {
     if (!databaseId || !collectionCustomers) {
-      throw new Error("Appwrite config for customers is missing");
+      throw new Error('Appwrite config for customers is missing')
     }
-    return await $appwrite.databases.listDocuments(
-      databaseId,
-      collectionCustomers,
-    );
+    return await $appwrite.databases.listDocuments(databaseId, collectionCustomers)
   },
-});
+})
 
 const customers = computed(() => {
-  const allCustomers = (data.value?.documents as unknown as ICustomer[]) || [];
+  const allCustomers = (data.value?.documents as unknown as ICustomer[]) || []
 
   if (!searchQuery.value.trim()) {
-    return allCustomers;
+    return allCustomers
   }
 
-  const query = searchQuery.value.trim().toLowerCase();
+  const query = searchQuery.value.trim().toLowerCase()
   return allCustomers.filter(
     (customer) =>
-      customer.name.toLowerCase().includes(query) ||
-      customer.email.toLowerCase().includes(query),
-  );
-});
+      customer.name.toLowerCase().includes(query) || customer.email.toLowerCase().includes(query),
+  )
+})
 </script>
 
 <style scoped lang="css">
@@ -195,7 +187,7 @@ h1 {
   border: 1px solid var(--border-primary);
   border-radius: 8px;
   transition: all 0.2s;
-  font-family: "Lato", sans-serif;
+  font-family: 'Lato', sans-serif;
 }
 
 .search-input::placeholder {
@@ -205,8 +197,7 @@ h1 {
 .search-input:focus {
   outline: none;
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--accent-primary) 10%, transparent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent-primary) 10%, transparent);
 }
 
 .loader-state {

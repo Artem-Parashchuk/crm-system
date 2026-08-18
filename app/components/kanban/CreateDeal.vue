@@ -1,12 +1,7 @@
 <template>
   <div class="wrapper">
     <button type="button" class="btn" @click="isOpenForm = !isOpenForm">
-      <Icon
-        v-if="isOpenForm"
-        name="mdi-light:arrow-up"
-        class="arrow-icon"
-        :size="40"
-      />
+      <Icon v-if="isOpenForm" name="mdi-light:arrow-up" class="arrow-icon" :size="40" />
       <Icon v-else name="tdesign:add-circle" class="add-icon" :size="40" />
     </button>
 
@@ -44,7 +39,7 @@
       </div>
 
       <template v-if="customerMode === 'existing'">
-        <div class="deal-form__field autocomplete" ref="autocompleteRef">
+        <div ref="autocompleteRef" class="deal-form__field autocomplete">
           <span>Пошук клієнта</span>
           <input
             v-model="searchQuery"
@@ -67,7 +62,10 @@
             </button>
           </div>
 
-          <div v-else-if="isDropdownOpen && searchQuery && !filteredCustomers.length" class="dropdown dropdown--empty">
+          <div
+            v-else-if="isDropdownOpen && searchQuery && !filteredCustomers.length"
+            class="dropdown dropdown--empty"
+          >
             Клієнтів не знайдено
           </div>
         </div>
@@ -100,150 +98,143 @@
         class="deal-form__submit"
         :disabled="createDealMutation.isPending.value || !isFormValid"
       >
-        {{ createDealMutation.isPending.value ? "Створення..." : "Створити" }}
+        {{ createDealMutation.isPending.value ? 'Створення...' : 'Створити' }}
       </button>
     </form>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, watch, computed, onBeforeUnmount } from "vue";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/vue-query";
-import { v4 as uuid } from "uuid";
-import type { ICustomer } from "~/types/deals.types";
+import { ref, watch, computed, onBeforeUnmount } from 'vue'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
+import { v4 as uuid } from 'uuid'
+import type { ICustomer } from '~/types/deals.types'
 
 const props = defineProps<{
-  status?: string;
-  refetch?: () => void | Promise<unknown>;
-}>();
+  status?: string
+  refetch?: () => Promise<unknown>
+}>()
 
 interface IDealFormState {
-  name: string;
-  price: number;
-  status: string;
+  name: string
+  price: number
+  status: string
 }
 
-const isOpenForm = ref(false);
-const customerMode = ref<"existing" | "new">("existing");
-const selectedCustomerId = ref<string>("");
-const searchQuery = ref("");
-const isDropdownOpen = ref(false);
-const autocompleteRef = ref<HTMLDivElement | null>(null);
+const isOpenForm = ref(false)
+const customerMode = ref<'existing' | 'new'>('existing')
+const selectedCustomerId = ref<string>('')
+const searchQuery = ref('')
+const isDropdownOpen = ref(false)
+const autocompleteRef = ref<HTMLDivElement | null>(null)
 
 const newCustomer = ref({
-  name: "",
-  email: "",
-});
+  name: '',
+  email: '',
+})
 
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
-const toast = useToast();
-const queryClient = useQueryClient();
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
+const toast = useToast()
+const queryClient = useQueryClient()
 
-const databaseId = config.public.dbId;
-const collectionId = config.public.collectionDeals;
-const collectionCustomers = config.public.collectionCustomers;
+const databaseId = config.public.dbId
+const collectionId = config.public.collectionDeals
+const collectionCustomers = config.public.collectionCustomers
 
 const form = ref<IDealFormState>({
-  name: "",
+  name: '',
   price: 0,
-  status: props.status || "todo",
-});
+  status: props.status || 'todo',
+})
 
 watch(
   () => props.status,
   (value) => {
-    form.value.status = value || "todo";
+    form.value.status = value || 'todo'
   },
   { immediate: true },
-);
+)
 
 const { data: customersData } = useQuery({
-  queryKey: ["customers", "create-deal"],
+  queryKey: ['customers', 'create-deal'],
   queryFn: async () => {
     if (!databaseId || !collectionCustomers) {
-      return [];
+      return []
     }
-    const result = await $appwrite.databases.listDocuments(
-      databaseId,
-      collectionCustomers,
-    );
-    return (result.documents as unknown as ICustomer[]) || [];
+    const result = await $appwrite.databases.listDocuments(databaseId, collectionCustomers)
+    return (result.documents as unknown as ICustomer[]) || []
   },
   staleTime: 30000,
-});
+})
 
-const customers = computed(() => customersData.value || []);
+const customers = computed(() => customersData.value || [])
 
 const filteredCustomers = computed(() => {
-  const query = searchQuery.value.trim().toLowerCase();
-  if (!query) return customers.value;
+  const query = searchQuery.value.trim().toLowerCase()
+  if (!query) return customers.value
 
   return customers.value.filter(
     (customer) =>
-      customer.name.toLowerCase().includes(query) ||
-      customer.email.toLowerCase().includes(query),
-  );
-});
+      customer.name.toLowerCase().includes(query) || customer.email.toLowerCase().includes(query),
+  )
+})
 
 const selectedCustomer = computed(() =>
   customers.value.find((customer) => customer.$id === selectedCustomerId.value),
-);
+)
 
-const setCustomerMode = (mode: "existing" | "new") => {
-  customerMode.value = mode;
-  if (mode === "existing") {
-    newCustomer.value = { name: "", email: "" };
+const setCustomerMode = (mode: 'existing' | 'new') => {
+  customerMode.value = mode
+  if (mode === 'existing') {
+    newCustomer.value = { name: '', email: '' }
   } else {
-    selectedCustomerId.value = "";
-    searchQuery.value = "";
+    selectedCustomerId.value = ''
+    searchQuery.value = ''
   }
-};
+}
 
 const selectCustomer = (customer: ICustomer) => {
-  selectedCustomerId.value = customer.$id;
-  searchQuery.value = customer.name;
-  isDropdownOpen.value = false;
-};
+  selectedCustomerId.value = customer.$id
+  searchQuery.value = customer.name
+  isDropdownOpen.value = false
+}
 
 const clearSelectedCustomer = () => {
-  selectedCustomerId.value = "";
-  searchQuery.value = "";
-};
+  selectedCustomerId.value = ''
+  searchQuery.value = ''
+}
 
 const handleClickOutside = (event: MouseEvent) => {
-  if (
-    autocompleteRef.value &&
-    !autocompleteRef.value.contains(event.target as Node)
-  ) {
-    isDropdownOpen.value = false;
+  if (autocompleteRef.value && !autocompleteRef.value.contains(event.target as Node)) {
+    isDropdownOpen.value = false
   }
-};
+}
 
 onBeforeUnmount(() => {
-  document.removeEventListener("mousedown", handleClickOutside);
-});
+  document.removeEventListener('mousedown', handleClickOutside)
+})
 
 watch(isDropdownOpen, (isOpen) => {
   if (isOpen) {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
   } else {
-    document.removeEventListener("mousedown", handleClickOutside);
+    document.removeEventListener('mousedown', handleClickOutside)
   }
-});
+})
 
 const createDealMutation = useMutation({
-  mutationKey: ["create-deal"],
+  mutationKey: ['create-deal'],
   mutationFn: async (payload: IDealFormState) => {
     if (!databaseId || !collectionId) {
-      throw new Error("Appwrite config is missing");
+      throw new Error('Appwrite config is missing')
     }
 
-    let customerId: string;
+    let customerId: string
 
-    if (customerMode.value === "new") {
+    if (customerMode.value === 'new') {
       if (!newCustomer.value.name.trim() || !newCustomer.value.email.trim()) {
-        throw new Error("Заповніть дані нового клієнта");
+        throw new Error('Заповніть дані нового клієнта')
       }
 
       const createdCustomer = await $appwrite.databases.createDocument(
@@ -254,80 +245,71 @@ const createDealMutation = useMutation({
           name: newCustomer.value.name.trim(),
           email: newCustomer.value.email.trim().toLowerCase(),
         },
-      );
+      )
 
-      customerId = createdCustomer.$id;
+      customerId = createdCustomer.$id
     } else {
       if (!selectedCustomerId.value) {
-        throw new Error("Оберіть клієнта");
+        throw new Error('Оберіть клієнта')
       }
-      customerId = selectedCustomerId.value;
+      customerId = selectedCustomerId.value
     }
 
-    return $appwrite.databases.createDocument(
-      databaseId,
-      collectionId,
-      uuid(),
-      {
-        name: payload.name.trim(),
-        price: payload.price,
-        status: payload.status,
-        customer: customerId,
-      },
-    );
+    return $appwrite.databases.createDocument(databaseId, collectionId, uuid(), {
+      name: payload.name.trim(),
+      price: payload.price,
+      status: payload.status,
+      customer: customerId,
+    })
   },
   onSuccess: async () => {
     form.value = {
-      name: "",
+      name: '',
       price: 0,
-      status: props.status || "todo",
-    };
-    newCustomer.value = { name: "", email: "" };
-    selectedCustomerId.value = "";
-    searchQuery.value = "";
-    isOpenForm.value = false;
-    await nextTick();
+      status: props.status || 'todo',
+    }
+    newCustomer.value = { name: '', email: '' }
+    selectedCustomerId.value = ''
+    searchQuery.value = ''
+    isOpenForm.value = false
+    await nextTick()
 
     toast.add({
-      title: "Угоду успішно створено",
-      color: "success",
-    });
+      title: 'Угоду успішно створено',
+      color: 'success',
+    })
 
-    queryClient.invalidateQueries({ queryKey: ["customers"] });
-    await props.refetch?.();
+    queryClient.invalidateQueries({ queryKey: ['customers'] })
+    await props.refetch?.()
   },
-  onError: (error: any) => {
+  onError: (error: unknown) => {
     toast.add({
-      title: error?.message || "Не вдалося створити угоду",
-      color: "error",
-    });
+      title: (error as Error)?.message || 'Не вдалося створити угоду',
+      color: 'error',
+    })
   },
-});
+})
 
 const isFormValid = computed(() => {
-  const baseValid =
-    form.value.name.trim() !== "" && form.value.price > 0;
+  const baseValid = form.value.name.trim() !== '' && form.value.price > 0
 
-  if (!baseValid) return false;
+  if (!baseValid) return false
 
-  if (customerMode.value === "new") {
-    return (
-      newCustomer.value.name.trim() !== "" &&
-      newCustomer.value.email.trim() !== ""
-    );
+  if (customerMode.value === 'new') {
+    return newCustomer.value.name.trim() !== '' && newCustomer.value.email.trim() !== ''
   }
 
-  return selectedCustomerId.value !== "";
-});
+  return selectedCustomerId.value !== ''
+})
 
 const submitDeal = () => {
-  if (!isFormValid.value) return;
+  if (!isFormValid.value) return
 
   createDealMutation.mutate({
     ...form.value,
-    status: form.value.status || props.status || "todo",
-  });
-};
+    status: form.value.status || props.status || 'todo',
+  })
+}
 </script>
 
 <style scoped>

@@ -3,13 +3,11 @@
     <h1 class="crm-board__title">CRM Kanban Board</h1>
 
     <div v-if="isLoading" class="crm-board__loader">
-      <div class="spinner"></div>
+      <div class="spinner" />
       <span>Завантаження даних з Appwrite...</span>
     </div>
 
-    <div v-else-if="error" class="crm-board__error">
-      Помилка завантаження: {{ error.message }}
-    </div>
+    <div v-else-if="error" class="crm-board__error">Помилка завантаження: {{ error.message }}</div>
 
     <div v-else class="crm-board__columns">
       <div
@@ -19,30 +17,27 @@
         @dragover="handleDragOver"
         @drop="() => handleDrop(column)"
       >
-        <div
-          class="crm-column__header"
-          :style="generateColumnStyle(index, data?.length)"
-        >
+        <div class="crm-column__header" :style="generateColumnStyle(index, data?.length)">
           <span class="crm-column__name">{{ column.name }}</span>
           <span class="crm-column__count">{{ column.items?.length || 0 }}</span>
         </div>
-        <KanbanCreateDeal v-if="column.id === EnumStatus.todo" :status="column.id" :refetch="refetch" />
+        <KanbanCreateDeal
+          v-if="column.id === EnumStatus.todo"
+          :status="column.id"
+          :refetch="refetch"
+        />
         <div class="crm-column__list">
           <Card
             v-for="card in column.items"
             :key="card.id"
             :card="card"
-            :onDelete="(id) => deleteDeal(id)"
-            :isDeletePending="isDeletePending"
-            @dragstart="
-              (event: DragEvent) => handleDragStart(event, card, column)
-            "
+            :on-delete="(id) => deleteDeal(id)"
+            :is-delete-pending="isDeletePending"
+            @dragstart="(event: DragEvent) => handleDragStart(event, card, column)"
             @click="store.set(card)"
           />
 
-          <div v-if="!column.items?.length" class="crm-column__empty">
-            Немає угод
-          </div>
+          <div v-if="!column.items?.length" class="crm-column__empty">Немає угод</div>
         </div>
       </div>
     </div>
@@ -51,66 +46,66 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { useKanbanQuery } from "~/components/kanban/useKanbanQuery";
-import { useDeleteDeal } from "~/components/kanban/useDeleteDeal";
-import type { ICard, IColumn } from "~/components/kanban/kanban.types";
-import Card from "../components/card/Card.vue";
-import { EnumStatus } from "~/types/deals.types.js";
-import { useMutation } from "@tanstack/vue-query";
-import { generateColumnStyle } from "~/components/kanban/generate-gradient.js";
-import { useDealsSlideStore } from "~/store/deal-slide.store.js";
+import { ref } from 'vue'
+import { useKanbanQuery } from '~/components/kanban/useKanbanQuery'
+import { useDeleteDeal } from '~/components/kanban/useDeleteDeal'
+import type { ICard, IColumn } from '~/components/kanban/kanban.types'
+import Card from '../components/card/Card.vue'
+import { EnumStatus } from '~/types/deals.types.js'
+import { useMutation } from '@tanstack/vue-query'
+import { generateColumnStyle } from '~/components/kanban/generate-gradient.js'
+import { useDealsSlideStore } from '~/store/deal-slide.store.js'
 
 type TypeMutationVariables = {
-  docId: string;
-  status?: EnumStatus;
-};
+  docId: string
+  status?: EnumStatus
+}
 
-const store = useDealsSlideStore();
-const dragCard = ref<ICard | null>(null);
-const sourceColumn = ref<IColumn | null>(null);
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
+const store = useDealsSlideStore()
+const dragCard = ref<ICard | null>(null)
+const sourceColumn = ref<IColumn | null>(null)
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
 
-const { data, isLoading, error, refetch } = useKanbanQuery();
+const { data, isLoading, error, refetch } = useKanbanQuery()
 
-const { deleteDeal, isDeletePending } = useDeleteDeal({ refetch });
+const { deleteDeal, isDeletePending } = useDeleteDeal({ refetch })
 
 const { mutate } = useMutation({
-  mutationKey: ["move card"],
+  mutationKey: ['move card'],
   mutationFn: async ({ docId, status }: TypeMutationVariables) => {
-    const databaseId = config.public.dbId;
-    const collectionId = config.public.collectionDeals;
+    const databaseId = config.public.dbId
+    const collectionId = config.public.collectionDeals
 
     if (!databaseId || !collectionId) {
-      throw new Error("Appwrite config is missing");
+      throw new Error('Appwrite config is missing')
     }
 
     return $appwrite.databases.updateDocument(databaseId, collectionId, docId, {
       status,
-    });
+    })
   },
   onSuccess: async () => {
-    await refetch();
+    await refetch()
   },
-});
+})
 
 function handleDragStart(event: DragEvent, card: ICard, column: IColumn) {
-  dragCard.value = card;
-  sourceColumn.value = column;
+  dragCard.value = card
+  sourceColumn.value = column
 
   if (event.dataTransfer) {
-    event.dataTransfer.effectAllowed = "move";
-    event.dataTransfer.setData("text/plain", card.id);
+    event.dataTransfer.effectAllowed = 'move'
+    event.dataTransfer.setData('text/plain', card.id)
   }
 }
 
 function handleDragOver(event: DragEvent) {
-  event.preventDefault();
+  event.preventDefault()
 }
 function handleDrop(targetColumn: IColumn) {
   if (dragCard.value && sourceColumn.value) {
-    mutate({ docId: dragCard.value.id, status: targetColumn.id });
+    mutate({ docId: dragCard.value.id, status: targetColumn.id })
   }
 }
 </script>
@@ -132,10 +127,7 @@ function handleDrop(targetColumn: IColumn) {
 /* Контейнер для колонок (заміна grid grid-cols-5) */
 .crm-board__columns {
   display: grid;
-  grid-template-columns: repeat(
-    5,
-    minmax(250px, 1fr)
-  ); /* 5 рівних колонок з мін. шириною */
+  grid-template-columns: repeat(5, minmax(250px, 1fr)); /* 5 рівних колонок з мін. шириною */
   gap: 20px;
   align-items: start;
   overflow-x: auto; /* Якщо екран малий, з'явиться горизонтальний скролл */

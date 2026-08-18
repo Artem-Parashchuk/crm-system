@@ -1,25 +1,12 @@
 <template>
   <Teleport to="body">
     <Transition name="overlay">
-      <div
-        v-if="store.isOpen"
-        class="slideover-overlay"
-        @click="close"
-      />
+      <div v-if="store.isOpen" class="slideover-overlay" @click="close" />
     </Transition>
 
     <Transition name="slideover">
-      <aside
-        v-if="store.isOpen"
-        class="slideover"
-        @click.stop
-      >
-        <button
-          class="slideover__close"
-          @click="close"
-        >
-          ✕
-        </button>
+      <aside v-if="store.isOpen" class="slideover" @click.stop>
+        <button class="slideover__close" @click="close">✕</button>
 
         <div class="slideover__header">
           <KanbanSlideoverTop />
@@ -34,38 +21,38 @@
 </template>
 
 <script setup lang="ts">
-import { watch, onMounted, onBeforeUnmount } from "vue";
-import { useDealsSlideStore } from "~/store/deal-slide.store";
-import KanbanSlideoverTop from "./Top.vue";
-import KanbanSlideoverComments from "./Comments.vue";
+import { watch, onMounted, onBeforeUnmount } from 'vue'
+import { useDealsSlideStore } from '~/store/deal-slide.store'
+import KanbanSlideoverTop from './Top.vue'
+import KanbanSlideoverComments from './Comments.vue'
 
-const store = useDealsSlideStore();
+const store = useDealsSlideStore()
 
 function close() {
-  store.clear();
+  store.clear()
 }
 
 function handleEsc(event: KeyboardEvent) {
-  if (event.key === "Escape") {
-    close();
+  if (event.key === 'Escape') {
+    close()
   }
 }
 
 watch(
   () => store.isOpen,
   (value) => {
-    document.body.style.overflow = value ? "hidden" : "";
-  }
-);
+    document.body.style.overflow = value ? 'hidden' : ''
+  },
+)
 
 onMounted(() => {
-  window.addEventListener("keydown", handleEsc);
-});
+  window.addEventListener('keydown', handleEsc)
+})
 
 onBeforeUnmount(() => {
-  window.removeEventListener("keydown", handleEsc);
-  document.body.style.overflow = "";
-});
+  window.removeEventListener('keydown', handleEsc)
+  document.body.style.overflow = ''
+})
 </script>
 
 <style scoped>
@@ -116,7 +103,7 @@ onBeforeUnmount(() => {
   cursor: pointer;
 
   background: color-mix(in srgb, var(--text-muted) 90%, transparent);
-  transition: .2s;
+  transition: 0.2s;
 }
 
 .slideover__close:hover {
@@ -127,7 +114,7 @@ onBeforeUnmount(() => {
 
 .overlay-enter-active,
 .overlay-leave-active {
-  transition: opacity .25s;
+  transition: opacity 0.25s;
 }
 
 .overlay-enter-from,
@@ -139,7 +126,7 @@ onBeforeUnmount(() => {
 
 .slideover-enter-active,
 .slideover-leave-active {
-  transition: transform .3s ease;
+  transition: transform 0.3s ease;
 }
 
 .slideover-enter-from,

@@ -10,8 +10,8 @@
       <button
         class="crm-card__delete"
         :disabled="isDeletePending"
-        @click.stop="isDeleteModalOpen = true"
         title="Видалити угоду"
+        @click.stop="isDeleteModalOpen = true"
       >
         <Icon name="material-symbols:delete-outline" />
       </button>
@@ -20,16 +20,12 @@
     <div class="crm-card__details">
       <div class="crm-card__field">
         <span class="crm-card__label">Компанія:</span>
-        <span class="crm-card__value crm-card__value--company">{{
-          card.companyName
-        }}</span>
+        <span class="crm-card__value crm-card__value--company">{{ card.companyName }}</span>
       </div>
 
       <div class="crm-card__field">
         <span class="crm-card__label">Вартість:</span>
-        <span class="crm-card__value crm-card__value--price">{{
-          formatPrice(card.price)
-        }}</span>
+        <span class="crm-card__value crm-card__value--price">{{ formatPrice(card.price) }}</span>
       </div>
     </div>
 
@@ -50,10 +46,7 @@
         </p>
         <p class="delete-modal__text">Цю дію не можна буде скасувати.</p>
         <div class="delete-modal__actions">
-          <button
-            class="delete-modal__btn delete-modal__btn--cancel"
-            @click="closeModal"
-          >
+          <button class="delete-modal__btn delete-modal__btn--cancel" @click="closeModal">
             Скасувати
           </button>
           <button
@@ -61,7 +54,7 @@
             :disabled="isDeletePending"
             @click="confirmDelete"
           >
-            {{ isDeletePending ? "Видалення..." : "Видалити" }}
+            {{ isDeletePending ? 'Видалення...' : 'Видалити' }}
           </button>
         </div>
       </div>
@@ -70,71 +63,69 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import type { ICard } from "../kanban/kanban.types";
+import { ref, watch } from 'vue'
+import type { ICard } from '../kanban/kanban.types'
 
 const props = defineProps<{
-  card: ICard;
-  onDelete: (cardId: string) => void;
-  isDeletePending: boolean;
-}>();
+  card: ICard
+  onDelete: (cardId: string) => void
+  isDeletePending: boolean
+}>()
 
 defineEmits<{
-  dragstart: [event: DragEvent];
-  click: [event: MouseEvent];
-}>();
+  dragstart: [event: DragEvent]
+  click: [event: MouseEvent]
+}>()
 
-const isDeleteModalOpen = ref(false);
-const dialogRef = ref<HTMLDialogElement | null>(null);
+const isDeleteModalOpen = ref(false)
+const dialogRef = ref<HTMLDialogElement | null>(null)
 
 watch(isDeleteModalOpen, (isOpen) => {
   if (isOpen) {
-    dialogRef.value?.showModal();
+    dialogRef.value?.showModal()
   } else {
-    dialogRef.value?.close();
+    dialogRef.value?.close()
   }
-});
+})
 
 const handleBackdropClick = (event: MouseEvent) => {
   if (event.target === dialogRef.value) {
-    closeModal();
+    closeModal()
   }
-};
+}
 
 const closeModal = () => {
-  isDeleteModalOpen.value = false;
-};
+  isDeleteModalOpen.value = false
+}
 
 const confirmDelete = () => {
   console.log(
-    "confirmDelete called with id:",
+    'confirmDelete called with id:',
     props.card.id,
-    "onDelete type:",
+    'onDelete type:',
     typeof props.onDelete,
-  );
-  props.onDelete(props.card.id);
-  isDeleteModalOpen.value = false;
-};
+  )
+  props.onDelete(props.card.id)
+  isDeleteModalOpen.value = false
+}
 
 const formatPrice = (price?: number) => {
-  const numericPrice = typeof price === "number" ? price : Number(price ?? 0);
+  const numericPrice = typeof price === 'number' ? price : Number(price ?? 0)
 
-  return new Intl.NumberFormat("uk-UA", {
-    style: "currency",
-    currency: "UAH",
+  return new Intl.NumberFormat('uk-UA', {
+    style: 'currency',
+    currency: 'UAH',
     minimumFractionDigits: 0,
-  }).format(Number.isFinite(numericPrice) ? numericPrice : 0);
-};
+  }).format(Number.isFinite(numericPrice) ? numericPrice : 0)
+}
 
 const formatDate = (date?: string) => {
-  if (!date) return "N/A";
+  if (!date) return 'N/A'
 
-  const parsedDate = new Date(date);
+  const parsedDate = new Date(date)
 
-  return Number.isNaN(parsedDate.getTime())
-    ? "N/A"
-    : parsedDate.toLocaleDateString("uk-UA");
-};
+  return Number.isNaN(parsedDate.getTime()) ? 'N/A' : parsedDate.toLocaleDateString('uk-UA')
+}
 </script>
 
 <style lang="css" scoped>

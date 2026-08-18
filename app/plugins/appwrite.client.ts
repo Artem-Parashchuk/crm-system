@@ -16,7 +16,7 @@ export default defineNuxtPlugin(() => {
   // Прокидаємо екземпляри Appwrite в усьому Nuxt проєкту
   return {
     provide: {
-      appwrite: { client, account, databases, storage, ID }
-    }
+      appwrite: { client, account, databases, storage, ID },
+    },
   }
 })

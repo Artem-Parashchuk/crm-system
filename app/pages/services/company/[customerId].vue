@@ -9,7 +9,7 @@
           </button>
 
           <div v-if="isLoading" class="company-loading">
-            <div class="spinner"></div>
+            <div class="spinner" />
             <span>Завантаження...</span>
           </div>
 
@@ -20,7 +20,9 @@
               </div>
               <div>
                 <h1 class="company-name">{{ companyName }}</h1>
-                <p class="company-subtitle">{{ companyDeals.length }} {{ dealWord(companyDeals.length) }}</p>
+                <p class="company-subtitle">
+                  {{ companyDeals.length }} {{ dealWord(companyDeals.length) }}
+                </p>
               </div>
             </div>
 
@@ -46,7 +48,7 @@
         </div>
 
         <div v-if="isLoading" class="company-loading">
-          <div class="spinner"></div>
+          <div class="spinner" />
           <span>Завантаження угод...</span>
         </div>
 
@@ -69,10 +71,7 @@
           >
             <div class="deal-card-header">
               <h3 class="deal-name">{{ deal.name }}</h3>
-              <span
-                class="deal-status"
-                :class="'deal-status--' + deal.status"
-              >
+              <span class="deal-status" :class="'deal-status--' + deal.status">
                 {{ statusLabels[deal.status] || deal.status }}
               </span>
             </div>
@@ -95,7 +94,7 @@
       <div class="company-wrapper">
         <div class="company-card">
           <div class="company-loading">
-            <div class="spinner"></div>
+            <div class="spinner" />
             <span>Завантаження...</span>
           </div>
         </div>
@@ -105,63 +104,67 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useQuery } from "@tanstack/vue-query";
-import type { IDeal } from "~/types/deals.types";
-import { getCompanyName, buildCustomerNameMap } from "~/utils/get-company-name";
-import { useDealsSlideStore } from "~/store/deal-slide.store";
+import { computed } from 'vue'
+import { useQuery } from '@tanstack/vue-query'
+import type { IDeal } from '~/types/deals.types'
+import { getCompanyName, buildCustomerNameMap } from '~/utils/get-company-name'
+import { useDealsSlideStore } from '~/store/deal-slide.store'
 
-const route = useRoute();
-const { $appwrite } = useNuxtApp();
-const config = useRuntimeConfig();
-const slideStore = useDealsSlideStore();
+const route = useRoute()
+const { $appwrite } = useNuxtApp()
+const config = useRuntimeConfig()
+const slideStore = useDealsSlideStore()
 
-const customerId = route.params.customerId as string;
+const customerId = route.params.customerId as string
 
-const dbId = config.public.dbId;
-const collectionId = config.public.collectionDeals;
+const dbId = config.public.dbId
+const collectionId = config.public.collectionDeals
 const customerCollectionId =
-  (config.public as Record<string, string>).collectionCustomers || "customers";
+  (config.public as Record<string, string>).collectionCustomers || 'customers'
 
 const statusLabels: Record<string, string> = {
-  todo: "Вхідні",
-  "to-be-agreed": "На погодженні",
-  "in-progress": "У виробництві",
-  produced: "Виготовлено",
-  done: "До відвантаження",
-};
+  todo: 'Вхідні',
+  'to-be-agreed': 'На погодженні',
+  'in-progress': 'У виробництві',
+  produced: 'Виготовлено',
+  done: 'До відвантаження',
+}
 
 const { data, isLoading, error } = useQuery({
-  queryKey: ["deals", "company", customerId],
+  queryKey: ['deals', 'company', customerId],
   queryFn: async () => {
-    const result = await $appwrite.databases.listDocuments(dbId, collectionId);
-    const deals = result.documents as unknown as IDeal[];
-    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId);
+    const result = await $appwrite.databases.listDocuments(dbId, collectionId)
+    const deals = result.documents as unknown as IDeal[]
+    const customerNameMap = await buildCustomerNameMap($appwrite, dbId, customerCollectionId)
 
     const enriched = deals.map((deal) => ({
       deal,
       companyName: getCompanyName(deal, customerNameMap),
-    }));
+    }))
 
     return enriched.filter((item) => {
-      const deal = item.deal as IDeal & { customer?: unknown };
-      const customerRef = deal.customer;
-      if (typeof customerRef === "string") return customerRef === customerId;
-      if (customerRef && typeof customerRef === "object") {
-        const obj = customerRef as Record<string, unknown>;
-        return (obj.$id || obj.id) === customerId;
+      const deal = item.deal as IDeal & { customer?: unknown }
+      const customerRef = deal.customer
+      if (typeof customerRef === 'string') return customerRef === customerId
+      if (customerRef && typeof customerRef === 'object') {
+        const obj = customerRef as Record<string, unknown>
+        return (obj.$id || obj.id) === customerId
       }
-      return false;
-    });
+      return false
+    })
   },
   staleTime: 60000,
-});
+})
 
-const companyDeals = computed(() => data.value?.map((d) => d.deal) || []);
-const companyName = computed(() => data.value?.[0]?.companyName || "Компанія");
-const totalPrice = computed(() => companyDeals.value.reduce((sum, d) => sum + (d.price || 0), 0));
-const minPrice = computed(() => companyDeals.value.length ? Math.min(...companyDeals.value.map((d) => d.price || 0)) : 0);
-const maxPrice = computed(() => companyDeals.value.length ? Math.max(...companyDeals.value.map((d) => d.price || 0)) : 0);
+const companyDeals = computed(() => data.value?.map((d) => d.deal) || [])
+const companyName = computed(() => data.value?.[0]?.companyName || 'Компанія')
+const totalPrice = computed(() => companyDeals.value.reduce((sum, d) => sum + (d.price || 0), 0))
+const minPrice = computed(() =>
+  companyDeals.value.length ? Math.min(...companyDeals.value.map((d) => d.price || 0)) : 0,
+)
+const maxPrice = computed(() =>
+  companyDeals.value.length ? Math.max(...companyDeals.value.map((d) => d.price || 0)) : 0,
+)
 
 const openDeal = (deal: IDeal) => {
   slideStore.set({
@@ -171,45 +174,45 @@ const openDeal = (deal: IDeal) => {
     $createdAt: deal.$createdAt,
     companyName: companyName.value,
     status: deal.status,
-  });
-};
+  })
+}
 
 const formatPrice = (price: number): string => {
-  return new Intl.NumberFormat("uk-UA", {
-    style: "currency",
-    currency: "UAH",
+  return new Intl.NumberFormat('uk-UA', {
+    style: 'currency',
+    currency: 'UAH',
     minimumFractionDigits: 0,
-  }).format(price);
-};
+  }).format(price)
+}
 
 const formatDate = (date: string): string => {
-  return new Date(date).toLocaleDateString("uk-UA", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  });
-};
+  return new Date(date).toLocaleDateString('uk-UA', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
+}
 
 const dealWord = (count: number): string => {
-  const lastTwo = count % 100;
-  const lastOne = count % 10;
-  if (lastTwo >= 11 && lastTwo <= 19) return "угод";
-  if (lastOne === 1) return "угода";
-  if (lastOne >= 2 && lastOne <= 4) return "угоди";
-  return "угод";
-};
+  const lastTwo = count % 100
+  const lastOne = count % 10
+  if (lastTwo >= 11 && lastTwo <= 19) return 'угод'
+  if (lastOne === 1) return 'угода'
+  if (lastOne >= 2 && lastOne <= 4) return 'угоди'
+  return 'угод'
+}
 
 const getColor = (name: string): string => {
   const colors = [
-    "var(--accent-gradient)",
-    "linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)",
-    "linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)",
-    "linear-gradient(135deg, var(--status-amber) 0%, var(--error-primary) 100%)",
-    "linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)",
-  ];
-  const index = name.length % colors.length;
-  return colors[index];
-};
+    'var(--accent-gradient)',
+    'linear-gradient(135deg, var(--status-blue) 0%, var(--accent-primary) 100%)',
+    'linear-gradient(135deg, var(--success-primary) 0%, var(--status-blue) 100%)',
+    'linear-gradient(135deg, var(--status-amber) 0%, var(--error-primary) 100%)',
+    'linear-gradient(135deg, var(--status-pink) 0%, var(--accent-primary) 100%)',
+  ]
+  const index = name.length % colors.length
+  return colors[index]
+}
 </script>
 
 <style scoped>
@@ -372,7 +375,9 @@ const getColor = (name: string): string => {
   border-radius: 12px;
   padding: 20px;
   cursor: pointer;
-  transition: border-color 0.2s, transform 0.2s;
+  transition:
+    border-color 0.2s,
+    transform 0.2s;
   display: flex;
   flex-direction: column;
   gap: 16px;

@@ -8,12 +8,12 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+const _props = defineProps({
   labelText: {
     type: String,
-    default: "",
+    default: '',
   },
-});
+})
 </script>
 
 <style lang="css" scoped>
